@@ -74,7 +74,7 @@ public class mecanumDrive extends LinearOpMode {
             double blPower = (rotationY - rotationX + rStickX) / denominator;
             double brPower = (rotationY + rotationX - rStickX) / denominator;
 
-            flMotor.setPower(flPower);
+            flMotor.setPower(flPower); // yeah
             frMotor.setPower(frPower);
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
