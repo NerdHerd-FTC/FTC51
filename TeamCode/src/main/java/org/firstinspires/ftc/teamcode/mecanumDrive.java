@@ -37,6 +37,9 @@ public class mecanumDrive extends LinearOpMode {
         ));
         imu.initialize(parameters);
 
+        telemetry.addLine("drive initialized");
+        telemetry.update();
+
         //waits for start of game
         waitForStart();
 
@@ -52,8 +55,12 @@ public class mecanumDrive extends LinearOpMode {
                 imu.resetYaw();
             }
 
+
+
             //retrieves the yaw of the robot
             double robotYaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+            telemetry.addData("Robot Yaw", robotYaw);
 
             //calculates how much the robot should turn
             //directions are absolute
@@ -79,6 +86,7 @@ public class mecanumDrive extends LinearOpMode {
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
 
+            telemetry.update();
         }
     }
 }
