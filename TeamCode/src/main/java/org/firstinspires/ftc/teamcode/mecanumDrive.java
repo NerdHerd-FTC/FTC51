@@ -69,12 +69,12 @@ public class mecanumDrive extends LinearOpMode {
             //at least one power is <-1 or >1
             double denominator = Math.max(Math.abs(rotationY) + Math.abs(rotationX) + Math.abs(rStickX), 1);
 
-            double flPower = (rotationY + rotationX + rStickX) / denominator; // cool calculation
+            double flPower = (rotationY + rotationX + rStickX) / denominator;
             double frPower = (rotationY - rotationX - rStickX) / denominator;
             double blPower = (rotationY - rotationX + rStickX) / denominator;
             double brPower = (rotationY + rotationX - rStickX) / denominator;
 
-            flMotor.setPower(flPower); // move the motor
+            flMotor.setPower(flPower);
             frMotor.setPower(frPower);
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
