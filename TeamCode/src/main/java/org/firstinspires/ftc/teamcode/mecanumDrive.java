@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-//javadocs here: https://ftctechnh.github.io/ftc_app/doc/javadoc/
+//javadocs here: https://javadoc.io/doc/org.firstinspires.ftc
 //ftc docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/index.html
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -81,7 +81,7 @@ public class mecanumDrive extends LinearOpMode {
             double blPower = (rotationY - rotationX + rStickX) / denominator;
             double brPower = (rotationY + rotationX - rStickX) / denominator;
 
-            flMotor.setPower(flPower);
+            flMotor.setPower(flPower); // yeah
             frMotor.setPower(frPower);
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
