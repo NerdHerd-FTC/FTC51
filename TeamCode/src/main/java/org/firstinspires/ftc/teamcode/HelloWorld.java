@@ -17,6 +17,7 @@ public class HelloWorld extends LinearOpMode {
             number++;
             chicken *= 1.5F;
             chicken -= Math.random() * 100;
+            chicken = chicken%100;
             telemetry.addData("the secret number", 10 - number);
             telemetry.addData("the secret number pt 2", number + 13);
             telemetry.addData("very important magic number...", chicken);

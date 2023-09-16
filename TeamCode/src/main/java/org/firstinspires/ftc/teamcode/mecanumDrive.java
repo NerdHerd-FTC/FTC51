@@ -10,11 +10,15 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
+// Drive train controls for mecanum drive
+// Mecanum drive allows omnidirectional movement
+
 @TeleOp(name = "Mecanum - DO")
 public class mecanumDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //create objects for motors
+        // f=front, b=back, l=left, r=right
         DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
         DcMotor frMotor = hardwareMap.dcMotor.get("motorFR");
         DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
@@ -37,6 +41,10 @@ public class mecanumDrive extends LinearOpMode {
         ));
         imu.initialize(parameters);
 
+        telemetry.addLine("Variables initialized");
+        telemetry.addLine("Ready to start");
+        telemetry.update();
+
         //waits for start of game
         waitForStart();
 
@@ -49,16 +57,16 @@ public class mecanumDrive extends LinearOpMode {
             //this button should be hard to hit on accident
             //change if necessary
             if (gamepad1.x) {
-                imu.resetYaw();
+                imu.resetYaw(); // reset the yaw of the robot (obvious)
             }
 
             //retrieves the yaw of the robot
             double robotYaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            telemetry.addData("Robot Yaw",robotYaw);
 
             //calculates how much the robot should turn
             //directions are absolute
-            //ex. if the stick is moved up, the robot will turn to move away from
-            //the drive team, rather than moving forward
+            //ex. if the stick is moved up, the robot will always move away from the drive team.
             double rotationX = stickX * Math.cos(-robotYaw) - stickY * Math.sin(-robotYaw);
             double rotationY = stickX * Math.sin(-robotYaw) + stickY * Math.cos(-robotYaw);
 
@@ -68,17 +76,22 @@ public class mecanumDrive extends LinearOpMode {
             //ensures all powers are the same ratio, but only when
             //at least one power is <-1 or >1
             double denominator = Math.max(Math.abs(rotationY) + Math.abs(rotationX) + Math.abs(rStickX), 1);
+            // Basically, it shrinks the movement amounts of each motor to fit in the range [-1,0]
+            // The robot will automatically clip the values, so it is necessary to shrink the
+            // movements amount to preserve the ration between them all.
 
-            double flPower = (rotationY + rotationX + rStickX) / denominator; // cool calculation
+            // calculate how much each motor should move
+            double flPower = (rotationY + rotationX + rStickX) / denominator;
             double frPower = (rotationY - rotationX - rStickX) / denominator;
             double blPower = (rotationY - rotationX + rStickX) / denominator;
             double brPower = (rotationY + rotationX - rStickX) / denominator;
 
-            flMotor.setPower(flPower); // move the motor
+            flMotor.setPower(flPower); // move the motors
             frMotor.setPower(frPower);
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
 
+            telemetry.update(); // here just in case more telemetry is added
         }
     }
 }
