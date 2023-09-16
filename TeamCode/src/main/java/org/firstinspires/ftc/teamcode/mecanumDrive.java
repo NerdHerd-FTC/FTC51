@@ -66,8 +66,6 @@ public class mecanumDrive extends LinearOpMode {
             double robotYaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             telemetry.addData("Robot Yaw",robotYaw);
 
-            telemetry.addData("Robot Yaw", robotYaw);
-
             //calculates how much the robot should turn
             //directions are absolute
             //ex. if the stick is moved up, the robot will always move away from the drive team.
