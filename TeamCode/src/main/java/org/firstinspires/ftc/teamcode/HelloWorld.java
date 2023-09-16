@@ -8,6 +8,7 @@ public class HelloWorld extends LinearOpMode {
     @Override
     public void runOpMode() {
         telemetry.addLine("Hello World!");
+        telemetry.addLine("hello world......");
         telemetry.update();
         waitForStart();
         int number = 0;
@@ -15,6 +16,8 @@ public class HelloWorld extends LinearOpMode {
             number++;
             telemetry.addData("the secret number", 10 - number);
             telemetry.addData("the secret number pt 2", number + 13);
+            telemetry.update();
+            sleep(100);
         }
     }
 }
