@@ -78,9 +78,9 @@ public class mecanumDrive extends LinearOpMode {
             //ensures all powers are the same ratio, but only when
             //at least one power is <-1 or >1
             double denominator = Math.max(Math.abs(rotationY) + Math.abs(rotationX) + Math.abs(rStickX), 1);
-            // Basically, it shrinks the movement amounts of each motor to fit in the range [-1,0]
+            // Basically, it shrinks the movement amounts of each motor to fit in the range [-1,1]
             // The robot will automatically clip the values, so it is necessary to shrink the
-            // movements amount to preserve the ration between them all.
+            // movements amount to preserve the ratio between them all.
 
             // calculate how much each motor should move
             double flPower = (rotationY + rotationX + rStickX) / denominator;
