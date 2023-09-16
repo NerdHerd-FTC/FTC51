@@ -12,12 +12,16 @@ public class HelloWorld extends LinearOpMode {
         telemetry.update();
         waitForStart();
         int number = 0;
+        float chicken = 100F;
         while (opModeIsActive()) {
             number++;
+            chicken *= 1.5F;
+            chicken -= Math.random() * 100;
             telemetry.addData("the secret number", 10 - number);
             telemetry.addData("the secret number pt 2", number + 13);
+            telemetry.addData("very important magic number...", chicken);
             telemetry.update();
-            sleep(100);
+            sleep(50);
         }
     }
 }
