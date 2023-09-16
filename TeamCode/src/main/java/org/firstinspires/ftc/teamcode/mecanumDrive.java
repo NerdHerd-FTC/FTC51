@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-//javadocs here: https://ftctechnh.github.io/ftc_app/doc/javadoc/
+//javadocs here: https://javadoc.io/doc/org.firstinspires.ftc
 //ftc docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/index.html
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -60,9 +60,13 @@ public class mecanumDrive extends LinearOpMode {
                 imu.resetYaw(); // reset the yaw of the robot (obvious)
             }
 
+
+
             //retrieves the yaw of the robot
             double robotYaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             telemetry.addData("Robot Yaw",robotYaw);
+
+            telemetry.addData("Robot Yaw", robotYaw);
 
             //calculates how much the robot should turn
             //directions are absolute
@@ -90,7 +94,6 @@ public class mecanumDrive extends LinearOpMode {
             frMotor.setPower(frPower);
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
-
             telemetry.update(); // here just in case more telemetry is added
         }
     }
