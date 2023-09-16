@@ -19,6 +19,8 @@ public class helloWorld extends LinearOpMode {
             timeRan++;
             telemetry.addData("nanoseconds", timeRan*1000000000);
             telemetry.addData("Seconds Ran",timeRan);
+            telemetry.addData("real number for reals", Math.random());
+            telemetry.addData("Seconds but double", timeRan*2);
 
             telemetry.update();
 
