@@ -46,7 +46,7 @@ public class mecanumDrive extends LinearOpMode {
         telemetry.addLine("-----Controls:-");
         telemetry.addLine("Left Stick - Move");
         telemetry.addLine("Right Stick- Strafe");
-        telemetry.addLine("X - Reset Yaw");
+        telemetry.addLine("Start - Reset Yaw");
         telemetry.update();
 
         //waits for start of game
@@ -60,7 +60,7 @@ public class mecanumDrive extends LinearOpMode {
 
             //this button should be hard to hit on accident
             //change if necessary
-            if (gamepad1.x) {
+            if (gamepad1.start) {
                 imu.resetYaw(); // reset the yaw of the robot (obvious)
             }
 
