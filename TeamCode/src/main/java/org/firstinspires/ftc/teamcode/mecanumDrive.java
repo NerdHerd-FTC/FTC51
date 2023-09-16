@@ -43,6 +43,10 @@ public class mecanumDrive extends LinearOpMode {
 
         telemetry.addLine("Variables initialized");
         telemetry.addLine("Ready to start");
+        telemetry.addLine("-----Controls:-");
+        telemetry.addLine("Left Stick - Move");
+        telemetry.addLine("Right Stick- Strafe");
+        telemetry.addLine("X - Reset Yaw");
         telemetry.update();
 
         //waits for start of game
