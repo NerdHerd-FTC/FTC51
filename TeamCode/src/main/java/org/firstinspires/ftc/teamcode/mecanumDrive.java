@@ -42,6 +42,12 @@ public class mecanumDrive extends LinearOpMode {
         imu.initialize(parameters);
 
         telemetry.addLine("Variables initialized");
+        telemetry.addLine();
+        telemetry.addLine("Controls:");
+        telemetry.addLine("Left Stick - Move");
+        telemetry.addLine("Right Stick- Strafe");
+        telemetry.addLine("Start - Reset Yaw");
+        telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
 
@@ -56,7 +62,7 @@ public class mecanumDrive extends LinearOpMode {
 
             //this button should be hard to hit on accident
             //change if necessary
-            if (gamepad1.x) {
+            if (gamepad1.start) {
                 imu.resetYaw(); // reset the yaw of the robot (obvious)
             }
 
@@ -73,22 +79,24 @@ public class mecanumDrive extends LinearOpMode {
             double rotationY = stickX * Math.sin(-robotYaw) + stickY * Math.cos(-robotYaw);
 
             rotationX = rotationX * 1.1; //counteract imperfect strafing
+            // may be causing error?
 
             //denominator is either the motor power or 1, depending on which is larger.
             //ensures all powers are the same ratio, but only when
             //at least one power is <-1 or >1
             double denominator = Math.max(Math.abs(rotationY) + Math.abs(rotationX) + Math.abs(rStickX), 1);
             // Basically, it shrinks the movement amounts of each motor to fit in the range [-1,1]
-            // The robot will automatically clip the values, so it is necessary to shrink the
+            // The motors cannot move more then 1 or less then -1, so it is necessary to shrink the
             // movements amount to preserve the ratio between them all.
+            // If no values are above 1, then denominator is 1 (no effect)
 
             // calculate how much each motor should move
             double flPower = (rotationY + rotationX + rStickX) / denominator;
-            double frPower = (rotationY - rotationX - rStickX) / denominator;
-            double blPower = (rotationY - rotationX + rStickX) / denominator;
+            double frPower = (rotationY - rotationX + rStickX) / denominator;
+            double blPower = (rotationY - rotationX - rStickX) / denominator;
             double brPower = (rotationY + rotationX - rStickX) / denominator;
 
-            flMotor.setPower(flPower); // move the motors
+            flMotor.setPower(flPower); // move the motors based on calculations
             frMotor.setPower(frPower);
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
