@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 // Drive train controls for mecanum drive
@@ -25,6 +27,7 @@ public class mecanumDrive extends LinearOpMode {
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
 
         DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
+        Servo armTopServo = hardwareMap.servo.get("armTopServo");
 
         //reverse right side motors. reverse left side if goes backwards
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -33,6 +36,7 @@ public class mecanumDrive extends LinearOpMode {
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        armTopServo.setDirection(Servo.Direction.FORWARD);
 
         //gets the IMU (Inertial Measurement Unit) from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -66,6 +70,7 @@ public class mecanumDrive extends LinearOpMode {
             double stickX = gamepad1.left_stick_x;
             double rStickX = gamepad1.right_stick_x;
 
+            //triggers for arm extending
             double rTrigger = gamepad1.right_trigger;
             double lTrigger = gamepad1.left_trigger;
 
@@ -97,6 +102,18 @@ public class mecanumDrive extends LinearOpMode {
             // The motors cannot move more then 1 or less then -1, so it is necessary to shrink the
             // movements amount to preserve the ratio between them all.
             // If no values are above 1, then denominator is 1 (no effect)
+
+
+
+            //in our case, our servos have a range of 300 degrees
+            //the position numbers are a fraction of these 300 degrees
+            if (gamepad1.y) {
+                armTopServo.setPosition(0.3);
+            }
+
+            if (gamepad1.b) {
+                armTopServo.setPosition(1);
+            }
 
             // calculate how much each motor should move
             double flPower = (rotationY + rotationX + rStickX) / denominator;
