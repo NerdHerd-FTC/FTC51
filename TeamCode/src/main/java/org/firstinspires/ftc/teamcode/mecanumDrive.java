@@ -24,11 +24,15 @@ public class mecanumDrive extends LinearOpMode {
         DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
 
+        DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
+
         //reverse right side motors. reverse left side if goes backwards
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //gets the IMU (Inertial Measurement Unit) from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -47,6 +51,8 @@ public class mecanumDrive extends LinearOpMode {
         telemetry.addLine("Left Stick - Move");
         telemetry.addLine("Right Stick- Strafe");
         telemetry.addLine("Start - Reset Yaw");
+        telemetry.addLine("RT - Extend Arm");
+        telemetry.addLine("LT - Retract Arm");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
@@ -59,6 +65,9 @@ public class mecanumDrive extends LinearOpMode {
             double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
             double stickX = gamepad1.left_stick_x;
             double rStickX = gamepad1.right_stick_x;
+
+            double rTrigger = gamepad1.right_trigger;
+            double lTrigger = gamepad1.left_trigger;
 
             //this button should be hard to hit on accident
             //change if necessary
@@ -79,7 +88,6 @@ public class mecanumDrive extends LinearOpMode {
             double rotationY = stickX * Math.sin(-robotYaw) + stickY * Math.cos(-robotYaw);
 
             rotationX = rotationX * 1.1; //counteract imperfect strafing
-            // may be causing error?
 
             //denominator is either the motor power or 1, depending on which is larger.
             //ensures all powers are the same ratio, but only when
@@ -100,7 +108,10 @@ public class mecanumDrive extends LinearOpMode {
             frMotor.setPower(frPower);
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
-            telemetry.update(); // here just in case more telemetry is added
+
+            slideMotor.setPower(rTrigger-lTrigger);
+
+            telemetry.update();
         }
     }
 }
