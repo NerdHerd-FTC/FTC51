@@ -100,8 +100,8 @@ public class mecanumDrive extends LinearOpMode {
 
             // calculate how much each motor should move
             double flPower = (rotationY + rotationX + rStickX) / denominator;
-            double frPower = (rotationY - rotationX + rStickX) / denominator;
-            double blPower = (rotationY - rotationX - rStickX) / denominator;
+            double frPower = (rotationY - rotationX - rStickX) / denominator;
+            double blPower = (rotationY - rotationX + rStickX) / denominator;
             double brPower = (rotationY + rotationX - rStickX) / denominator;
 
             flMotor.setPower(flPower); // move the motors based on calculations
