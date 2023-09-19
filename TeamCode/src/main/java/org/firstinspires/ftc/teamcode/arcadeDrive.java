@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
-@TeleOp(name = "tankDrive")
-public class tankDrive extends LinearOpMode {
+@TeleOp(name = "arcadeDrive")
+public class arcadeDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //create objects for motors
@@ -29,16 +29,24 @@ public class tankDrive extends LinearOpMode {
         while (opModeIsActive()) {
             // get stick values
             double lStickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
-            double rStickY = -gamepad1.right_stick_y;
+            double rStickX = gamepad1.right_stick_x;
 
-            flMotor.setPower(lStickY); // move the left motors
-            blMotor.setPower(lStickY);
+            if (Math.abs(lStickY) < Math.abs(rStickX)) {
+                flMotor.setPower(rStickX);
+                blMotor.setPower(rStickX);
 
-            frMotor.setPower(rStickY); // move the right motors
-            brMotor.setPower(rStickY);
+                frMotor.setPower(-rStickX);
+                brMotor.setPower(-rStickX);
 
-            telemetry.addData("Left stick",lStickY);
-            telemetry.addData("Right stick",rStickY);
+            } else {
+                flMotor.setPower(lStickY);
+                blMotor.setPower(lStickY);
+
+                frMotor.setPower(lStickY);
+                brMotor.setPower(lStickY);
+            }
+            telemetry.addData("Left stick Y",lStickY);
+            telemetry.addData("Right stick X",rStickX);
             telemetry.update();
         }
     }
