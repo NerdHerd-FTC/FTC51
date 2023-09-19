@@ -31,18 +31,19 @@ public class arcadeDrive extends LinearOpMode {
             double lStickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
             double rStickX = gamepad1.right_stick_x;
 
-            if (Math.abs(lStickY) > Math.abs(rStickX)) {
+            if (Math.abs(lStickY) < Math.abs(rStickX)) {
+                flMotor.setPower(rStickX);
+                blMotor.setPower(rStickX);
+
+                frMotor.setPower(-rStickX);
+                brMotor.setPower(-rStickX);
+
+            } else {
                 flMotor.setPower(lStickY);
                 blMotor.setPower(lStickY);
 
                 frMotor.setPower(lStickY);
                 brMotor.setPower(lStickY);
-            } else {
-                flMotor.setPower(rStickX);
-                blMotor.setPower(rStickX);
-
-                frMotor.setPower(-rStickX);
-                brMotor.setPower(-rStickX); 
             }
             telemetry.addData("Left stick Y",lStickY);
             telemetry.addData("Right stick X",rStickX);
