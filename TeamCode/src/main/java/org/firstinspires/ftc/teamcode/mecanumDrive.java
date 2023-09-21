@@ -110,14 +110,15 @@ public class mecanumDrive extends LinearOpMode {
 
 
 
+            // Code to move the servos
             //in our case, our servos have a range of 300 degrees
             //the position numbers are a fraction of these 300 degrees
             if (gamepad1.right_bumper){
-                servoPosition = servoPosition + 0.05;
+                servoPosition+=0.05; // move servo up
             }
 
             if (gamepad1.x) {
-                servoPosition = 0;
+                servoPosition = 0; // reset servo position
             }
 
             // calculate how much each motor should move
