@@ -57,12 +57,16 @@ public class mecanumDrive extends LinearOpMode {
         telemetry.addLine("Start - Reset Yaw");
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
+        telemetry.addLine("RB - Rotate Arm Servo Forwards");
+        telemetry.addLine("X - Reset Arm Servo");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
 
         //waits for start of game
         waitForStart();
+
+        double servoPosition = 0.3;
 
         while (opModeIsActive()) {
             //gamepad variables
@@ -73,6 +77,7 @@ public class mecanumDrive extends LinearOpMode {
             //triggers for arm extending
             double rTrigger = gamepad1.right_trigger;
             double lTrigger = gamepad1.left_trigger;
+
 
             //this button should be hard to hit on accident
             //change if necessary
@@ -107,16 +112,12 @@ public class mecanumDrive extends LinearOpMode {
 
             //in our case, our servos have a range of 300 degrees
             //the position numbers are a fraction of these 300 degrees
+            if (gamepad1.right_bumper){
+                servoPosition = servoPosition + 0.05;
+            }
+
             if (gamepad1.x) {
-                armTopServo.setPosition(0);
-            }
-
-            if (gamepad1.y) {
-                armTopServo.setPosition(0.3);
-            }
-
-            if (gamepad1.b) {
-                armTopServo.setPosition(1);
+                servoPosition = 0;
             }
 
             // calculate how much each motor should move
@@ -131,6 +132,9 @@ public class mecanumDrive extends LinearOpMode {
             brMotor.setPower(brPower);
 
             slideMotor.setPower(rTrigger-lTrigger);
+
+            armTopServo.setPosition(servoPosition);
+            telemetry.addData("Arm Servo Position", servoPosition);
 
             telemetry.update();
         }
