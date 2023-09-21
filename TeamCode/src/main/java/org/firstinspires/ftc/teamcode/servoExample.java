@@ -9,7 +9,7 @@ public class servoExample extends LinearOpMode {
     @Override
     public void runOpMode(){
 
-        Servo servoOne = hardwareMap.get(Servo.class, "servoOne");
+        Servo servoOne = hardwareMap.get(Servo.class, "armTopServo");
 
         telemetry.addLine("initalized");
 
