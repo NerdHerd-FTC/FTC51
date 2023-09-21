@@ -107,6 +107,10 @@ public class mecanumDrive extends LinearOpMode {
 
             //in our case, our servos have a range of 300 degrees
             //the position numbers are a fraction of these 300 degrees
+            if (gamepad1.x) {
+                armTopServo.setPosition(0);
+            }
+
             if (gamepad1.y) {
                 armTopServo.setPosition(0.3);
             }
