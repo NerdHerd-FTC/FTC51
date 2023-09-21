@@ -109,10 +109,11 @@ public class mecanumDrive extends LinearOpMode {
             // If no values are above 1, then denominator is 1 (no effect)
 
 
-
             // Code to move the servos
-            //in our case, our servos have a range of 300 degrees
-            //the position numbers are a fraction of these 300 degrees
+            // Servos have a range of 300 degrees
+            // The position goes from 0 to 1
+            // This represents the fraction of 300 degrees the motor should be at
+            // eg. 0.5 would be 150 degrees & 0.1 would be 30.
             if (gamepad1.right_bumper){
                 servoPosition+=0.05; // move servo up
             }

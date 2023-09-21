@@ -11,7 +11,7 @@ public class servoExample extends LinearOpMode {
 
         Servo servoOne = hardwareMap.get(Servo.class, "armTopServo");
 
-        telemetry.addLine("initalized");
+        telemetry.addLine("initialized");
 
         telemetry.update();
         waitForStart();
