@@ -13,8 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-// Drive train controls for mecanum drive
-// Mecanum drive allows omnidirectional movement
+// Basic controls for arm and servo
 
 @TeleOp(name = "Arm Example")
 public class armExample extends LinearOpMode {
@@ -23,7 +22,7 @@ public class armExample extends LinearOpMode {
         DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
         Servo armTopServo = hardwareMap.servo.get("armTopServo");
 
-        slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armTopServo.setDirection(Servo.Direction.FORWARD);
 
         telemetry.addLine("Variables initialized");
@@ -51,17 +50,20 @@ public class armExample extends LinearOpMode {
 
             //in our case, our servos have a range of 300 degrees
             //the position numbers are a fraction of these 300 degrees
+            // The position goes from 0 to 1
+            // This represents the fraction of 300 degrees the motor should be at
+            // eg. 0.5 would be 150 degrees & 0.1 would be 30.
             if (gamepad1.right_bumper){
-                servoPosition = servoPosition + 0.05;
+                servoPosition+=0.05;
             }
 
             if (gamepad1.x) {
-                servoPosition = 0;
+                servoPosition = 0; // reset servo to base position
             }
 
-            slideMotor.setPower(rTrigger-lTrigger);
+            slideMotor.setPower(rTrigger-lTrigger); // move slide motor
 
-            armTopServo.setPosition(servoPosition);
+            armTopServo.setPosition(servoPosition); // set servo position
             telemetry.addData("Arm Servo Position", servoPosition);
 
             telemetry.update();
