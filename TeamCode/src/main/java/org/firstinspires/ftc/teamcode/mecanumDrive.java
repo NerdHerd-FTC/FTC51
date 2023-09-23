@@ -61,8 +61,8 @@ public class mecanumDrive extends LinearOpMode {
         telemetry.addLine("Start - Reset Yaw");
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
-        telemetry.addLine("RB - Rotate Arm Servo Forwards");
-        telemetry.addLine("LB - Rotate Arm Servo Backwards");
+        telemetry.addLine("RB - Rotate Arm Servo to Forward Position (150 Deg)");
+        telemetry.addLine("LB - Rotate Arm Servo to 0 Degrees");
         telemetry.addLine("D-Pad Up - Rotate Arm Body Forwards");
         telemetry.addLine("D-Pad Down - Rotate Arm Body Backwards");
         telemetry.addLine();
@@ -125,12 +125,14 @@ public class mecanumDrive extends LinearOpMode {
             } else if (gamepad1.left_bumper) {
                 servoPosition=0;
             }
+            telemetry.addData("Arm is up",(servoPosition>=0.4));
 
 
+            // controls to rotate the whole arm up and down (forwards and backwards)
             if (gamepad1.dpad_up) {
-                armRotateMotor.setPower(0.1); //makes the motors rotate forwards slowly
+                armRotateMotor.setPower(0.1); //makes the arm motors rotate forwards slowly
             } else if (gamepad1.dpad_down) {
-                armRotateMotor.setPower(-0.1); //makes the motors rotate backwards slowly
+                armRotateMotor.setPower(-0.1); //makes the arm motors rotate backwards slowly
             }
 
             // calculate how much each motor should move
@@ -145,7 +147,8 @@ public class mecanumDrive extends LinearOpMode {
             brMotor.setPower(brPower);
 
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
-            telemetry.addData("current arm motion:",rTrigger-lTrigger);
+            // the 0.05 is to counteract gravity
+            // telemetry.addData("current arm motion:",rTrigger-lTrigger);
 
             armTopServo.setPosition(servoPosition);
             telemetry.addData("Arm Servo Position", servoPosition);
