@@ -21,6 +21,7 @@ public class armExample extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
         Servo armTopServo = hardwareMap.servo.get("armTopServo");
+        DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
 
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armTopServo.setDirection(Servo.Direction.FORWARD);
@@ -32,6 +33,8 @@ public class armExample extends LinearOpMode {
         telemetry.addLine("LT - Retract Arm");
         telemetry.addLine("RB - Rotate Arm Servo Forwards");
         telemetry.addLine("LB - Rotate Arm Servo Backwards");
+        telemetry.addLine("D-Pad Up - Rotate Arm Body Forwards");
+        telemetry.addLine("D-Pad Down - Rotate Arm Body Backwards");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
@@ -55,10 +58,15 @@ public class armExample extends LinearOpMode {
             // eg. 0.5 would be 150 degrees & 0.1 would be 30.
             if (gamepad1.right_bumper){
                 servoPosition+=0.05;
+            } else if (gamepad1.left_bumper) {
+                servoPosition-=0.05;
             }
 
-            if (gamepad1.left_bumper) {
-                servoPosition-=0.05;
+
+            if (gamepad1.dpad_up) {
+                armRotateMotor.setPower(0.1); //makes the motors rotate forwards slowly
+            } else if (gamepad1.dpad_down) {
+                armRotateMotor.setPower(-0.1); //makes the motors rotate backwards slowly
             }
 
             slideMotor.setPower(rTrigger-lTrigger); // move slide motor
