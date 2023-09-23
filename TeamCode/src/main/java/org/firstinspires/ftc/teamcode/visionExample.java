@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
@@ -18,6 +19,7 @@ public class visionExample extends LinearOpMode {
         // Create apriltag processor
         AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
                 .setDrawCubeProjection(true)
+                .setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
                 .build();
 
         //TfodProcessor tensorFlowProcessor;
@@ -40,19 +42,28 @@ public class visionExample extends LinearOpMode {
 
         int tagIdCode; // to store current apriltag id
 
-        // Detect tags and save to list
-        allTagDetections = tagProcessor.getDetections();
+        while (opModeIsActive()) {
 
-        // process each tag in the list
-        for (AprilTagDetection tagDetection : allTagDetections) {
+            // Detect tags and save to list
+            allTagDetections = tagProcessor.getDetections();
 
-            if (tagDetection.metadata != null) {  // Checks if current tag is not null
-                // Check is not necessary when only reading the tag id code
+            // process each tag in the list
+            for (AprilTagDetection tagDetection : allTagDetections) {
 
-                tagIdCode = tagDetection.id; // Save current tag id to variable
+                if (tagDetection.metadata != null) {  // Checks if current tag is not null
+                    // Check is not necessary when only reading the tag id code
 
-                // place any code based on detected id here
-                // Currently does not do anything
+                    tagIdCode = tagDetection.id; // Save current tag id to variable
+
+                    // place any code based on detected id here
+                    double tagRange = tagDetection.ftcPose.range;
+                    double tagBearing = tagDetection.ftcPose.bearing;
+                    double tagElevation = tagDetection.ftcPose.elevation;
+
+                    telemetry.addData("Tag "+String.valueOf(tagIdCode)+" Range:", tagRange);
+                    telemetry.addData("Tag "+String.valueOf(tagIdCode)+" Bearing:", tagBearing);
+                    telemetry.addData("Tag "+String.valueOf(tagIdCode)+" Elevation:", tagElevation);
+                }
             }
         }
     }
