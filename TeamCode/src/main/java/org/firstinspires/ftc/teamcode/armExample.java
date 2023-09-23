@@ -26,6 +26,7 @@ public class armExample extends LinearOpMode {
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armTopServo.setDirection(Servo.Direction.FORWARD);
         armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry.addLine("Variables initialized");
         telemetry.addLine();
@@ -58,10 +59,11 @@ public class armExample extends LinearOpMode {
             // This represents the fraction of 300 degrees the motor should be at
             // eg. 0.5 would be 150 degrees & 0.1 would be 30.
             if (gamepad1.right_bumper){
-                servoPosition+=0.05;
+                servoPosition=0.5;
             } else if (gamepad1.left_bumper) {
-                servoPosition-=0.05;
+                servoPosition=0;
             }
+
 
 
             if (gamepad1.dpad_up) {
@@ -70,7 +72,8 @@ public class armExample extends LinearOpMode {
                 armRotateMotor.setPower(-0.1); //makes the motors rotate backwards slowly
             }
 
-            slideMotor.setPower(rTrigger-lTrigger); // move slide motor
+            slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
+            telemetry.addData("current arm motion:",rTrigger-lTrigger);
 
             armTopServo.setPosition(servoPosition); // set servo position
             telemetry.addData("Arm Servo Position", servoPosition);
