@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 // Mecanum drive allows omnidirectional movement
 
 @TeleOp(name = "arcadeDrive")
-public class arcadeDrive extends LinearOpMode {
+public class arcadeDriveV1 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //create objects for motors
@@ -32,6 +32,7 @@ public class arcadeDrive extends LinearOpMode {
             double rStickX = gamepad1.right_stick_x;
 
             if (Math.abs(lStickY) < Math.abs(rStickX)) {
+                telemetry.addData("Turning",(rStickX>=0) ? "right":"left");
                 flMotor.setPower(rStickX);
                 blMotor.setPower(rStickX);
 
@@ -39,6 +40,7 @@ public class arcadeDrive extends LinearOpMode {
                 brMotor.setPower(-rStickX);
 
             } else {
+                telemetry.addData("Moving",(rStickX>=0) ? "forward":"backward");
                 flMotor.setPower(lStickY);
                 blMotor.setPower(lStickY);
 
