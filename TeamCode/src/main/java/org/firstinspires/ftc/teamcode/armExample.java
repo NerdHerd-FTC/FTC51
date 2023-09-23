@@ -31,7 +31,7 @@ public class armExample extends LinearOpMode {
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
         telemetry.addLine("RB - Rotate Arm Servo Forwards");
-        telemetry.addLine("X - Reset Arm Servo");
+        telemetry.addLine("LB - Rotate Arm Servo Backwards");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
@@ -57,8 +57,8 @@ public class armExample extends LinearOpMode {
                 servoPosition+=0.05;
             }
 
-            if (gamepad1.x) {
-                servoPosition = 0; // reset servo to base position
+            if (gamepad1.left_bumper) {
+                servoPosition-=0.05;
             }
 
             slideMotor.setPower(rTrigger-lTrigger); // move slide motor
