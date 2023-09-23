@@ -25,6 +25,7 @@ public class armExample extends LinearOpMode {
 
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armTopServo.setDirection(Servo.Direction.FORWARD);
+        armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addLine("Variables initialized");
         telemetry.addLine();
