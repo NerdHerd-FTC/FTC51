@@ -28,6 +28,7 @@ public class mecanumDrive extends LinearOpMode {
 
         DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
         Servo armTopServo = hardwareMap.servo.get("armTopServo");
+        DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
 
         //reverse right side motors. reverse left side if goes backwards
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -35,8 +36,9 @@ public class mecanumDrive extends LinearOpMode {
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armTopServo.setDirection(Servo.Direction.FORWARD);
+        armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //gets the IMU (Inertial Measurement Unit) from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -58,7 +60,9 @@ public class mecanumDrive extends LinearOpMode {
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
         telemetry.addLine("RB - Rotate Arm Servo Forwards");
-        telemetry.addLine("X - Reset Arm Servo");
+        telemetry.addLine("LB - Rotate Arm Servo Backwards");
+        telemetry.addLine("D-Pad Up - Rotate Arm Body Forwards");
+        telemetry.addLine("D-Pad Down - Rotate Arm Body Backwards");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
@@ -109,17 +113,21 @@ public class mecanumDrive extends LinearOpMode {
             // If no values are above 1, then denominator is 1 (no effect)
 
 
-            // Code to move the servos
-            // Servos have a range of 300 degrees
+            //in our case, our servos have a range of 300 degrees
+            //the position numbers are a fraction of these 300 degrees
             // The position goes from 0 to 1
             // This represents the fraction of 300 degrees the motor should be at
             // eg. 0.5 would be 150 degrees & 0.1 would be 30.
             if (gamepad1.right_bumper){
-                servoPosition+=0.05; // move servo up
+                servoPosition+=0.05;
+            } else if (gamepad1.left_bumper) {
+                servoPosition-=0.05;
             }
 
-            if (gamepad1.x) {
-                servoPosition = 0; // reset servo position
+            if (gamepad1.dpad_up) {
+                armRotateMotor.setPower(0.1); //makes the motors rotate forwards slowly
+            } else if (gamepad1.dpad_down) {
+                armRotateMotor.setPower(-0.1); //makes the motors rotate backwards slowly
             }
 
             // calculate how much each motor should move
