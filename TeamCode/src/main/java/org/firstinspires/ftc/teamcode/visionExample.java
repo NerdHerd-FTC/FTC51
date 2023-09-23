@@ -11,38 +11,48 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@TeleOp(name="vision example")
+@TeleOp(name="Vision Example")
 public class visionExample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+        // Create apriltag processor
         AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
                 .setDrawCubeProjection(true)
                 .build();
 
         //TfodProcessor tensorFlowProcessor;
 
+        // Add camera
         VisionPortal vPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .addProcessor(tagProcessor)
                 .enableLiveView(true)
                 .build();
+        // Used to view what the robot sees on screen
+
+        telemetry.addLine("Ready to start");
+        telemetry.update();
 
         waitForStart();
 
         List<AprilTagDetection> allTagDetections;  //create list of all detected apriltags
-        int tagIdCode;
+        // List will be used to store any detected apriltags
 
-        // gets all detected tags
+        int tagIdCode; // to store current apriltag id
+
+        // Detect tags and save to list
         allTagDetections = tagProcessor.getDetections();
 
         // process each tag in the list
         for (AprilTagDetection tagDetection : allTagDetections) {
 
-            if (tagDetection.metadata != null) {  // This check for non-null Metadata is not needed for reading only ID code.
-                tagIdCode = tagDetection.id;
+            if (tagDetection.metadata != null) {  // Checks if current tag is not null
+                // Check is not necessary when only reading the tag id code
+
+                tagIdCode = tagDetection.id; // Save current tag id to variable
 
                 // place any code based on detected id here
-
+                // Currently does not do anything
             }
         }
     }
