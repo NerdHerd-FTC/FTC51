@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -27,6 +29,7 @@ public class visionExample extends LinearOpMode {
         // Add camera
         VisionPortal vPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .setCameraResolution(new Size(1440,960))
                 .addProcessor(tagProcessor)
                 .enableLiveView(true)
                 .build();
