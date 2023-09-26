@@ -65,6 +65,7 @@ public class visionExample extends LinearOpMode {
                     telemetry.addData("Tag "+String.valueOf(tagIdCode)+" Elevation:", tagElevation);
                 }
             }
+            telemetry.update();
         }
     }
 }
