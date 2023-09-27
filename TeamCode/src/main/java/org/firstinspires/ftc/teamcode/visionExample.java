@@ -64,13 +64,19 @@ public class visionExample extends LinearOpMode {
                     // place any code based on detected id here
                     // example code:
 
-                    double tagRange = tagDetection.ftcPose.range;
-                    double tagBearing = tagDetection.ftcPose.bearing;
-                    double tagElevation = tagDetection.ftcPose.elevation;
+                    double tagRange = tagDetection.ftcPose.range; // Distance to tag (center)
+
+                    // Angles the robot needs to turn to face the tag head on
+                    double tagBearing = tagDetection.ftcPose.bearing; // left/right
+                    double tagElevation = tagDetection.ftcPose.elevation; // up/down
 
                     telemetry.addData("Tag "+ tagIdCode +" Range:", tagRange);
                     telemetry.addData("Tag "+ tagIdCode +" Bearing:", tagBearing);
                     telemetry.addData("Tag "+ tagIdCode +" Elevation:", tagElevation);
+                    telemetry.addLine();
+                    telemetry.addLine("Range is the distance to tag");
+                    telemetry.addLine("Bearing and Elevation are the angles to the tag");
+                    telemetry.addLine("idk man read the docs");
                 }
             }
             telemetry.update();
