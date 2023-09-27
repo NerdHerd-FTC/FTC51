@@ -19,7 +19,7 @@ import java.util.List;
 public class visionDrivingExample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        int navigateTo = 8;
+        int navigateTo = 8; //set the tag number to navigate towards
 
         //create objects for motors
         // f=front, b=back, l=left, r=right
@@ -90,12 +90,12 @@ public class visionDrivingExample extends LinearOpMode {
                         flMotor.setPower(-1);
                         brMotor.setPower(1);
                         blMotor.setPower(-1);
-                    } else if (tagBearing < 2) { //if the bearing is negative, turn clockwise to the tag
+                    } else if (tagBearing < -2) { //if the bearing is negative, turn clockwise to the tag
                         frMotor.setPower(-1);
                         flMotor.setPower(1);
                         brMotor.setPower(-1);
                         blMotor.setPower(1);
-                    } else { //if neither is true, go straight
+                    } else if (tagRange > 2){ //if neither is true, go straight. makes sure the robot doesn't ram into the tag
                         frMotor.setPower(1);
                         flMotor.setPower(1);
                         brMotor.setPower(1);
