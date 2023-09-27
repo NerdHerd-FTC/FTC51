@@ -40,8 +40,8 @@ public class visionExample extends LinearOpMode {
 
         waitForStart();
 
-        List<AprilTagDetection> allTagDetections;  //create list of all detected apriltags
-        // List will be used to store any detected apriltags
+        List<AprilTagDetection> allTagDetections;  /* create list of all detected apriltags
+        List will be used to store any detected apriltags */
 
         int tagIdCode; // to store current apriltag id
 
@@ -53,19 +53,24 @@ public class visionExample extends LinearOpMode {
             // process each tag in the list
             for (AprilTagDetection tagDetection : allTagDetections) {
 
-                if (tagDetection.metadata != null) {  // Checks if current tag is not null
-                    // Check is not necessary when only reading the tag id code
+                if (tagDetection.metadata != null) {
+                    /*
+                    Checks if current tag is not null
+                    Check is not necessary when only reading the tag id code
+                    */
 
                     tagIdCode = tagDetection.id; // Save current tag id to variable
 
                     // place any code based on detected id here
+                    // example code:
+
                     double tagRange = tagDetection.ftcPose.range;
                     double tagBearing = tagDetection.ftcPose.bearing;
                     double tagElevation = tagDetection.ftcPose.elevation;
 
-                    telemetry.addData("Tag "+String.valueOf(tagIdCode)+" Range:", tagRange);
-                    telemetry.addData("Tag "+String.valueOf(tagIdCode)+" Bearing:", tagBearing);
-                    telemetry.addData("Tag "+String.valueOf(tagIdCode)+" Elevation:", tagElevation);
+                    telemetry.addData("Tag "+ tagIdCode +" Range:", tagRange);
+                    telemetry.addData("Tag "+ tagIdCode +" Bearing:", tagBearing);
+                    telemetry.addData("Tag "+ tagIdCode +" Elevation:", tagElevation);
                 }
             }
             telemetry.update();
