@@ -40,7 +40,7 @@ public class visionDrivingExample extends LinearOpMode {
         // Add camera
         VisionPortal vPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                .setCameraResolution(new Size(1440,960))
+                .setCameraResolution(new Size(1920,1080))
                 .addProcessor(tagProcessor)
                 .enableLiveView(true)
                 .build();
