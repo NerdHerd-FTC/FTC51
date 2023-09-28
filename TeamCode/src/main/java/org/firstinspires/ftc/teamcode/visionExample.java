@@ -73,12 +73,13 @@ public class visionExample extends LinearOpMode {
                     telemetry.addData("Tag "+ tagIdCode +" Range:", tagRange);
                     telemetry.addData("Tag "+ tagIdCode +" Bearing:", tagBearing);
                     telemetry.addData("Tag "+ tagIdCode +" Elevation:", tagElevation);
-                    telemetry.addLine();
-                    telemetry.addLine("Range is the distance to tag");
-                    telemetry.addLine("Bearing and Elevation are the angles to the tag");
-                    telemetry.addLine("idk man read the docs");
+
                 }
             }
+            telemetry.addLine();
+            telemetry.addLine("Range is the distance to tag");
+            telemetry.addLine("Bearing and Elevation are the angles to the tag");
+            telemetry.addLine("idk man read the docs");
             telemetry.update();
         }
     }
