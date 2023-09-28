@@ -19,10 +19,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class armExample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+        // initialize motors
         DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
         Servo armTopServo = hardwareMap.servo.get("armTopServo");
         DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
 
+        // set directions of motors
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armTopServo.setDirection(Servo.Direction.FORWARD);
         armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -59,22 +61,26 @@ public class armExample extends LinearOpMode {
             // This represents the fraction of 300 degrees the motor should be at
             // eg. 0.5 would be 150 degrees & 0.1 would be 30.
             if (gamepad1.right_bumper){
-                servoPosition=0.5;
+                servoPosition=0.5; // 150 degrees
             } else if (gamepad1.left_bumper) {
-                servoPosition=0;
+                servoPosition=0; // 0 degrees
             }
 
 
             // controls to rotate the whole arm up and down (forwards and backwards)
             if (gamepad1.dpad_up) {
                 armRotateMotor.setPower(0.1); //makes the arm motors rotate forwards slowly
+                telemetry.addLine("Moving arm forward");
             } else if (gamepad1.dpad_down) {
                 armRotateMotor.setPower(-0.1); //makes the arm motors rotate backwards slowly
+                telemetry.addLine("Moving arm backward");
+            } else {
+                telemetry.addLine("Arm isn't moving")
             }
 
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
             // the 0.05 is to counteract gravity
-            // telemetry.addData("current arm motion:",rTrigger-lTrigger);
+            telemetry.addData("Current arm motion:",rTrigger-lTrigger);
 
             armTopServo.setPosition(servoPosition); // set servo position
             telemetry.addData("Arm Servo Position", servoPosition);
