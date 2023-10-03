@@ -30,6 +30,8 @@ public class mecanumDrive extends LinearOpMode {
         Servo armTopServo = hardwareMap.servo.get("armTopServo");
         DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
 
+        DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
+
         //reverse right side motors. reverse left side if goes backwards
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -65,6 +67,7 @@ public class mecanumDrive extends LinearOpMode {
         telemetry.addLine("LB - Rotate Arm Servo to 0 Degrees");
         telemetry.addLine("D-Pad Up - Rotate Arm Body Forwards");
         telemetry.addLine("D-Pad Down - Rotate Arm Body Backwards");
+        telemetry.addLine("X button - Toggle intake on/off");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
@@ -126,6 +129,13 @@ public class mecanumDrive extends LinearOpMode {
                 servoPosition=0;
             }
             telemetry.addData("Arm is up",(servoPosition>=0.4));
+
+            if (gamepad1.x) { // Toggle intake motor on/off
+                intakeMotor.setPower(1-intakeMotor.getPower());
+                telemetry.addLine("Intake is moving");
+            } else {
+                telemetry.addLine("Intake is stopped");
+            }
 
 
             // controls to rotate the whole arm up and down (forwards and backwards)

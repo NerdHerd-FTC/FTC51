@@ -23,6 +23,7 @@ public class armExample extends LinearOpMode {
         DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
         Servo armTopServo = hardwareMap.servo.get("armTopServo");
         DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
+        DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
 
         // set directions of motors
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -39,6 +40,7 @@ public class armExample extends LinearOpMode {
         telemetry.addLine("LB - Rotate Arm Servo to 0 Degrees");
         telemetry.addLine("D-Pad Up - Rotate Arm Body Forwards");
         telemetry.addLine("D-Pad Down - Rotate Arm Body Backwards");
+        telemetry.addLine("X button - Toggle intake on/off");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
@@ -75,7 +77,14 @@ public class armExample extends LinearOpMode {
                 armRotateMotor.setPower(-0.1); //makes the arm motors rotate backwards slowly
                 telemetry.addLine("Moving arm backward");
             } else {
-                telemetry.addLine("Arm isn't moving")
+                telemetry.addLine("Arm isn't moving");
+            }
+
+            if (gamepad1.x) {
+                intakeMotor.setPower(1-intakeMotor.getPower());
+                telemetry.addLine("Intake is moving");
+            } else {
+                telemetry.addLine("Intake is stopped");
             }
 
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
