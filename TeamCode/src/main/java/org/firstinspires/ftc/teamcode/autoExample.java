@@ -56,16 +56,16 @@ public class autoExample extends LinearOpMode {
         //Wheels are 96mm diameter
         double countsPerMM = 2148 / (96 * Math.PI);
 
-        flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+        flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+        // We only have a few encoder ports, so manually move the two other motors
         frMotor.setPower(1);
         blMotor.setPower(1);
 
-        while (flMotor.isBusy() || brMotor.isBusy()) {
-            ;
-        }
+        // Wait for motors to stop moving
+        while (flMotor.isBusy() || brMotor.isBusy()) {;}
 
-        frMotor.setPower(0);
+        frMotor.setPower(0); // Stop motors
         blMotor.setPower(0);
     }
 }
