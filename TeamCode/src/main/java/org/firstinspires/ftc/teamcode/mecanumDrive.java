@@ -29,8 +29,8 @@ public class mecanumDrive extends LinearOpMode {
         DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
         Servo armTopServo = hardwareMap.servo.get("armTopServo");
         DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
-
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
+        Servo droneServo = hardwareMap.servo.get("droneServo");
 
         //reverse right side motors. reverse left side if goes backwards
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -76,6 +76,8 @@ public class mecanumDrive extends LinearOpMode {
         waitForStart();
 
         double servoPosition = 0.3;
+
+        boolean droneLaunched = false;
 
         while (opModeIsActive()) {
             //gamepad variables
@@ -144,6 +146,12 @@ public class mecanumDrive extends LinearOpMode {
             } else if (gamepad1.dpad_down) {
                 armRotateMotor.setPower(-0.1); //makes the arm motors rotate backwards slowly
             }
+
+            //moves the drone servo to the launch position
+            if (gamepad1.back) {
+                droneServo.setPosition(0);
+            }
+            telemetry.addData("Drone Lauched",droneLaunched);
 
             // calculate how much each motor should move
             double flPower = (rotationY + rotationX + rStickX) / denominator;
