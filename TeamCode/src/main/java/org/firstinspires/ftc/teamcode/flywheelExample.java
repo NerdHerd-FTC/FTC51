@@ -19,7 +19,7 @@ public class flywheelExample extends LinearOpMode {
         while (opModeIsActive()) {
             if (gamepad1.back) {
                 // Toggles the flywheel power between 0 and 1
-                flywheelPower=(flywheelPower>0)?0:1;
+                flywheelPower=1-flywheelPower;
                 //if flywheelPower is greater than 0, make it 0
                 //otherwise, make it 1
             }
