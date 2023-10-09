@@ -43,8 +43,9 @@ public class autoExample extends LinearOpMode {
         runDrive.start();
         // Using a thread to move and continue code without waiting
 
-        telemetry.addLine("Drive has started");
+        telemetry.addLine("Drive has started"); // Test to see if multithreading works
         telemetry.update();
+        // If the telemetry does not display until driving has finished, it dont work.
     }
 
     public void driveFunc(double distance){
@@ -55,18 +56,23 @@ public class autoExample extends LinearOpMode {
         //PROBABLY 2148 counts per rotation
         //Wheels are 96mm diameter
         double countsPerMM = 2148 / (96 * Math.PI);
+        // Used to calculate the amount to move each motor
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+
         // We only have a few encoder ports, so manually move the two other motors
         frMotor.setPower(1);
         blMotor.setPower(1);
 
         // Wait for motors to stop moving
-        while (flMotor.isBusy() || brMotor.isBusy()) {;}
+        while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
+        // maybe never if it works fine
 
         frMotor.setPower(0); // Stop motors
         blMotor.setPower(0);
+
+        // we need more encoders man
 
         // REMOVE AFTER TESTING THREADS
         telemetry.addLine("Drive has finished");

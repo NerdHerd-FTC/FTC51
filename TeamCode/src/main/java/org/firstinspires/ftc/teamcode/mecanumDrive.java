@@ -55,6 +55,11 @@ public class mecanumDrive extends LinearOpMode {
         ));
         imu.initialize(parameters);
 
+        double servoPosition = 0.3;
+
+        boolean droneLaunched = false;
+
+        // Display controls
         telemetry.addLine("Variables initialized");
         telemetry.addLine();
         telemetry.addLine("Controls:");
@@ -74,10 +79,6 @@ public class mecanumDrive extends LinearOpMode {
 
         //waits for start of game
         waitForStart();
-
-        double servoPosition = 0.3;
-
-        boolean droneLaunched = false;
 
         while (opModeIsActive()) {
             //gamepad variables
@@ -145,13 +146,13 @@ public class mecanumDrive extends LinearOpMode {
                 armRotateMotor.setPower(0.1); //makes the arm motors rotate forwards slowly
             } else if (gamepad1.dpad_down) {
                 armRotateMotor.setPower(-0.1); //makes the arm motors rotate backwards slowly
-            }
+            } // TODO: add telemetry
 
             //moves the drone servo to the launch position
             if (gamepad1.back) {
                 droneServo.setPosition(0);
             }
-            telemetry.addData("Drone Lauched",droneLaunched);
+            telemetry.addData("Drone Launched",droneLaunched);
 
             // calculate how much each motor should move
             double flPower = (rotationY + rotationX + rStickX) / denominator;

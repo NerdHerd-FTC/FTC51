@@ -18,6 +18,9 @@ public class rubberExample extends LinearOpMode {
 
         waitForStart();
 
+        telemetry.addLine("Press back to launch drone");
+        telemetry.update();
+
         while (opModeIsActive()){
             if (gamepad1.back){
                 droneServo.setPosition(0);
