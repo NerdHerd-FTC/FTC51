@@ -63,20 +63,8 @@ public class autoExample extends LinearOpMode {
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
-<<<<<<< Updated upstream
-        // We only have a few encoder ports, so manually move the two other motors
-        frMotor.setPower(1);
-        blMotor.setPower(1);
-
-        // Wait for motors to stop moving
-        while (flMotor.isBusy() || brMotor.isBusy()) {;}
-
-        frMotor.setPower(0); // Stop motors
-        blMotor.setPower(0);
-=======
         blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
         frMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
->>>>>>> Stashed changes
 
         // REMOVE AFTER TESTING THREADS
         telemetry.addLine("Drive has finished");
