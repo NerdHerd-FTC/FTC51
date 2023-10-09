@@ -19,24 +19,24 @@ public class autoExample extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         // Set motor directions
-        frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Reset the encoder
         flMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        blMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        blMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Sets motors into go to position mode
         flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        brMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        blMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        blMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        brMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Switches from setting power to moving to a position
@@ -62,9 +62,9 @@ public class autoExample extends LinearOpMode {
         double countsPerMM = 2148 / (96 * Math.PI);
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
-        brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
-        blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
         frMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+        blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+        brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
 
         // REMOVE AFTER TESTING THREADS
         telemetry.addLine("Drive has finished");
