@@ -33,9 +33,9 @@ public class mecanumDrive extends LinearOpMode {
         Servo droneServo = hardwareMap.servo.get("droneServo");
 
         //reverse right side motors. reverse left side if goes backwards
-        frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frMotor.setDirection(DcMotorSimple.Direction.REVERSE); // IDK MAN, WE NEED TO TEST
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -111,15 +111,6 @@ public class mecanumDrive extends LinearOpMode {
 
             rotationX = rotationX * 1.1; //counteract imperfect strafing
 
-            //denominator is either the motor power or 1, depending on which is larger.
-            //ensures all powers are the same ratio, but only when
-            //at least one power is <-1 or >1
-            double denominator = Math.max(Math.abs(rotationY) + Math.abs(rotationX) + Math.abs(rStickX), 1);
-            // Basically, it shrinks the movement amounts of each motor to fit in the range [-1,1]
-            // The motors cannot move more then 1 or less then -1, so it is necessary to shrink the
-            // movements amount to preserve the ratio between them all.
-            // If no values are above 1, then denominator is 1 (no effect)
-
 
             //in our case, our servos have a range of 300 degrees
             //the position numbers are a fraction of these 300 degrees
@@ -154,7 +145,16 @@ public class mecanumDrive extends LinearOpMode {
             }
             telemetry.addData("Drone Launched",droneLaunched);
 
-            // calculate how much each motor should move
+            //denominator is either the motor power or 1, depending on which is larger.
+            //ensures all powers are the same ratio, but only when
+            //at least one power is <-1 or >1
+            double denominator = Math.max(Math.abs(rotationY) + Math.abs(rotationX) + Math.abs(rStickX), 1);
+            // Basically, it shrinks the movement amounts of each motor to fit in the range [-1,1]
+            // The motors cannot move more then 1 or less then -1, so it is necessary to shrink the
+            // movements amount to preserve the ratio between them all.
+            // If no values are above 1, then denominator is 1 (no effect)
+
+            // calculate how much each motor should move`
             double flPower = (rotationY + rotationX + rStickX) / denominator;
             double frPower = (rotationY - rotationX - rStickX) / denominator;
             double blPower = (rotationY - rotationX + rStickX) / denominator;
