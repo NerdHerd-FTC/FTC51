@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -52,7 +53,7 @@ import java.util.List;
 
 //docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/vision/java_tfod_opmode_custom/java-tfod-opmode-custom.html
 
-@TeleOp(name = "tfod example (stolen from FIRST)", group = "Concept")
+@Autonomous(name = "tfod example (stolen from FIRST)", group = "Concept")
 public class tfodExample extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
