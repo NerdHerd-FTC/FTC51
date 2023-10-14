@@ -41,6 +41,8 @@ public class mecanumDrive extends LinearOpMode {
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armTopServo.setDirection(Servo.Direction.FORWARD);
         armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        armRotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
@@ -80,6 +82,8 @@ public class mecanumDrive extends LinearOpMode {
 
         //waits for start of game
         waitForStart();
+
+        boolean intakeButtonPressed = false;
 
         while (opModeIsActive()) {
             //gamepad variables
@@ -125,9 +129,10 @@ public class mecanumDrive extends LinearOpMode {
             }
             telemetry.addData("Arm is up",(servoPosition>=0.4));
 
-            if (gamepad1.x) { // Toggle intake motor on/off
+            if (gamepad1.x && !intakeButtonPressed) { // Toggle intake motor on/off
                 intakeMotor.setPower(1-intakeMotor.getPower());
                 telemetry.addLine("Intake is moving");
+                intakeButtonPressed = true;
             } else {
                 telemetry.addLine("Intake is stopped");
             }
