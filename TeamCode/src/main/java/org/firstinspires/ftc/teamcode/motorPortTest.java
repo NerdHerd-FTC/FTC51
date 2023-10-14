@@ -28,7 +28,7 @@ public class motorPortTest extends LinearOpMode {
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
