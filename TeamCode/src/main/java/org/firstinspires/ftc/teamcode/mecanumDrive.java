@@ -50,8 +50,8 @@ public class mecanumDrive extends LinearOpMode {
         //sets orientation. change to match final robot
         //default is Logo Up and USB Forward
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
         ));
         imu.initialize(parameters);
 
@@ -143,10 +143,10 @@ public class mecanumDrive extends LinearOpMode {
 
             // controls to rotate the whole arm up and down (forwards and backwards)
             if (gamepad1.dpad_up) {
-                armRotateMotor.setPower(0.1); //makes the arm motors rotate forwards slowly
+                armRotateMotor.setPower(1); //makes the arm motors rotate forwards
             } else if (gamepad1.dpad_down) {
-                armRotateMotor.setPower(-0.1); //makes the arm motors rotate backwards slowly
-            } // TODO: add telemetry
+                armRotateMotor.setPower(-1); //makes the arm motors rotate backwards
+            }
 
             //moves the drone servo to the launch position
             if (gamepad1.back) {
