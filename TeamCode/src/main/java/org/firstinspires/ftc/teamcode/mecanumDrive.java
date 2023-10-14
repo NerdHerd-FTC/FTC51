@@ -135,9 +135,9 @@ public class mecanumDrive extends LinearOpMode {
 
             // controls to rotate the whole arm up and down (forwards and backwards)
             if (gamepad1.dpad_up) {
-                armRotateMotor.setPower(0.1); //makes the arm motors rotate forwards slowly
+                armRotateMotor.setPower(1); //makes the arm motors rotate forwards slowly
             } else if (gamepad1.dpad_down) {
-                armRotateMotor.setPower(-0.1); //makes the arm motors rotate backwards slowly
+                armRotateMotor.setPower(-1); //makes the arm motors rotate backwards slowly
             } // TODO: add telemetry
 
             //moves the drone servo to the launch position
