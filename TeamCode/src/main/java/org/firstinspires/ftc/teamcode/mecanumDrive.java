@@ -35,7 +35,7 @@ public class mecanumDrive extends LinearOpMode {
         //reverse right side motors. reverse left side if goes backwards
         frMotor.setDirection(DcMotorSimple.Direction.REVERSE); // IDK MAN, WE NEED TO TEST
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -75,7 +75,7 @@ public class mecanumDrive extends LinearOpMode {
         telemetry.addLine("LB - Rotate Arm Servo to 0 Degrees");
         telemetry.addLine("D-Pad Up - Rotate Arm Body Forwards");
         telemetry.addLine("D-Pad Down - Rotate Arm Body Backwards");
-        telemetry.addLine("X button - Toggle intake on/off");
+        telemetry.addLine("A button - Toggle intake on/off");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
@@ -129,7 +129,7 @@ public class mecanumDrive extends LinearOpMode {
             }
             telemetry.addData("Arm is up",(servoPosition>=0.4));
 
-            if (gamepad1.x && !intakeButtonPressed) { // Toggle intake motor on/off
+            if (gamepad1.a && !intakeButtonPressed) { // Toggle intake motor on/off
                 intakeMotor.setPower(1-intakeMotor.getPower());
                 telemetry.addLine("Intake is moving");
                 intakeButtonPressed = true;
