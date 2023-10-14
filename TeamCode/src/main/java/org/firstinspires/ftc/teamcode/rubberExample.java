@@ -11,7 +11,7 @@ public class rubberExample extends LinearOpMode {
         Servo droneServo = hardwareMap.servo.get("droneServo");
 
         //change the position to whatever the starting position should be
-        droneServo.setPosition(1);
+        droneServo.setPosition(0);
 
         telemetry.addLine("Ready for Launch");
         telemetry.update();
@@ -23,7 +23,7 @@ public class rubberExample extends LinearOpMode {
 
         while (opModeIsActive()){
             if (gamepad1.back){
-                droneServo.setPosition(0);
+                droneServo.setPosition(1);
                 telemetry.addLine("Drone Launched");
                 telemetry.update();
             }
