@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 // Drive train controls for mecanum drive
@@ -25,6 +27,10 @@ public class mecanumDrive extends LinearOpMode {
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
 
         DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
+        Servo armTopServo = hardwareMap.servo.get("armTopServo");
+        DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
+        DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
+        Servo droneServo = hardwareMap.servo.get("droneServo");
 
         //reverse right side motors. reverse left side if goes backwards
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -32,7 +38,11 @@ public class mecanumDrive extends LinearOpMode {
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        armTopServo.setDirection(Servo.Direction.FORWARD);
+        armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         //gets the IMU (Inertial Measurement Unit) from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -40,11 +50,16 @@ public class mecanumDrive extends LinearOpMode {
         //sets orientation. change to match final robot
         //default is Logo Up and USB Forward
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
         ));
         imu.initialize(parameters);
 
+        double servoPosition = 0.3;
+
+        boolean droneLaunched = false;
+
+        // Display controls
         telemetry.addLine("Variables initialized");
         telemetry.addLine();
         telemetry.addLine("Controls:");
@@ -53,6 +68,11 @@ public class mecanumDrive extends LinearOpMode {
         telemetry.addLine("Start - Reset Yaw");
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
+        telemetry.addLine("RB - Rotate Arm Servo to Forward Position (150 Deg)");
+        telemetry.addLine("LB - Rotate Arm Servo to 0 Degrees");
+        telemetry.addLine("D-Pad Up - Rotate Arm Body Forwards");
+        telemetry.addLine("D-Pad Down - Rotate Arm Body Backwards");
+        telemetry.addLine("X button - Toggle intake on/off");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
@@ -66,8 +86,10 @@ public class mecanumDrive extends LinearOpMode {
             double stickX = gamepad1.left_stick_x;
             double rStickX = gamepad1.right_stick_x;
 
+            //triggers for arm extending
             double rTrigger = gamepad1.right_trigger;
             double lTrigger = gamepad1.left_trigger;
+
 
             //this button should be hard to hit on accident
             //change if necessary
@@ -98,6 +120,40 @@ public class mecanumDrive extends LinearOpMode {
             // movements amount to preserve the ratio between them all.
             // If no values are above 1, then denominator is 1 (no effect)
 
+
+            //in our case, our servos have a range of 300 degrees
+            //the position numbers are a fraction of these 300 degrees
+            // The position goes from 0 to 1
+            // This represents the fraction of 300 degrees the motor should be at
+            // eg. 0.5 would be 150 degrees & 0.1 would be 30.
+            if (gamepad1.right_bumper){
+                servoPosition=0.5;
+            } else if (gamepad1.left_bumper) {
+                servoPosition=0;
+            }
+            telemetry.addData("Arm is up",(servoPosition>=0.4));
+
+            if (gamepad1.x) { // Toggle intake motor on/off
+                intakeMotor.setPower(1-intakeMotor.getPower());
+                telemetry.addLine("Intake is moving");
+            } else {
+                telemetry.addLine("Intake is stopped");
+            }
+
+
+            // controls to rotate the whole arm up and down (forwards and backwards)
+            if (gamepad1.dpad_up) {
+                armRotateMotor.setPower(1); //makes the arm motors rotate forwards
+            } else if (gamepad1.dpad_down) {
+                armRotateMotor.setPower(-1); //makes the arm motors rotate backwards
+            }
+
+            //moves the drone servo to the launch position
+            if (gamepad1.back) {
+                droneServo.setPosition(0);
+            }
+            telemetry.addData("Drone Launched",droneLaunched);
+
             // calculate how much each motor should move
             double flPower = (rotationY + rotationX + rStickX) / denominator;
             double frPower = (rotationY - rotationX - rStickX) / denominator;
@@ -109,7 +165,12 @@ public class mecanumDrive extends LinearOpMode {
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
 
-            slideMotor.setPower(rTrigger-lTrigger);
+            slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
+            // the 0.05 is to counteract gravity
+            // telemetry.addData("current arm motion:",rTrigger-lTrigger);
+
+            armTopServo.setPosition(servoPosition);
+            telemetry.addData("Arm Servo Position", servoPosition);
 
             telemetry.update();
         }
