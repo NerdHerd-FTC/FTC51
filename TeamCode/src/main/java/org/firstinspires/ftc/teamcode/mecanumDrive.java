@@ -66,8 +66,8 @@ public class mecanumDrive extends LinearOpMode {
         telemetry.addLine("Variables initialized");
         telemetry.addLine();
         telemetry.addLine("Controls:");
-        telemetry.addLine("Left Stick - Move");
-        telemetry.addLine("Right Stick- Strafe");
+        telemetry.addLine("Left Stick - Move (up, down, left, right)");
+        telemetry.addLine("Right Stick- Turn");
         telemetry.addLine("Start - Reset Yaw");
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
@@ -114,7 +114,7 @@ public class mecanumDrive extends LinearOpMode {
             double rotationX = stickX * Math.cos(-robotYaw) - stickY * Math.sin(-robotYaw);
             double rotationY = stickX * Math.sin(-robotYaw) + stickY * Math.cos(-robotYaw);
 
-            rotationX = rotationX * 1.1; //counteract imperfect strafing
+//            rotationX = rotationX * 1.1; //counteract imperfect strafing
 
 
             //in our case, our servos have a range of 300 degrees
