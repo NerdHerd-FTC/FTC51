@@ -70,6 +70,7 @@ public class tankDriveArm extends LinearOpMode {
 
         //waits for start of game
         waitForStart();
+        droneServo.setPosition(0);
 
         boolean intakeButtonPressed = false;
 
