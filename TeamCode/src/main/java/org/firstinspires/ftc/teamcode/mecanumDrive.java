@@ -50,9 +50,10 @@ public class mecanumDrive extends LinearOpMode {
         //sets orientation. change to match final robot
         //default is Logo Up and USB Forward
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
         ));
+
         imu.initialize(parameters);
 
         double servoPosition = 0.3;
