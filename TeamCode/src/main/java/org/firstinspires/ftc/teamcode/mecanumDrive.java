@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
-@TeleOp(name = "Mecanum - DO", group="Drive")
+@TeleOp(name = "Mecanum - DO")
 public class mecanumDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

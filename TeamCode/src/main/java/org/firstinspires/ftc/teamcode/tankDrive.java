@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
-@TeleOp(name = "tankDrive")
+@TeleOp(name = "tankDriveTest", group="Drive Tests")
 public class tankDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

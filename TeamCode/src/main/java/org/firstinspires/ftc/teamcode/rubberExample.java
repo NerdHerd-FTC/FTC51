@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="Rubber Band Example")
+@TeleOp(name="Rubber Band Example", group = "Examples")
 public class rubberExample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{

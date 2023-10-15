@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="Servo Example - Button Control")
+@TeleOp(name="Servo Example - Button Control", group = "Examples")
 public class servoExampleButtonControl extends LinearOpMode {
     @Override
     public void runOpMode(){

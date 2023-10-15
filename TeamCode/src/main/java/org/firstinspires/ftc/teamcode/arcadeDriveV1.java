@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
-@TeleOp(name = "arcadeDrive")
+@TeleOp(name = "arcadeDrive", group = "Drive Tests")
 public class arcadeDriveV1 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 // Basic controls for arm and servo
 
-@TeleOp(name = "Arm Example")
+@TeleOp(name = "Arm Example", group = "Examples")
 public class armExample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
