@@ -94,4 +94,23 @@ public class autoExample extends LinearOpMode {
 
     }
 
+    public void rotate(double distance) {
+        // Moves the robot the distance forward
+        // Distance is in millimeters
+
+        flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
+        brMotor.setTargetPosition(brMotor.getCurrentPosition() - (int) (distance * countsPerMM));
+
+        // We only have a few encoder ports, so manually move the two other motors
+        frMotor.setPower(1);
+        blMotor.setPower(-1);
+
+        // Wait for motors to stop moving
+        while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
+        // maybe never if it works fine
+
+        frMotor.setPower(0); // Stop motors
+        blMotor.setPower(0);
+    }
+
 }
