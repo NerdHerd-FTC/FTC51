@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="Hello World Anthony", group="Robot")
+@TeleOp(name="Hello World Anthony", group = "Examples")
 public class helloWorldAnthony extends LinearOpMode {
 
     @Override

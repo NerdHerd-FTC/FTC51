@@ -158,4 +158,14 @@
 
     <!-- ======================================================================================= -->
 
+    <!-- Logitech HD Webcam C615, Calibrated by Anthony Wheeler, 2023.09.25 using 3DF Zephyr -->
+    <Camera vid="Logitech" pid="0x082c">
+        <Calibration
+            size="1920 1080"
+            focalLength="1491.77f, 1491.77f"
+            principalPoint="924.931f, 567.729f"
+            distortionCoefficients="-0.0637937, -0.0628451, 0, 0, 0.251806, 0, 0, 0"
+            />
+    </Camera>
+
 </Calibrations>
