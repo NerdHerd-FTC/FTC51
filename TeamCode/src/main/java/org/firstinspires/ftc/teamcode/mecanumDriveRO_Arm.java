@@ -120,7 +120,11 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             blMotor.setPower((stickY - stickX + rStickX) / denominator);
             brMotor.setPower((stickY + stickX - rStickX) / denominator);
 
-//            telemetry.update();
+            slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
+            // the 0.05 is to counteract gravity
+            // telemetry.addData("current arm motion:",rTrigger-lTrigger);
+
+            telemetry.update();
         }
     }
 }
