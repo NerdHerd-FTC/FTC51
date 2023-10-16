@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name="Auto Example")
+@Autonomous(name="Auto Example", group = "Examples")
 public class autoExample extends LinearOpMode {
     // Define motor variables
     private final DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
@@ -39,9 +39,7 @@ public class autoExample extends LinearOpMode {
         waitForStart();
 
         // Move robot forward 150 millimeters
-        Thread runDrive = new Thread(() -> driveFunc(150));
-        runDrive.start();
-        // Using a thread to move and continue code without waiting
+        driveFunc(150);
 
         telemetry.addLine("Drive has started"); // Test to see if multithreading works
         telemetry.update();
@@ -71,12 +69,6 @@ public class autoExample extends LinearOpMode {
 
         frMotor.setPower(0); // Stop motors
         blMotor.setPower(0);
-
-        // we need more encoders man
-
-        // REMOVE AFTER TESTING THREADS
-        telemetry.addLine("Drive has finished");
-        telemetry.update();
     }
 
     public void strafe(double distance, double direction){

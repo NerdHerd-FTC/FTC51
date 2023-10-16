@@ -14,7 +14,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
-@TeleOp(name="Vision Example")
+@TeleOp(name="Vision Example", group = "Examples")
 public class visionExample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

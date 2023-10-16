@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
-@TeleOp(name = "Tank", group="Drive")
+@TeleOp(name = "Tank")
 public class tankDriveArm extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -42,12 +42,10 @@ public class tankDriveArm extends LinearOpMode {
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armTopServo.setDirection(Servo.Direction.FORWARD);
         armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         armRotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-        double servoPosition = 0.3;
 
         boolean droneLaunched = false;
 
@@ -65,12 +63,14 @@ public class tankDriveArm extends LinearOpMode {
         telemetry.addLine("D-Pad Up - Rotate Arm Body Forwards");
         telemetry.addLine("D-Pad Down - Rotate Arm Body Backwards");
         telemetry.addLine("A button - Toggle intake on/off");
+        telemetry.addLine("Back - Launch Drone");
         telemetry.addLine();
         telemetry.addLine("Ready to start");
         telemetry.update();
 
         //waits for start of game
         waitForStart();
+        droneServo.setPosition(0);
 
         boolean intakeButtonPressed = false;
 
@@ -89,11 +89,10 @@ public class tankDriveArm extends LinearOpMode {
             // This represents the fraction of 300 degrees the motor should be at
             // eg. 0.5 would be 150 degrees & 0.1 would be 30.
             if (gamepad1.right_bumper){
-                servoPosition=0.5;
+                armTopServo.setPosition(0.6);
             } else if (gamepad1.left_bumper) {
-                servoPosition=0;
+                armTopServo.setPosition(0.125);
             }
-            telemetry.addData("Arm is up",(servoPosition>=0.4));
 
             if (gamepad1.a && !intakeButtonPressed) { // Toggle intake motor on/off
                 intakeMotor.setPower(1-intakeMotor.getPower());
@@ -115,7 +114,7 @@ public class tankDriveArm extends LinearOpMode {
 
             //moves the drone servo to the launch position
             if (gamepad1.back) {
-                droneServo.setPosition(0);
+                droneServo.setPosition(1);
             }
             telemetry.addData("Drone Launched",droneLaunched);
 
@@ -128,10 +127,6 @@ public class tankDriveArm extends LinearOpMode {
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
             // the 0.05 is to counteract gravity
             // telemetry.addData("current arm motion:",rTrigger-lTrigger);
-
-            armTopServo.setPosition(servoPosition);
-            telemetry.addData("Arm Servo Position", servoPosition);
-
             telemetry.update();
         }
     }
