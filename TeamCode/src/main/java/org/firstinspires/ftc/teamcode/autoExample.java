@@ -44,6 +44,8 @@ public class autoExample extends LinearOpMode {
         telemetry.addLine("Drive has started"); // Test to see if multithreading works
         telemetry.update();
         // If the telemetry does not display until driving has finished, it don't work.
+
+        strafe(100,1);
     }
 
     //537.7 Pulses per Rotation
