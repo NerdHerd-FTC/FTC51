@@ -98,13 +98,17 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
                 armTopServo.setPosition(0.125);
             }
 
-            if (gamepad1.a && !intakeButtonPressed) { // Toggle intake motor on/off
-                intakeMotor.setPower(1-intakeMotor.getPower());
-                telemetry.addLine("Intake is moving");
-                intakeButtonPressed = true;
+            if (gamepad1.a) {
+                if (!intakeButtonPressed) {
+                    intakeMotor.setPower(1 - intakeMotor.getPower());
+                    telemetry.addLine("Intake is moving");
+                    intakeButtonPressed = true;
+                }
             } else {
                 telemetry.addLine("Intake is stopped");
+                intakeButtonPressed=false;
             }
+
 
 
             /// controls to rotate the whole arm up and down (forwards and backwards)
@@ -115,6 +119,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
                 armRotateMotor.setPower(-.7); //makes the arm motors rotate backwards slowly
                 telemetry.addLine("Moving arm backward");
             } else {
+                armRotateMotor.setPower(0);
                 telemetry.addLine("Arm isn't moving");
             }
 
