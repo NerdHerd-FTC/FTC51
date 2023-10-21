@@ -15,10 +15,10 @@ public class autoExample extends LinearOpMode {
     public final DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
     public final DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
 
-    final Servo armTopServo = hardwareMap.servo.get("armTopServo");
-    final DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
-    final DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
-    final Servo droneServo = hardwareMap.servo.get("droneServo");
+    public final Servo armTopServo = hardwareMap.servo.get("armTopServo");
+    public final DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
+    public final DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
+    public final Servo droneServo = hardwareMap.servo.get("droneServo");
     // Immutable
 
     @Override
