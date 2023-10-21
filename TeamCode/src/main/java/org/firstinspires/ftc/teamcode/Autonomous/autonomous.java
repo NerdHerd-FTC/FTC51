@@ -4,8 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name="Auton", group = "Teleop")
-public class autonomous extends autoExample{
+import org.firstinspires.ftc.teamcode.Autonomous.autoExample;
+
+@Autonomous(name="Auton", group = "Autonomous")
+public class autonomous extends autoExample {
     @Override
     public void runOpMode() throws InterruptedException {
         DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
@@ -14,10 +16,10 @@ public class autonomous extends autoExample{
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
         DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
 
-        // Set motor directions
-        frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        // fix drivetrain motor directions
+        frMotor.setDirection(DcMotorSimple.Direction.REVERSE); // IDK MAN, WE NEED TO TEST
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -25,6 +27,11 @@ public class autonomous extends autoExample{
         flMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        flMotor.setTargetPosition(0);
+        brMotor.setTargetPosition(0);
+        slideMotor.setTargetPosition(0);
 
         // Sets motors into go to position mode
         flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -37,4 +44,4 @@ public class autonomous extends autoExample{
         driveFunc(100);
         strafe(100,-1);
     }
-    }
+}

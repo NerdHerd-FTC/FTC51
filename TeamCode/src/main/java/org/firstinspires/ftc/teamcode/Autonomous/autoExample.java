@@ -30,6 +30,12 @@ public class autoExample extends LinearOpMode {
         brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        // fix drivetrain motor directions
+        frMotor.setDirection(DcMotorSimple.Direction.REVERSE); // IDK MAN, WE NEED TO TEST
+        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
         // Sets motors into go to position mode
         flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         brMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -55,25 +61,37 @@ public class autoExample extends LinearOpMode {
     // Used to calculate the amount to move each motor
 
     public void driveFunc(double distance){
+        //motors (probably) need to have a power set before setting a target position
+        flMotor.setPower(Math.signum(distance));
+        brMotor.setPower(Math.signum(distance));
+
+        // We only have a few encoder ports, so manually move the two other motors
+        frMotor.setPower(Math.signum(distance));
+        blMotor.setPower(Math.signum(distance));
+
         // Moves the robot the distance forward
         // Distance is in millimeters
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
 
-        // We only have a few encoder ports, so manually move the two other motors
-        frMotor.setPower(1);
-        blMotor.setPower(1);
+
 
         // Wait for motors to stop moving
         while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
         // maybe never if it works fine
+
+        flMotor.setPower(0);
+        brMotor.setPower(0);
 
         frMotor.setPower(0); // Stop motors
         blMotor.setPower(0);
     }
 
     public void strafe(double distance, double direction){
+        flMotor.setPower(direction);
+        brMotor.setPower(direction);
+
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
 
@@ -84,6 +102,9 @@ public class autoExample extends LinearOpMode {
         // Wait for motors to stop moving
         while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
         // maybe never if it works fine
+
+        flMotor.setPower(0);
+        brMotor.setPower(0);
 
         frMotor.setPower(0); // Stop motors
         blMotor.setPower(0);
@@ -96,14 +117,17 @@ public class autoExample extends LinearOpMode {
 
     public void rotate(double distance) {
         // Moves the robot the distance forward
-        // Distance is in millimeters
+        // Distance is in millimeters clockwise
+
+        flMotor.setPower(Math.signum(distance));
+        brMotor.setPower(-Math.signum(distance));
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() - (int) (distance * countsPerMM));
 
         // We only have a few encoder ports, so manually move the two other motors
-        frMotor.setPower(1);
-        blMotor.setPower(-1);
+        frMotor.setPower(-Math.signum(distance));
+        blMotor.setPower(Math.signum(distance));
 
         // Wait for motors to stop moving
         while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
