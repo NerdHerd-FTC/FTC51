@@ -60,7 +60,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
         boolean droneLaunched = false;
         boolean intakeButtonPressed = false;
 
-        double strafe_speed=0.5;
+        double strafe_speed=0.75;
 
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
