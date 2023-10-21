@@ -43,30 +43,31 @@ public class autoExample extends LinearOpMode {
         // Reset the encoder
         flMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        blMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         telemetries=print("mode set",telemetries);
 
-        // fix drivetrain motor directions
-//        frMotor.setDirection(DcMotorSimple.Direction.REVERSE); // IDK MAN, WE NEED TO TEST
-//        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-//        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        telemetry.addLine("update direction 2");
-//        telemetry.update();
 
         flMotor.setTargetPosition(0);
         brMotor.setTargetPosition(0);
+        frMotor.setTargetPosition(0);
+        blMotor.setTargetPosition(0);
         slideMotor.setTargetPosition(0);
         telemetries=print("positions set",telemetries);
 
         flMotor.setPower(1);
         brMotor.setPower(1);
+        frMotor.setPower(1);
+        blMotor.setPower(1);
         slideMotor.setPower(1);
         telemetries=print("power set",telemetries);
 
         // Sets motors into go to position mode
         flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         brMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        blMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Switches from setting power to moving to a position
         telemetries=print("modes set",telemetries);
@@ -89,28 +90,15 @@ public class autoExample extends LinearOpMode {
 
     public String[] driveFunc(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor,String[] telemetries){
         telemetries=print("function ran",telemetries);
-        // We only have a few encoder ports, so manually move the two other motors
-
-        frMotor.setPower(Math.signum(distance));
-        blMotor.setPower(Math.signum(distance));
-        telemetries=print("power set",telemetries);
-
         // Moves the robot the distance forward
         // Distance is in millimeters
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+        frMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+        blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
         telemetries=print("target position set",telemetries);
 
-
-        telemetries=print("waiting...",telemetries);
-        // Wait for motors to stop moving
-        while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
-        // maybe never if it works fine
-        telemetries=print("finished",telemetries);
-
-        frMotor.setPower(0); // Stop motors
-        blMotor.setPower(0);
         telemetries=print("function finished",telemetries);
 
         return telemetries;
@@ -120,21 +108,8 @@ public class autoExample extends LinearOpMode {
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
-
-        // We only have a few encoder ports, so manually move the two other motors
-        frMotor.setPower(-direction);
-        blMotor.setPower(-direction);
-
-        // Wait for motors to stop moving
-        while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
-        // maybe never if it works fine
-
-        frMotor.setPower(0); // Stop motors
-        blMotor.setPower(0);
-
-        // REMOVE AFTER TESTING THREADS
-        telemetry.addLine("Strafe has finished");
-        telemetry.update();
+        frMotor.setTargetPosition(flMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
+        blMotor.setTargetPosition(brMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
 
     }
 
@@ -144,17 +119,9 @@ public class autoExample extends LinearOpMode {
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() - (int) (distance * countsPerMM));
+        frMotor.setTargetPosition(flMotor.getCurrentPosition() - (int) (distance * countsPerMM));
+        blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
 
-        // We only have a few encoder ports, so manually move the two other motors
-        frMotor.setPower(-Math.signum(distance));
-        blMotor.setPower(Math.signum(distance));
-
-        // Wait for motors to stop moving
-        while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
-        // maybe never if it works fine
-
-        frMotor.setPower(0); // Stop motors
-        blMotor.setPower(0);
     }
 
 //    public String[] telemetries = new String[10];
