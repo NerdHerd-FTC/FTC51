@@ -60,7 +60,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
         boolean droneLaunched = false;
         boolean intakeButtonPressed = false;
 
-        double strafe_speed=0.1;
+        double strafe_speed=0.5;
 
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
@@ -134,7 +134,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             }
             telemetry.addData("Drone Launched",droneLaunched);
 
-            double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
+            double denominator = Math.max(Math.abs(stickX*strafe_speed) + Math.abs(stickY) + Math.abs(rStickX), 1);
 
             flMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
             frMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
@@ -144,6 +144,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
             // the 0.05 is to counteract gravity
             // telemetry.addData("current arm motion:",rTrigger-lTrigger);
+            telemetry.addLine("im wheler and i love duenes");
 
             telemetry.update();
         }
