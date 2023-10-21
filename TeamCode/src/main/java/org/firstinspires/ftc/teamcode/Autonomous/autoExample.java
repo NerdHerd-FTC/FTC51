@@ -4,15 +4,21 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name="Auto Example", group = "Examples")
 public class autoExample extends LinearOpMode {
     // Define motor variables
-    private final DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
-    private final DcMotor frMotor = hardwareMap.dcMotor.get("motorFR");
-    private final DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
-    private final DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
-    private final DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
+    public final DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
+    public final DcMotor frMotor = hardwareMap.dcMotor.get("motorFR");
+    public final DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
+    public final DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
+    public final DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
+
+    final Servo armTopServo = hardwareMap.servo.get("armTopServo");
+    final DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
+    final DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
+    final Servo droneServo = hardwareMap.servo.get("droneServo");
     // Immutable
 
     @Override
