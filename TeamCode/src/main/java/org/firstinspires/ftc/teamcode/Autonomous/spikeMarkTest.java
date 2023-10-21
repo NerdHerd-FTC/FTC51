@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="spikemarktest", group = "Tests")
-public class spikeMarkTest extends LinearOpMode {
+public class spikeMarkTest extends autoExample {
     private final DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
     private final DcMotor frMotor = hardwareMap.dcMotor.get("motorFR");
     private final DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
@@ -21,9 +21,16 @@ public class spikeMarkTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
         waitForStart();
+
+        while(opModeIsActive()){
+            if (gamepad1.a){
+                positionCenter();
+            }
+            telemetry.update();
+        }
     }
 
     public void positionCenter() {
-
+        driveFunc(100);
     }
 }
