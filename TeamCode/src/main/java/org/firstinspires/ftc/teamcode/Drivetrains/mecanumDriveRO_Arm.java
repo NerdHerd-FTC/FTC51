@@ -68,18 +68,17 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
         telemetry.addLine("Variables initialized");
         telemetry.addLine();
         telemetry.addLine("Controls:");
-        telemetry.addLine("Left Stick - Move (up, down, left, right)");
-        telemetry.addLine("Right Stick- Turn");
-        telemetry.addLine("Start - Reset Yaw");
+        telemetry.addLine("Left Stick - Move (Forward, Backward, Strafe)");
+        telemetry.addLine("Right Stick - Rotate");
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
-        telemetry.addLine("RB - Rotate Arm Servo to Forward Position (150 Deg)");
-        telemetry.addLine("LB - Rotate Arm Servo to 0 Degrees");
-        telemetry.addLine("D-Pad Up - Rotate Arm Body Forwards");
-        telemetry.addLine("D-Pad Down - Rotate Arm Body Backwards");
+        telemetry.addLine("RB - Rotate Arm Servo to Release Position");
+        telemetry.addLine("LB - Rotate Arm Servo to Intake Position");
+        telemetry.addLine("D-Pad Up - Rotate Arm Body Up");
+        telemetry.addLine("D-Pad Down - Rotate Arm Body Down");
         telemetry.addLine("A button - Toggle intake on/off");
         telemetry.addLine();
-        telemetry.addLine("Ready to start");
+        telemetry.addLine("✅ Ready to start ✅");
         telemetry.update();
 
         //waits for start of game
@@ -144,7 +143,6 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
             // the 0.05 is to counteract gravity
             // telemetry.addData("current arm motion:",rTrigger-lTrigger);
-            telemetry.addLine("im wheler and i love duenes");
 
             telemetry.update();
         }
