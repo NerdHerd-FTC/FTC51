@@ -39,21 +39,33 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
         armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        // tell motors to brake when not active
         armRotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        // reset encoder
         armRotateMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        // configure motors to correct positions
         armRotateMotor.setPower(1);
 
         armRotateMotor.setTargetPosition(0);
 
-        armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION); // encoders
 
+        droneServo.setPosition(0);
+
+        // initialize variables
         boolean droneLaunched = false;
 
+//        boolean intakeButtonPressed = false;
+
+        double strafe_speed=0.1;
+
         // Display controls
+        telemetry.addLine("Mecanum Drive - Robot Oriented");
+        telemetry.addLine();
         telemetry.addLine("Variables initialized");
         telemetry.addLine();
         telemetry.addLine("Controls:");
@@ -73,9 +85,6 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
         //waits for start of game
         waitForStart();
-        droneServo.setPosition(0);
-
-        boolean intakeButtonPressed = false;
 
         while (opModeIsActive()) {
             //gamepad variables
@@ -98,10 +107,10 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
                 armTopServo.setPosition(0.125);
             }
 
-            if (gamepad1.a && !intakeButtonPressed) { // Toggle intake motor on/off
+            if (gamepad1.a) { // Toggle intake motor on/off
                 intakeMotor.setPower(1-intakeMotor.getPower());
                 telemetry.addLine("Intake is moving");
-                intakeButtonPressed = true;
+                //intakeButtonPressed = true;
             } else {
                 telemetry.addLine("Intake is stopped");
             }
@@ -114,9 +123,11 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
                 armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 100); //makes the arm motors rotate forwards slowly
             } else if (gamepad1.dpad_down && !armRotateMotor.isBusy()) {
                 armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
-            }// TODO: add telemetry
+            }
 
-            //moves the drone servo to the launch position
+            telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());//𒇞🥹😒🤩
+
+            //moves the drone servo to the launch position🤩
             if (gamepad1.back) {
                 droneServo.setPosition(1);
             }
@@ -124,13 +135,13 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
             double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
 
-            flMotor.setPower((stickY + stickX + rStickX) / denominator);
-            frMotor.setPower((stickY - stickX - rStickX) / denominator);
-            blMotor.setPower((stickY - stickX + rStickX) / denominator);
-            brMotor.setPower((stickY + stickX - rStickX) / denominator);
+            flMotor.setPower((stickY + stickX*strafe_speed + rStickX) / denominator);
+            frMotor.setPower((stickY - stickX*strafe_speed - rStickX) / denominator);
+            blMotor.setPower((stickY - stickX*strafe_speed + rStickX) / denominator);
+            brMotor.setPower((stickY + stickX*strafe_speed - rStickX) / denominator);
 
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
-            // the 0.05 is to counteract gravity
+            // the 0.05 is to counteract gravity👺
             // telemetry.addData("current arm motion:",rTrigger-lTrigger);
 
             telemetry.update();
