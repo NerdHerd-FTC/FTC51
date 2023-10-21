@@ -58,10 +58,9 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
         // initialize variables
         boolean droneLaunched = false;
+        boolean intakeButtonPressed = false;
 
-//        boolean intakeButtonPressed = false;
-
-        double strafe_speed=0.1;
+        double strafe_speed=0.5;
 
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
@@ -108,11 +107,13 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             }
 
             if (gamepad1.a) { // Toggle intake motor on/off
-                intakeMotor.setPower(1-intakeMotor.getPower());
-                telemetry.addLine("Intake is moving");
-                //intakeButtonPressed = true;
+                if (!intakeButtonPressed) {
+                    intakeMotor.setPower(1 - intakeMotor.getPower());
+                    telemetry.addLine("Intake toggled");
+                    intakeButtonPressed = true;
+                }
             } else {
-                telemetry.addLine("Intake is stopped");
+                intakeButtonPressed = false;
             }
 
 
@@ -125,24 +126,25 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
                 armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
             }
 
-            telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());//𒇞🥹😒🤩
+            telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());
 
-            //moves the drone servo to the launch position🤩
+            //moves the drone servo to the launch position
             if (gamepad1.back) {
                 droneServo.setPosition(1);
             }
             telemetry.addData("Drone Launched",droneLaunched);
 
-            double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
+            double denominator = Math.max(Math.abs(stickX*strafe_speed) + Math.abs(stickY) + Math.abs(rStickX), 1);
 
-            flMotor.setPower((stickY + stickX*strafe_speed + rStickX) / denominator);
-            frMotor.setPower((stickY - stickX*strafe_speed - rStickX) / denominator);
-            blMotor.setPower((stickY - stickX*strafe_speed + rStickX) / denominator);
-            brMotor.setPower((stickY + stickX*strafe_speed - rStickX) / denominator);
+            flMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
+            frMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
+            blMotor.setPower((stickY - (stickX*strafe_speed) + rStickX) / denominator);
+            brMotor.setPower((stickY + (stickX*strafe_speed) - rStickX) / denominator);
 
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
-            // the 0.05 is to counteract gravity👺
+            // the 0.05 is to counteract gravity
             // telemetry.addData("current arm motion:",rTrigger-lTrigger);
+            telemetry.addLine("im wheler and i love duenes");
 
             telemetry.update();
         }
