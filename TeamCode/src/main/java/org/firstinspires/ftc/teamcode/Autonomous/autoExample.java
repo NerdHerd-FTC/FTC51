@@ -42,6 +42,14 @@ public class autoExample extends LinearOpMode {
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        flMotor.setTargetPosition(0);
+        brMotor.setTargetPosition(0);
+        slideMotor.setTargetPosition(0);
+
+        flMotor.setPower(1);
+        brMotor.setPower(1);
+        slideMotor.setPower(1);
+
         // Sets motors into go to position mode
         flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         brMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
