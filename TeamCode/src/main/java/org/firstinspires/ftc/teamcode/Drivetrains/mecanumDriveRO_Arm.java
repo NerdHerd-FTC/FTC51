@@ -58,8 +58,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
         // initialize variables
         boolean droneLaunched = false;
-
-//        boolean intakeButtonPressed = false;
+        boolean intakeButtonPressed = false;
 
         double strafe_speed=0.1;
 
@@ -108,11 +107,13 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             }
 
             if (gamepad1.a) { // Toggle intake motor on/off
-                intakeMotor.setPower(1-intakeMotor.getPower());
-                telemetry.addLine("Intake is moving");
-                //intakeButtonPressed = true;
+                if (!intakeButtonPressed) {
+                    intakeMotor.setPower(1 - intakeMotor.getPower());
+                    telemetry.addLine("Intake toggled");
+                    intakeButtonPressed = true;
+                }
             } else {
-                telemetry.addLine("Intake is stopped");
+                intakeButtonPressed = false;
             }
 
 
