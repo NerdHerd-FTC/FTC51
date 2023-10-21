@@ -67,10 +67,6 @@ public class autoExample extends LinearOpMode {
     // Used to calculate the amount to move each motor
 
     public void driveFunc(double distance){
-        //motors (probably) need to have a power set before setting a target position
-        flMotor.setPower(Math.signum(distance));
-        brMotor.setPower(Math.signum(distance));
-
         // We only have a few encoder ports, so manually move the two other motors
         frMotor.setPower(Math.signum(distance));
         blMotor.setPower(Math.signum(distance));
@@ -87,16 +83,11 @@ public class autoExample extends LinearOpMode {
         while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
         // maybe never if it works fine
 
-        flMotor.setPower(0);
-        brMotor.setPower(0);
-
         frMotor.setPower(0); // Stop motors
         blMotor.setPower(0);
     }
 
     public void strafe(double distance, double direction){
-        flMotor.setPower(direction);
-        brMotor.setPower(direction);
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
@@ -108,9 +99,6 @@ public class autoExample extends LinearOpMode {
         // Wait for motors to stop moving
         while (flMotor.isBusy() || brMotor.isBusy()) {;} // busy loop; we need to fix later
         // maybe never if it works fine
-
-        flMotor.setPower(0);
-        brMotor.setPower(0);
 
         frMotor.setPower(0); // Stop motors
         blMotor.setPower(0);
@@ -124,9 +112,6 @@ public class autoExample extends LinearOpMode {
     public void rotate(double distance) {
         // Moves the robot the distance forward
         // Distance is in millimeters clockwise
-
-        flMotor.setPower(Math.signum(distance));
-        brMotor.setPower(-Math.signum(distance));
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() - (int) (distance * countsPerMM));
