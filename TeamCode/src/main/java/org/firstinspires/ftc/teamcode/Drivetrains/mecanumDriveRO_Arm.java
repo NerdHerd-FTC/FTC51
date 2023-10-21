@@ -29,9 +29,9 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
         Servo droneServo = hardwareMap.servo.get("droneServo");
 
         // fix drivetrain motor directions
-        frMotor.setDirection(DcMotorSimple.Direction.REVERSE); // IDK MAN, WE NEED TO TEST
+        frMotor.setDirection(DcMotorSimple.Direction.FORWARD); // IDK MAN, WE NEED TO TEST
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -43,7 +43,11 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         armRotateMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        armRotateMotor.setPower(1);
+
+        armRotateMotor.setTargetPosition(0);
 
         armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -107,9 +111,9 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             // only changes position when the motor isn't busy, (hopefully) making controls more precise
             // 5700.4 counts per revolution
             if (gamepad1.dpad_up && !armRotateMotor.isBusy()) {
-                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 50); //makes the arm motors rotate forwards slowly
+                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 100); //makes the arm motors rotate forwards slowly
             } else if (gamepad1.dpad_down && !armRotateMotor.isBusy()) {
-                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 50); //makes the arm motors rotate backwards slowly
+                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
             }// TODO: add telemetry
 
             //moves the drone servo to the launch position
