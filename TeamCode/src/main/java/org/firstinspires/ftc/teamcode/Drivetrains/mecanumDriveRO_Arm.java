@@ -135,10 +135,10 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
             double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
 
-            flMotor.setPower((stickY + stickX*strafe_speed + rStickX) / denominator);
-            frMotor.setPower((stickY - stickX*strafe_speed - rStickX) / denominator);
-            blMotor.setPower((stickY - stickX*strafe_speed + rStickX) / denominator);
-            brMotor.setPower((stickY + stickX*strafe_speed - rStickX) / denominator);
+            flMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
+            frMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
+            blMotor.setPower((stickY - (stickX*strafe_speed) + rStickX) / denominator);
+            brMotor.setPower((stickY + (stickX*strafe_speed) - rStickX) / denominator);
 
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
             // the 0.05 is to counteract gravity👺
