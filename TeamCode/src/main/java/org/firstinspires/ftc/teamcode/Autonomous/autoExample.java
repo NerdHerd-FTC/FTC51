@@ -113,7 +113,7 @@ public class autoExample extends LinearOpMode {
         blMotor.setPower(0);
         telemetries=print("function finished",telemetries);
 
-        return telemetries
+        return telemetries;
     }
 
     public void strafe(double distance, double direction, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){

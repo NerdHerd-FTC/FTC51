@@ -10,6 +10,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class spikeMarkTest extends autoExample {
     @Override
     public void runOpMode() throws InterruptedException{
+        String[] telemetries = new String[10];
+        for(int i = 0; i < telemetries.length; i++){
+            telemetries[i] = "";
+        }
+
+
         DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
         DcMotor frMotor = hardwareMap.dcMotor.get("motorFR");
         DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
@@ -57,7 +63,7 @@ public class spikeMarkTest extends autoExample {
 
         while(opModeIsActive()){
             if (gamepad1.y){
-                positionCenter(frMotor,brMotor,flMotor,blMotor);
+                telemetries=positionCenter(frMotor,brMotor,flMotor,blMotor,telemetries);
             }
             if (gamepad1.x){
                 positionLeft(frMotor,brMotor,flMotor,blMotor);
@@ -69,8 +75,8 @@ public class spikeMarkTest extends autoExample {
         }
     }
 
-    public void positionCenter(DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) {
-        driveFunc(100,frMotor,brMotor,flMotor,blMotor);
+    public String[] positionCenter(DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor,String[] telemetries) {
+        return driveFunc(100,frMotor,brMotor,flMotor,blMotor,telemetries);
     }
 
     public void positionRight(DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){
