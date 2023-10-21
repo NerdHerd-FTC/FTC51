@@ -125,9 +125,9 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
                 armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
             }
 
-            telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());//𒇞🥹😒🤩
+            telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());
 
-            //moves the drone servo to the launch position🤩
+            //moves the drone servo to the launch position
             if (gamepad1.back) {
                 droneServo.setPosition(1);
             }
@@ -141,7 +141,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             brMotor.setPower((stickY + stickX*strafe_speed - rStickX) / denominator);
 
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
-            // the 0.05 is to counteract gravity👺
+            // the 0.05 is to counteract gravity
             // telemetry.addData("current arm motion:",rTrigger-lTrigger);
 
             telemetry.update();
