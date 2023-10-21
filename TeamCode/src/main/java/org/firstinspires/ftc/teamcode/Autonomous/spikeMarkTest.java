@@ -63,7 +63,7 @@ public class spikeMarkTest extends autoExample {
 
         while(opModeIsActive()){
             if (gamepad1.y){
-                telemetries=positionCenter(frMotor,brMotor,flMotor,blMotor,telemetries);
+                positionCenter(frMotor,brMotor,flMotor,blMotor);
             }
             if (gamepad1.x){
                 positionLeft(frMotor,brMotor,flMotor,blMotor);
@@ -75,8 +75,8 @@ public class spikeMarkTest extends autoExample {
         }
     }
 
-    public String[] positionCenter(DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor,String[] telemetries) {
-        return driveFunc(100,frMotor,brMotor,flMotor,blMotor,telemetries);
+    public void positionCenter(DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) {
+        driveFunc(100,frMotor,brMotor,flMotor,blMotor);
     }
 
     public void positionRight(DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){

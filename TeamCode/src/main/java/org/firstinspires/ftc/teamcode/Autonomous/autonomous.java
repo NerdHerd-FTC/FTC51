@@ -47,7 +47,7 @@ public class autonomous extends autoExample {
 
         waitForStart();
 
-        telemetries=driveFunc(100,frMotor,brMotor,flMotor,blMotor,telemetries);
+        driveFunc(100,frMotor,brMotor,flMotor,blMotor);
         strafe(100,-1,frMotor,brMotor,flMotor,blMotor);
     }
 }

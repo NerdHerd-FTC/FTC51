@@ -76,8 +76,8 @@ public class autoExample extends LinearOpMode {
 
         // Move robot forward 150 millimeters
         telemetries=print("starting drive",telemetries);
-        driveFunc(150,frMotor,brMotor,flMotor,blMotor,telemetries);
-        telemetries=print("drive has finished",telemetries);
+        driveFunc(150,frMotor,brMotor,flMotor,blMotor);
+        print("drive has finished",telemetries);
 
         //strafe(100,1);
     }
@@ -88,8 +88,7 @@ public class autoExample extends LinearOpMode {
     final double countsPerMM = 2148 / (96 * Math.PI);
     // Used to calculate the amount to move each motor
 
-    public String[] driveFunc(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor,String[] telemetries){
-        telemetries=print("function ran",telemetries);
+    public void driveFunc(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){
         // Moves the robot the distance forward
         // Distance is in millimeters
 
@@ -97,11 +96,6 @@ public class autoExample extends LinearOpMode {
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
         frMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
         blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
-        telemetries=print("target position set",telemetries);
-
-        telemetries=print("function finished",telemetries);
-
-        return telemetries;
     }
 
     public void strafe(double distance, double direction, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){
