@@ -10,6 +10,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class spikeMarkTest extends autoExample {
     @Override
     public void runOpMode() throws InterruptedException{
+        DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
+        DcMotor frMotor = hardwareMap.dcMotor.get("motorFR");
+        DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
+        DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
+        DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
+
+        Servo armTopServo = hardwareMap.servo.get("armTopServo");
+        DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
+        DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
+        Servo droneServo = hardwareMap.servo.get("droneServo");
 
         // Set motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -47,26 +57,26 @@ public class spikeMarkTest extends autoExample {
 
         while(opModeIsActive()){
             if (gamepad1.y){
-                positionCenter();
+                positionCenter(frMotor,brMotor,flMotor,blMotor);
             }
             if (gamepad1.x){
-                positionLeft();
+                positionLeft(frMotor,brMotor,flMotor,blMotor);
             }
             if (gamepad1.b){
-                positionRight();
+                positionRight(frMotor,brMotor,flMotor,blMotor);
             }
             telemetry.update();
         }
     }
 
-    public void positionCenter() {
-        driveFunc(100);
+    public void positionCenter(DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) {
+        driveFunc(100,frMotor,brMotor,flMotor,blMotor);
     }
 
-    public void positionRight(){
-        strafe(100,1);
+    public void positionRight(DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){
+        strafe(100,1,frMotor,brMotor,flMotor,blMotor);
     }
-    public void positionLeft(){
-        strafe(100,-1);
+    public void positionLeft(DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){
+        strafe(100,-1,frMotor,brMotor,flMotor,blMotor);
     }
 }

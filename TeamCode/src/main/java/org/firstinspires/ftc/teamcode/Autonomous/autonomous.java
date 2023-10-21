@@ -41,7 +41,7 @@ public class autonomous extends autoExample {
 
         waitForStart();
 
-        driveFunc(100);
-        strafe(100,-1);
+        driveFunc(100,frMotor,brMotor,flMotor,blMotor);
+        strafe(100,-1,frMotor,brMotor,flMotor,blMotor);
     }
 }
