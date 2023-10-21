@@ -23,8 +23,14 @@ public class spikeMarkTest extends autoExample {
         waitForStart();
 
         while(opModeIsActive()){
-            if (gamepad1.a){
+            if (gamepad1.y){
                 positionCenter();
+            }
+            if (gamepad1.x){
+                positionLeft();
+            }
+            if (gamepad1.b){
+                positionRight();
             }
             telemetry.update();
         }
@@ -32,5 +38,12 @@ public class spikeMarkTest extends autoExample {
 
     public void positionCenter() {
         driveFunc(100);
+    }
+
+    public void positionRight(){
+        strafe(100,1);
+    }
+    public void positionLeft(){
+        strafe(100,-1);
     }
 }
