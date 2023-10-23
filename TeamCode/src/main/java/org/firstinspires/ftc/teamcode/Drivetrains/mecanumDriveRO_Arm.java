@@ -45,7 +45,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
         // reset encoder
         armRotateMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // configure motors to correct positions
         armRotateMotor.setPower(1);
@@ -53,6 +53,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
         armRotateMotor.setTargetPosition(0);
 
         armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION); // encoders
+        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         droneServo.setPosition(0);
 
@@ -140,9 +141,14 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             blMotor.setPower((stickY - (stickX*strafe_speed) + rStickX) / denominator);
             brMotor.setPower((stickY + (stickX*strafe_speed) - rStickX) / denominator);
 
-            slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
-            // the 0.05 is to counteract gravity
-            // telemetry.addData("current arm motion:",rTrigger-lTrigger);
+
+            if (slideMotor.getCurrentPosition()+rTrigger<4296){
+                slideMotor.setPower(rTrigger+0.05-lTrigger); // move slide motor
+            } else{
+                slideMotor.setPower(0.05-lTrigger);
+            }
+
+
 
             telemetry.update();
         }
