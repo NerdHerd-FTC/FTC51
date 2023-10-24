@@ -65,6 +65,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
         double gravityOffset=0.001;
 
+        // 0.063 * 1/300
         double rotationFactor=0.063/300;
 
         // Display controls
@@ -120,7 +121,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             }
 
             // Servos have a range of 300 degrees
-            double armServoPosition = 0.75 + ((armRotateMotor.getTargetPosition()*rotationFactor);
+            double armServoPosition = 0.75 + (armRotateMotor.getTargetPosition()*rotationFactor);
             // Calculate what position to rotate arm to
             // 0.75 is the base
             // Then add the current arm position, times the rotation factor
@@ -169,7 +170,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             }
             telemetry.addData("Slide position",slideMotor.getCurrentPosition());
 
-
+            telemetry.addData("Gamepad Status:",gamepad1.toString());
             telemetry.update();
         }
     }
