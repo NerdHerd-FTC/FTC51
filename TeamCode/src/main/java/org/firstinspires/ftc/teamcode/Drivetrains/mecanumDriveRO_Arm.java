@@ -63,6 +63,8 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
         double strafe_speed=0.75;
 
+        double gravityOffset=0.001;
+
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
         telemetry.addLine();
@@ -85,6 +87,8 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
         //waits for start of game
         waitForStart();
 
+        double armServoPosition;
+
         while (opModeIsActive()) {
             //gamepad variables
             double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
@@ -94,17 +98,6 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             //triggers for arm extending
             double rTrigger = gamepad1.right_trigger;
             double lTrigger = gamepad1.left_trigger;
-
-            //in our case, our servos have a range of 300 degrees
-            //the position numbers are a fraction of these 300 degrees
-            // The position goes from 0 to 1
-            // This represents the fraction of 300 degrees the motor should be at
-            // eg. 0.5 would be 150 degrees & 0.1 would be 30.
-            if (gamepad1.right_bumper){
-                armTopServo.setPosition(0.6);
-            } else if (gamepad1.left_bumper) {
-                armTopServo.setPosition(0.125);
-            }
 
             if (gamepad1.a) { // Toggle intake motor on/off
                 if (!intakeButtonPressed) {
@@ -119,11 +112,27 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             // controls to rotate the whole arm up and down (forwards and backwards)
             // only changes position when the motor isn't busy, (hopefully) making controls more precise
             // 5700.4 counts per revolution
+            // 6.3 degrees per button press
             if (gamepad1.dpad_up && !armRotateMotor.isBusy()) {
                 armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 100); //makes the arm motors rotate forwards slowly
             } else if (gamepad1.dpad_down && !armRotateMotor.isBusy()) {
                 armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
             }
+
+            //in our case, our servos have a range of 300 degrees
+            //the position numbers are a fraction of these 300 degrees
+            // The position goes from 0 to 1
+            // This represents the fraction of 300 degrees the motor should be at
+            // eg. 0.5 would be 150 degrees & 0.1 would be 30.
+            armServoPosition = 0.75 + ((armRotateMotor.getTargetPosition()*0.063)*0.0033333);
+            // offsets for the arm motor's rotation
+            // 0.6 is the base position at 0, finds how many degrees the arm is rotated and multiples by 0.003
+            if (gamepad1.right_bumper){
+                armTopServo.setPosition(armServoPosition);
+            } else if (gamepad1.left_bumper) {
+                armTopServo.setPosition(0.125);
+            }
+
             telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());
 
 
@@ -133,7 +142,6 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
                 droneLaunched=true;
             }
             telemetry.addData("Drone Launched",droneLaunched);
-
             // Calculate denominator
             double denominator = Math.max(Math.abs(stickX*strafe_speed) + Math.abs(stickY) + Math.abs(rStickX), 1);
             // If any of the values are greater then one, then this value will divide them
@@ -154,12 +162,12 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             // rStickX is rotate, so positive for fl and bl, and negative for fr and br
 
 
-            if (slideMotor.getCurrentPosition()+rTrigger-lTrigger<4296){ // detect if upwards movement will go over
-                slideMotor.setPower(rTrigger+0.05-lTrigger); // move slide motor
+            if (slideMotor.getCurrentPosition()+rTrigger-lTrigger<1400){ // detect if upwards movement will go over
+                slideMotor.setPower(rTrigger-lTrigger+gravityOffset); // move slide motor
             } else{
-                slideMotor.setPower(0.05-lTrigger); // move slide motor only down
+                slideMotor.setPower(-lTrigger+gravityOffset); // move slide motor only down
             }
-            telemetry.addData("Slide power",slideMotor.getPower()-0.05);
+            telemetry.addData("Slide position",slideMotor.getCurrentPosition());
 
 
             telemetry.update();
