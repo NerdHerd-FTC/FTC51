@@ -109,13 +109,12 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             if (gamepad1.a) { // Toggle intake motor on/off
                 if (!intakeButtonPressed) {
                     intakeMotor.setPower(1 - intakeMotor.getPower());
-                    telemetry.addLine("Intake toggled");
                     intakeButtonPressed = true;
                 }
             } else {
                 intakeButtonPressed = false;
             }
-
+            telemetry.addData("Intake power",intakeMotor.getPower());
 
             // controls to rotate the whole arm up and down (forwards and backwards)
             // only changes position when the motor isn't busy, (hopefully) making controls more precise
@@ -125,12 +124,13 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             } else if (gamepad1.dpad_down && !armRotateMotor.isBusy()) {
                 armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
             }
-
             telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());
+
 
             //moves the drone servo to the launch position
             if (gamepad1.back) {
                 droneServo.setPosition(1);
+                droneLaunched=true;
             }
             telemetry.addData("Drone Launched",droneLaunched);
 
@@ -159,7 +159,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             } else{
                 slideMotor.setPower(0.05-lTrigger); // move slide motor only down
             }
-
+            telemetry.addData("Slide power",slideMotor.getPower()-0.05);
 
 
             telemetry.update();
