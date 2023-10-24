@@ -33,7 +33,7 @@ public class autoExample extends LinearOpMode {
         telemetries=print("Started",telemetries);
 
         // Set motor directions
-        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -96,6 +96,8 @@ public class autoExample extends LinearOpMode {
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
         frMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
         blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+
+        while (flMotor.isBusy()){;}//wait
     }
 
     public void strafe(double distance, double direction, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){
@@ -105,6 +107,7 @@ public class autoExample extends LinearOpMode {
         frMotor.setTargetPosition(flMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
         blMotor.setTargetPosition(brMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
 
+        while (flMotor.isBusy()){;}//wait
     }
 
     public void rotate(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) {
@@ -116,6 +119,7 @@ public class autoExample extends LinearOpMode {
         frMotor.setTargetPosition(flMotor.getCurrentPosition() - (int) (distance * countsPerMM));
         blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
 
+        while (flMotor.isBusy()){;}//wait
     }
 
 //    public String[] telemetries = new String[10];
