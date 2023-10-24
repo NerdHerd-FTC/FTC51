@@ -61,6 +61,8 @@ public class mecanumDrive extends LinearOpMode {
                 RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP
         ));
+        // this is probably the issue
+
 
         imu.initialize(parameters);
 

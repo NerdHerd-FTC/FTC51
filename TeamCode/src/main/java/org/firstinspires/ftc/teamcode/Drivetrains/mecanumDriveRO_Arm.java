@@ -134,18 +134,30 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             }
             telemetry.addData("Drone Launched",droneLaunched);
 
+            // Calculate denominator
             double denominator = Math.max(Math.abs(stickX*strafe_speed) + Math.abs(stickY) + Math.abs(rStickX), 1);
+            // If any of the values are greater then one, then this value will divide them
+            // Insures that every value will have the correct ratio
+            // If stickX is one and rStick X is one, then without denominator flmotor will be set to 2
+            // any value above one in the set power function works as same as just putting in one
+            // leading to incorrect movement
+            // denominator fixes this, by dividing everything by the sum.
+            // (If less then one, there isn't any issue, so divide by one)
 
+            // Move motors
             flMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
             frMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
             blMotor.setPower((stickY - (stickX*strafe_speed) + rStickX) / denominator);
             brMotor.setPower((stickY + (stickX*strafe_speed) - rStickX) / denominator);
+            // stickY moves forward, so positive effect on every motor
+            // stickX is strafe, so positive for fl and br, and negative for fr and bl
+            // rStickX is rotate, so positive for fl and bl, and negative for fr and br
 
 
-            if (slideMotor.getCurrentPosition()+rTrigger<4296){
+            if (slideMotor.getCurrentPosition()+rTrigger-lTrigger<4296){ // detect if upwards movement will go over
                 slideMotor.setPower(rTrigger+0.05-lTrigger); // move slide motor
             } else{
-                slideMotor.setPower(0.05-lTrigger);
+                slideMotor.setPower(0.05-lTrigger); // move slide motor only down
             }
 
 
