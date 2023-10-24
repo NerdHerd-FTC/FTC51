@@ -65,6 +65,8 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
         double gravityOffset=0.001;
 
+        double rotationFactor=0.063/300;
+
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
         telemetry.addLine();
@@ -86,8 +88,6 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
         //waits for start of game
         waitForStart();
-
-        double armServoPosition;
 
         while (opModeIsActive()) {
             //gamepad variables
@@ -119,14 +119,14 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
                 armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
             }
 
-            //in our case, our servos have a range of 300 degrees
-            //the position numbers are a fraction of these 300 degrees
-            // The position goes from 0 to 1
-            // This represents the fraction of 300 degrees the motor should be at
-            // eg. 0.5 would be 150 degrees & 0.1 would be 30.
-            armServoPosition = 0.75 + ((armRotateMotor.getTargetPosition()*0.063)*0.0033333);
-            // offsets for the arm motor's rotation
-            // 0.6 is the base position at 0, finds how many degrees the arm is rotated and multiples by 0.003
+            // Servos have a range of 300 degrees
+            double armServoPosition = 0.75 + ((armRotateMotor.getTargetPosition()*rotationFactor);
+            // Calculate what position to rotate arm to
+            // 0.75 is the base
+            // Then add the current arm position, times the rotation factor
+            // rotation factor = 0.063*0.0033333...
+            // 0.063 is about how much a single degree is in relation to the encoder output
+            // 0.003333... is about how much a single degree is in relation to the servo's range
             if (gamepad1.right_bumper){
                 armTopServo.setPosition(armServoPosition);
             } else if (gamepad1.left_bumper) {
