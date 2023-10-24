@@ -43,8 +43,11 @@ public class motorPortTest extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()){
+            String active = "active:\n";
+
             if (gamepad1.a){
                 frMotor.setPower(1);
+                active+="frMotor\n";
             } else {
                 frMotor.setPower(0);
             }
@@ -53,6 +56,7 @@ public class motorPortTest extends LinearOpMode {
 
             if (gamepad1.b){
                 brMotor.setPower(1);
+                active+="brMotor\n";
             } else {
                 brMotor.setPower(0);
             }
@@ -61,6 +65,7 @@ public class motorPortTest extends LinearOpMode {
 
             if (gamepad1.x){
                 blMotor.setPower(1);
+                active+="blMotor\n";
             } else {
                 blMotor.setPower(0);
             }
@@ -69,6 +74,7 @@ public class motorPortTest extends LinearOpMode {
 
             if (gamepad1.y){
                 flMotor.setPower(1);
+                active+="flMotor\n";
             } else {
                 flMotor.setPower(0);
             }
@@ -77,6 +83,7 @@ public class motorPortTest extends LinearOpMode {
 
             if (gamepad1.dpad_up){
                 slideMotor.setPower(1);
+                active+="slideMotor\n";
             } else {
                 slideMotor.setPower(0);
             }
@@ -85,6 +92,7 @@ public class motorPortTest extends LinearOpMode {
 
             if (gamepad1.dpad_down){
                 armRotateMotor.setPower(1);
+                active+="armRotateMotor\n";
             } else {
                 armRotateMotor.setPower(0);
             }
@@ -93,6 +101,7 @@ public class motorPortTest extends LinearOpMode {
 
             if (gamepad1.dpad_left || gamepad1.dpad_right){
                 intakeMotor.setPower(1);
+                active+="intakeMotor\n";
             } else {
                 intakeMotor.setPower(0);
             }
@@ -110,6 +119,7 @@ public class motorPortTest extends LinearOpMode {
             telemetry.addLine("Right Bumper - Drone Servo: Control Hub Port 1");
 
             telemetry.addData("Controller Status", gamepad1.toString());
+            telemetry.addLine(active);
             telemetry.update();
         }
     }
