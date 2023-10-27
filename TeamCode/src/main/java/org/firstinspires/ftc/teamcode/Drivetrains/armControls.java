@@ -20,7 +20,6 @@ public class armControls extends LinearOpMode {
 
         // 0.063 * 1/300
         double rotationFactor=0.063/300;
-        telemetry.addLine("im duene and i love wheler");
 
         //triggers for arm extending
         double rTrigger = gamepad1.right_trigger;
