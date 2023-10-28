@@ -57,7 +57,9 @@ public class mecanumDriveRO_Arm extends armControls{
 
         droneServo.setPosition(0);
 
-
+//        boolean intakeButtonPressed = false;
+        double strafe_speed=0.75;
+//        boolean droneLaunched = false;
 
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
@@ -80,9 +82,6 @@ public class mecanumDriveRO_Arm extends armControls{
 
         //waits for start of game
         waitForStart();
-        boolean intakeButtonPressed = false;
-        double strafe_speed=0.75;
-        boolean droneLaunched = false;
 
         while (opModeIsActive()) {
             //gamepad variables
