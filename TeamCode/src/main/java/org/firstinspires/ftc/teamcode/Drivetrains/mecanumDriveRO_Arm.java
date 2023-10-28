@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 // Mecanum drive allows omnidirectional movement
 
 @TeleOp(name = "Mecanum - RO")
-public class mecanumDriveRO_Arm extends LinearOpMode {
+public class mecanumDriveRO_Arm extends armControls{
     @Override
     public void runOpMode() throws InterruptedException {
         //create objects for motors
@@ -57,16 +57,9 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
 
         droneServo.setPosition(0);
 
-        // initialize variables
-        boolean droneLaunched = false;
-        boolean intakeButtonPressed = false;
-
+//        boolean intakeButtonPressed = false;
         double strafe_speed=0.75;
-
-        double gravityOffset=0.001;
-
-        // 0.063 * 1/300
-        double rotationFactor=0.063/300;
+//        boolean droneLaunched = false;
 
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
@@ -96,53 +89,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             double stickX = gamepad1.left_stick_x;
             double rStickX = gamepad1.right_stick_x;
 
-            //triggers for arm extending
-            double rTrigger = gamepad1.right_trigger;
-            double lTrigger = gamepad1.left_trigger;
 
-            if (gamepad1.a) { // Toggle intake motor on/off
-                if (!intakeButtonPressed) {
-                    intakeMotor.setPower(1 - intakeMotor.getPower());
-                    intakeButtonPressed = true;
-                }
-            } else {
-                intakeButtonPressed = false;
-            }
-            telemetry.addData("Intake power",intakeMotor.getPower());
-
-            // controls to rotate the whole arm up and down (forwards and backwards)
-            // only changes position when the motor isn't busy, (hopefully) making controls more precise
-            // 5700.4 counts per revolution
-            // 6.3 degrees per button press
-            if (gamepad1.dpad_up && !armRotateMotor.isBusy()) {
-                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 100); //makes the arm motors rotate forwards slowly
-            } else if (gamepad1.dpad_down && !armRotateMotor.isBusy()) {
-                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
-            }
-
-            // Servos have a range of 300 degrees
-            double armServoPosition = 0.75 + (armRotateMotor.getTargetPosition()*rotationFactor);
-            // Calculate what position to rotate arm to
-            // 0.75 is the base
-            // Then add the current arm position, times the rotation factor
-            // rotation factor = 0.063*0.0033333...
-            // 0.063 is about how much a single degree is in relation to the encoder output
-            // 0.003333... is about how much a single degree is in relation to the servo's range
-            if (gamepad1.right_bumper){
-                armTopServo.setPosition(armServoPosition);
-            } else if (gamepad1.left_bumper) {
-                armTopServo.setPosition(0.125);
-            }
-
-            telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());
-
-
-            //moves the drone servo to the launch position
-            if (gamepad1.back) {
-                droneServo.setPosition(1);
-                droneLaunched=true;
-            }
-            telemetry.addData("Drone Launched",droneLaunched);
             // Calculate denominator
             double denominator = Math.max(Math.abs(stickX*strafe_speed) + Math.abs(stickY) + Math.abs(rStickX), 1);
             // If any of the values are greater then one, then this value will divide them
@@ -162,13 +109,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode {
             // stickX is strafe, so positive for fl and br, and negative for fr and bl
             // rStickX is rotate, so positive for fl and bl, and negative for fr and br
 
-
-            if (slideMotor.getCurrentPosition()+rTrigger-lTrigger<1400){ // detect if upwards movement will go over
-                slideMotor.setPower(rTrigger-lTrigger+gravityOffset); // move slide motor
-            } else{
-                slideMotor.setPower(-lTrigger+gravityOffset); // move slide motor only down
-            }
-            telemetry.addData("Slide position",slideMotor.getCurrentPosition());
+            armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
 
             telemetry.addData("Gamepad Status:",gamepad1.toString());
             telemetry.update();
