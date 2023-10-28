@@ -22,8 +22,8 @@ public class armControls extends LinearOpMode {
         double rotationFactor=0.063/300;
 
         //triggers for arm extending
-        double rTrigger = gamepad1.right_trigger;
-        double lTrigger = gamepad1.left_trigger;
+        double rTrigger = gamepad2.right_trigger;
+        double lTrigger = gamepad2.left_trigger;
 
         if (gamepad1.a) { // Toggle intake motor on/off
             if (!intakeButtonPressed) {
@@ -39,24 +39,24 @@ public class armControls extends LinearOpMode {
         // only changes position when the motor isn't busy, (hopefully) making controls more precise
         // 5700.4 counts per revolution
         // 6.3 degrees per button press
-        if (gamepad1.dpad_up && !armRotateMotor.isBusy()) {
+        if (gamepad2.dpad_up && !armRotateMotor.isBusy()) {
             armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 100); //makes the arm motors rotate forwards slowly
-        } else if (gamepad1.dpad_down && !armRotateMotor.isBusy()) {
+        } else if (gamepad2.dpad_down && !armRotateMotor.isBusy()) {
             armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
         }
 
         // Servos have a range of 300 degrees
-        double armServoPosition = 0.75 + (armRotateMotor.getTargetPosition()*rotationFactor);
+        double armServoPosition = 0.95 + (armRotateMotor.getTargetPosition()*rotationFactor);
         // Calculate what position to rotate arm to
         // 0.75 is the base
         // Then add the current arm position, times the rotation factor
         // rotation factor = 0.063*0.0033333...
         // 0.063 is about how much a single degree is in relation to the encoder output
         // 0.003333... is about how much a single degree is in relation to the servo's range
-        if (gamepad1.right_bumper){
+        if (gamepad2.right_bumper){
             armTopServo.setPosition(armServoPosition);
-        } else if (gamepad1.left_bumper) {
-            armTopServo.setPosition(0.125);
+        } else if (gamepad2.left_bumper) {
+            armTopServo.setPosition(0.365);
         }
 
         telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());

@@ -67,15 +67,18 @@ public class mecanumDriveRO_Arm extends armControls{
         telemetry.addLine("Variables initialized");
         telemetry.addLine();
         telemetry.addLine("Controls:");
+        telemetry.addLine("Gamepad 1");
         telemetry.addLine("Left Stick - Move (Forward, Backward, Strafe)");
         telemetry.addLine("Right Stick - Rotate");
+        telemetry.addLine("A button - Toggle intake on/off");
+        telemetry.addLine("Back - Drone Release");
+        telemetry.addLine("Gamepad 2");
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
         telemetry.addLine("RB - Rotate Arm Servo to Release Position");
         telemetry.addLine("LB - Rotate Arm Servo to Intake Position");
         telemetry.addLine("D-Pad Up - Rotate Arm Body Up");
         telemetry.addLine("D-Pad Down - Rotate Arm Body Down");
-        telemetry.addLine("A button - Toggle intake on/off");
         telemetry.addLine();
         telemetry.addLine("✅ Ready to start ✅");
         telemetry.update();
@@ -111,7 +114,8 @@ public class mecanumDriveRO_Arm extends armControls{
 
             armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
 
-            telemetry.addData("Gamepad Status:",gamepad1.toString());
+            telemetry.addData("Gamepad 1 Status:",gamepad1.toString());
+            telemetry.addData("Gamepad 2 Status:",gamepad2.toString());
             telemetry.update();
         }
     }
