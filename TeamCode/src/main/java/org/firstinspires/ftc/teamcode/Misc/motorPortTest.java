@@ -25,10 +25,10 @@ public class motorPortTest extends LinearOpMode {
         Servo droneServo = hardwareMap.servo.get("droneServo");
 
         //reverse right side motors. reverse left side if goes backwards
-        frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -117,7 +117,10 @@ public class motorPortTest extends LinearOpMode {
                 droneServo.setPosition(1-droneServo.getPosition());
             }
             telemetry.addLine("Right Bumper - Drone Servo: Control Hub Port 1");
-
+            telemetry.addData("Front Right Wheel Encoder", frMotor.getCurrentPosition());
+            telemetry.addData("Front Left Wheel Encoder", flMotor.getCurrentPosition());
+            telemetry.addData("Back Right Wheel Encoder", brMotor.getCurrentPosition());
+            telemetry.addData("Back Left Wheel Encoder", blMotor.getCurrentPosition());
             telemetry.addData("Controller Status", gamepad1.toString());
             telemetry.addLine(active);
             telemetry.update();
