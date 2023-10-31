@@ -85,7 +85,7 @@ public class autoExample extends LinearOpMode {
     //537.7 Pulses per Rotation
     //PROBABLY 2148 counts per rotation
     //Wheels are 96mm diameter
-    final double countsPerMM = 2148 / (96 * Math.PI);
+    final double countsPerMM = 1000 / (96 * Math.PI);
     // Used to calculate the amount to move each motor
 
     public void driveFunc(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) throws InterruptedException {
