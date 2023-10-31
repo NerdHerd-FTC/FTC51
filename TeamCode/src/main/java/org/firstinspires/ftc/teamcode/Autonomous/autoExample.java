@@ -88,29 +88,29 @@ public class autoExample extends LinearOpMode {
     final double countsPerMM = 2148 / (96 * Math.PI);
     // Used to calculate the amount to move each motor
 
-    public void driveFunc(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){
+    public void driveFunc(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) throws InterruptedException {
         // Moves the robot the distance forward
         // Distance is in millimeters
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
-        frMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
-        blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+        frMotor.setTargetPosition(frMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+        blMotor.setTargetPosition(blMotor.getCurrentPosition() + (int) (distance * countsPerMM));
 
-        while (flMotor.isBusy()){;}//wait
-    }
+//        while (flMotor.isBusy() || brMotor.isBusy() || frMotor.isBusy() || blMotor.isBusy()){Thread.sleep(1000);}//wait
+    }//
 
-    public void strafe(double distance, double direction, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor){
+    public void strafe(double distance, double direction, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) throws InterruptedException {
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
         frMotor.setTargetPosition(flMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
         blMotor.setTargetPosition(brMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
 
-        while (flMotor.isBusy()){;}//wait
+        while (flMotor.isBusy() || brMotor.isBusy() || frMotor.isBusy() || blMotor.isBusy()){Thread.sleep(1000);}//wait
     }
 
-    public void rotate(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) {
+    public void rotate(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) throws InterruptedException {
         // Moves the robot the distance forward
         // Distance is in millimeters clockwise
 
@@ -119,7 +119,7 @@ public class autoExample extends LinearOpMode {
         frMotor.setTargetPosition(flMotor.getCurrentPosition() - (int) (distance * countsPerMM));
         blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
 
-        while (flMotor.isBusy()){;}//wait
+        while (flMotor.isBusy() || brMotor.isBusy() || frMotor.isBusy() || blMotor.isBusy()){Thread.sleep(1000);}//wait
     }
 
 //    public String[] telemetries = new String[10];
