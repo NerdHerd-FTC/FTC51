@@ -49,6 +49,15 @@ public class motorEncoderTest extends LinearOpMode {
         blMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Switches from setting power to moving to a position
 
+        telemetry.addLine("Controls:");
+        telemetry.addData("Front right motor","a");
+        telemetry.addData("Back right motor","a");
+        telemetry.addData("Front left motor","a");
+        telemetry.addData("Back left motor","a");
+        telemetry.addLine();
+        telemetry.addLine("Ready to start");
+        telemetry.update();
+
         waitForStart();
 
         while (opModeIsActive()){
@@ -64,6 +73,11 @@ public class motorEncoderTest extends LinearOpMode {
             if(gamepad1.y){
                 blMotor.setTargetPosition(100);
             }
+            telemetry.addData("frMotor active",frMotor.isBusy());
+            telemetry.addData("brMotor active",brMotor.isBusy());
+            telemetry.addData("flMotor active",flMotor.isBusy());
+            telemetry.addData("blMotor active",blMotor.isBusy());
+            telemetry.update();
         }
     }
 }
