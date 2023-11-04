@@ -1,16 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Drivetrains;
 
-//javadocs here: https://javadoc.io/doc/org.firstinspires.ftc
-//ftc docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/index.html
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-// Drive train controls for mecanum drive
-// Mecanum drive allows omnidirectional movement
-
-@TeleOp(name = "tankDriveTest", group="Drive Tests")
-public class tankDrive extends LinearOpMode {
+@TeleOp(name="silly drive", group = "awesome")
+public class sillyDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //create objects for motors
@@ -27,19 +22,18 @@ public class tankDrive extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            // get stick values
             double lStickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
             double rStickY = -gamepad1.right_stick_y;
 
-            flMotor.setPower(lStickY); // move the left motors
+            double rTrigger = gamepad1.right_trigger;
+            int rBumper = gamepad1.right_bumper ? -1 : 1;
+            double lTrigger = gamepad1.left_trigger;
+            int lBumper = gamepad1.left_bumper ? -1 : 1;
+
+            flMotor.setPower(lTrigger*lBumper);
+            frMotor.setPower(rTrigger*rBumper);
             blMotor.setPower(lStickY);
-
-            frMotor.setPower(rStickY); // move the right motors
             brMotor.setPower(rStickY);
-
-            telemetry.addData("Left stick",lStickY);
-            telemetry.addData("Right stick",rStickY);
-            telemetry.update();
         }
     }
 }

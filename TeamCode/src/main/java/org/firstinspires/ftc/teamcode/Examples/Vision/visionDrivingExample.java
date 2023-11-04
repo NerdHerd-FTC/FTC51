@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Examples.Vision;
 
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -14,11 +15,11 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
-@Autonomous(name="Vision Driving - RED")
-public class visionDrivingExampleRed extends LinearOpMode {
+@Autonomous(name="Vision Driving - BLUE")
+public class visionDrivingExample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        int navigateTo = 5; //set the tag number to navigate towards
+        int navigateTo = 2; //set the tag number to navigate towards
 
         //create objects for motors
         // f=front, b=back, l=left, r=right
@@ -105,11 +106,11 @@ public class visionDrivingExampleRed extends LinearOpMode {
                     telemetry.addData("Tag "+ tagIdCode +" Bearing:", tagBearing);
                     telemetry.addData("Tag "+ tagIdCode +" Elevation:", tagElevation);
                 } else{
-                    //turns right if no tags are detected
-                    frMotor.setPower(-1);
-                    flMotor.setPower(1);
-                    brMotor.setPower(-1);
-                    blMotor.setPower(1);
+                    //turns left if no tags are detected
+                    frMotor.setPower(1);
+                    flMotor.setPower(-1);
+                    brMotor.setPower(1);
+                    blMotor.setPower(-1);
 
                     telemetry.addLine("tag "+navigateTo+ " not detected");
                 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Examples;
 
 //javadocs here: https://javadoc.io/doc/org.firstinspires.ftc
 //ftc docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/index.html
@@ -30,6 +30,14 @@ public class armExample extends LinearOpMode {
         armTopServo.setDirection(Servo.Direction.FORWARD);
         armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+        //armRotateMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //armRotateMotor.setTargetPosition(0);
+
+        //armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         telemetry.addLine("Variables initialized");
         telemetry.addLine();
@@ -63,22 +71,33 @@ public class armExample extends LinearOpMode {
             // This represents the fraction of 300 degrees the motor should be at
             // eg. 0.5 would be 150 degrees & 0.1 would be 30.
             if (gamepad1.right_bumper){
-                servoPosition=0.5; // 150 degrees
+                armTopServo.setPosition(0.6);
             } else if (gamepad1.left_bumper) {
-                servoPosition=0; // 0 degrees
+                armTopServo.setPosition(0.125);
             }
 
 
             // controls to rotate the whole arm up and down (forwards and backwards)
             if (gamepad1.dpad_up) {
-                armRotateMotor.setPower(0.1); //makes the arm motors rotate forwards slowly
+                armRotateMotor.setPower(.7); //makes the arm motors rotate forwards slowly
                 telemetry.addLine("Moving arm forward");
             } else if (gamepad1.dpad_down) {
-                armRotateMotor.setPower(-0.1); //makes the arm motors rotate backwards slowly
+                armRotateMotor.setPower(-.7); //makes the arm motors rotate backwards slowly
                 telemetry.addLine("Moving arm backward");
             } else {
                 telemetry.addLine("Arm isn't moving");
             }
+
+            // only changes position when the motor isn't busy, (hopefully) making controls more precise
+
+            // 5700.4 counts per revolution
+            /*
+            if (gamepad1.dpad_up && !armRotateMotor.isBusy()) {
+                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 50); //makes the arm motors rotate forwards slowly
+            } else if (gamepad1.dpad_down && !armRotateMotor.isBusy()) {
+                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 50); //makes the arm motors rotate backwards slowly
+            }// TODO: add telemetry
+            */
 
             if (gamepad1.x) {
                 intakeMotor.setPower(1-intakeMotor.getPower());
@@ -86,6 +105,8 @@ public class armExample extends LinearOpMode {
             } else {
                 telemetry.addLine("Intake is stopped");
             }
+
+
 
             slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
             // the 0.05 is to counteract gravity

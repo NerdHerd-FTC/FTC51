@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Drivetrains;
 
 //javadocs here: https://javadoc.io/doc/org.firstinspires.ftc
 //ftc docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/index.html
@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
-@TeleOp(name = "Mecanum - RO")
-public class mecanumDriveRO extends LinearOpMode {
+@TeleOp(name = "arcadeDrive", group = "Drive Tests")
+public class arcadeDriveV1 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //create objects for motors
@@ -27,19 +27,29 @@ public class mecanumDriveRO extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            //gamepad variables
-            double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
-            double stickX = gamepad1.left_stick_x;
+            // get stick values
+            double lStickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
             double rStickX = gamepad1.right_stick_x;
 
-            double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
+            if (Math.abs(lStickY) < Math.abs(rStickX)) {
+                telemetry.addData("Turning",(rStickX>=0) ? "right":"left");
+                flMotor.setPower(rStickX);
+                blMotor.setPower(rStickX);
 
-            flMotor.setPower((stickY + stickX + rStickX) / denominator);
-            frMotor.setPower((stickY - stickX - rStickX) / denominator);
-            blMotor.setPower((stickY - stickX + rStickX) / denominator);
-            brMotor.setPower((stickY + stickX - rStickX) / denominator);
+                frMotor.setPower(-rStickX);
+                brMotor.setPower(-rStickX);
 
-//            telemetry.update();
+            } else {
+                telemetry.addData("Moving",(rStickX>=0) ? "forward":"backward");
+                flMotor.setPower(lStickY);
+                blMotor.setPower(lStickY);
+
+                frMotor.setPower(lStickY);
+                brMotor.setPower(lStickY);
+            }
+            telemetry.addData("Left stick Y",lStickY);
+            telemetry.addData("Right stick X",rStickX);
+            telemetry.update();
         }
     }
 }
