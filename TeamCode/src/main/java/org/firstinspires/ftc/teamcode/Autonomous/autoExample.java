@@ -36,7 +36,7 @@ public class autoExample extends LinearOpMode {
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         telemetries=print("directions set",telemetries);
 
@@ -97,7 +97,7 @@ public class autoExample extends LinearOpMode {
         frMotor.setTargetPosition(frMotor.getCurrentPosition() + (int) (distance * countsPerMM));
         blMotor.setTargetPosition(blMotor.getCurrentPosition() + (int) (distance * countsPerMM));
 
-//        while (flMotor.isBusy() || brMotor.isBusy() || frMotor.isBusy() || blMotor.isBusy()){Thread.sleep(1000);}//wait
+        while (flMotor.isBusy() || brMotor.isBusy() || frMotor.isBusy() || blMotor.isBusy()){Thread.sleep(1000);}//wait
     }//
 
     public void strafe(double distance, double direction, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) throws InterruptedException {
