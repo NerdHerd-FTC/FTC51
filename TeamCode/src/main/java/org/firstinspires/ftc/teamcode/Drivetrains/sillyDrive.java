@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Drivetrains;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name="silly drive", group = "awesome")
 public class sillyDrive extends LinearOpMode {
@@ -14,6 +15,12 @@ public class sillyDrive extends LinearOpMode {
         DcMotor frMotor = hardwareMap.dcMotor.get("motorFR");
         DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
+
+        // fix drivetrain motor directions
+        frMotor.setDirection(DcMotorSimple.Direction.FORWARD); // IDK MAN, WE NEED TO TEST
+        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addLine("Ready to start");
         telemetry.update();
