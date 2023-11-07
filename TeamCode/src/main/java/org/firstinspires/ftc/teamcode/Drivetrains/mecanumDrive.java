@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 // Mecanum drive allows omnidirectional movement
 
 @TeleOp(name = "Mecanum - DO")
-public class mecanumDrive extends LinearOpMode {
+public class mecanumDrive extends armControls {
     @Override
     public void runOpMode() throws InterruptedException {
         //create objects for motors
@@ -122,45 +122,6 @@ public class mecanumDrive extends LinearOpMode {
             double rotationX = stickX * Math.cos(-robotYaw) - stickY * Math.sin(-robotYaw);
             double rotationY = stickX * Math.sin(-robotYaw) + stickY * Math.cos(-robotYaw);
 
-//            rotationX = rotationX * 1.1; //counteract imperfect strafing
-
-
-            //in our case, our servos have a range of 300 degrees
-            //the position numbers are a fraction of these 300 degrees
-            // The position goes from 0 to 1
-            // This represents the fraction of 300 degrees the motor should be at
-            // eg. 0.5 would be 150 degrees & 0.1 would be 30.
-            if (gamepad1.right_bumper){
-                servoPosition=0.5;
-            } else if (gamepad1.left_bumper) {
-                servoPosition=0;
-            }
-            telemetry.addData("Arm is up",(servoPosition>=0.4));
-
-            if (gamepad1.a && !intakeButtonPressed) { // Toggle intake motor on/off
-                intakeMotor.setPower(1-intakeMotor.getPower());
-                telemetry.addLine("Intake is moving");
-                intakeButtonPressed = true;
-            } else {
-                telemetry.addLine("Intake is stopped");
-            }
-
-
-            // controls to rotate the whole arm up and down (forwards and backwards)
-            // only changes position when the motor isn't busy, (hopefully) making controls more precise
-            // 5700.4 counts per revolution
-            if (gamepad1.dpad_up && !armRotateMotor.isBusy()) {
-                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 50); //makes the arm motors rotate forwards slowly
-            } else if (gamepad1.dpad_down && !armRotateMotor.isBusy()) {
-                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 50); //makes the arm motors rotate backwards slowly
-            }// TODO: add telemetry
-
-
-            //moves the drone servo to the launch position
-            if (gamepad1.back) {
-                droneServo.setPosition(0);
-            }
-            telemetry.addData("Drone Launched",droneLaunched);
 
             //denominator is either the motor power or 1, depending on which is larger.
             //ensures all powers are the same ratio, but only when
@@ -177,17 +138,13 @@ public class mecanumDrive extends LinearOpMode {
             double blPower = (rotationY - rotationX + rStickX) / denominator;
             double brPower = (rotationY + rotationX - rStickX) / denominator;
 
+            armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
+
             flMotor.setPower(flPower); // move the motors based on calculations
             frMotor.setPower(frPower);
             blMotor.setPower(blPower);
             brMotor.setPower(brPower);
 
-            slideMotor.setPower(rTrigger-lTrigger+0.05); // move slide motor
-            // the 0.05 is to counteract gravity
-            // telemetry.addData("current arm motion:",rTrigger-lTrigger);
-
-            armTopServo.setPosition(servoPosition);
-            telemetry.addData("Arm Servo Position", servoPosition);
 
             telemetry.update();
         }
