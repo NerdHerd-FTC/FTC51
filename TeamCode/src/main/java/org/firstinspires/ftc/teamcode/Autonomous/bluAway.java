@@ -61,8 +61,14 @@ public class bluAway extends autoExample {
 
         waitForStart();
 
+        telemetry.addLine("Running");
+        telemetry.update();
         //left is -1, right is 1
         strafe(200,1,frMotor,brMotor,flMotor,blMotor);
+        telemetry.addLine("Strafe Finished");
+        telemetry.update();
         driveFunc(450,frMotor,brMotor,flMotor,blMotor);
+        telemetry.addLine("OpMode Finished");
+        telemetry.update();
     }
 }

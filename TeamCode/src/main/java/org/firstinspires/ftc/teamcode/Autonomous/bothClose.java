@@ -61,6 +61,10 @@ public class bothClose extends autoExample {
 
         waitForStart();
 
+        telemetry.addLine("Running");
+        telemetry.update();
         driveFunc(700,frMotor,brMotor,flMotor,blMotor);
+        telemetry.addLine("OpMode Finished");
+        telemetry.update();
     }
 }
