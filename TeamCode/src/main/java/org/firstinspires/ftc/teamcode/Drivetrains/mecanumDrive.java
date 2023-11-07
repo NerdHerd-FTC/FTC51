@@ -99,9 +99,6 @@ public class mecanumDrive extends armControls {
             double stickX = gamepad1.left_stick_x;
             double rStickX = gamepad1.right_stick_x;
 
-            //triggers for arm extending
-            double rTrigger = gamepad1.right_trigger;
-            double lTrigger = gamepad1.left_trigger;
 
 
             //this button should be hard to hit on accident
