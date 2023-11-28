@@ -37,9 +37,10 @@ public class armControls extends LinearOpMode {
 
         // controls to rotate the whole arm up and down (forwards and backwards)
         // only changes position when the motor isn't busy, (hopefully) making controls more precise
+        // also prevents the motor from being set above 0, with some margin for error
         // 5700.4 counts per revolution
         // 6.3 degrees per button press
-        if (gamepad2.dpad_up && !armRotateMotor.isBusy()) {
+        if (gamepad2.dpad_up && !armRotateMotor.isBusy() && armRotateMotor.getTargetPosition() < -50) {
             armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 100); //makes the arm motors rotate forwards slowly
         } else if (gamepad2.dpad_down && !armRotateMotor.isBusy()) {
             armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
@@ -60,6 +61,7 @@ public class armControls extends LinearOpMode {
         }
 
         telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());
+        telemetry.addData("armTargetPosition", armRotateMotor.getTargetPosition());
 
 
         //moves the drone servo to the launch position
