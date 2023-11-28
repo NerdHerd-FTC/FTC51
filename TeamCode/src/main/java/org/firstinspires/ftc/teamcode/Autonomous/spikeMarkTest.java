@@ -28,9 +28,9 @@ public class spikeMarkTest extends autoExample {
         Servo droneServo = hardwareMap.servo.get("droneServo");
 
         // Set motor directions
-        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
