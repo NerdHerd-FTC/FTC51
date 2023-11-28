@@ -21,6 +21,22 @@ public class movementTest extends LinearOpMode {
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        flMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        blMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        flMotor.setPower(1);
+        brMotor.setPower(1);
+        frMotor.setPower(1);
+        blMotor.setPower(1);
+        slideMotor.setPower(1);
+
+        flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        brMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        blMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         waitForStart();
 
         move(100,300,frMotor,brMotor,flMotor,blMotor);
