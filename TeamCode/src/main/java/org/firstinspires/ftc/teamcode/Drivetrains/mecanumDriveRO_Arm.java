@@ -66,7 +66,7 @@ public class mecanumDriveRO_Arm extends armControls{
         droneServo.setPosition(1);
 
 //        boolean intakeButtonPressed = false;
-        double strafe_speed=-0.5;
+        double strafe_speed=0.1;
 //        boolean droneLaunched = false;
 
         // Display controls
