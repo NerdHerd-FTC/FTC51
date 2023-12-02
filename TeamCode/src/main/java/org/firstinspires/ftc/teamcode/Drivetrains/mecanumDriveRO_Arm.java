@@ -46,10 +46,10 @@ public class mecanumDriveRO_Arm extends armControls{
         // reset encoder
         armRotateMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        flMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        blMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        frMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        flMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        blMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // configure motors to correct positions
         armRotateMotor.setPower(1);
@@ -58,10 +58,10 @@ public class mecanumDriveRO_Arm extends armControls{
 
         armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION); // encoders
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        brMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        blMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        frMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        flMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        brMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        blMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         droneServo.setPosition(1);
 
