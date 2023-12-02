@@ -18,8 +18,13 @@ public class armControls extends LinearOpMode {
 
         double gravityOffset=0.001;
 
-        // 0.063 * 1/300
-        double rotationFactor=0.063/300;
+        // encoder resolution * 1/300
+        // encoder resolution formula from https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-50-9-1-ratio-24mm-length-8mm-rex-shaft-117-rpm-3-3-5v-encoder/
+        double rotationFactor=((((((1+(46/17))) * (1+(46/17))) * (1+(46/17)) * 28)/360)*5)/300;
+        // rotation factor = encoder resolution*5*0.0033333...
+        // encoder resolution is about how much a single degree is in relation to the encoder output
+        // 5 is the gear ratio of the arm, with 1 motor rotation equal to about 1/5 of an arm rotation
+        // 0.003333... is about how much a single degree is in relation to the servo's range
 
         //triggers for arm extending
         double rTrigger = gamepad2.right_trigger;
@@ -47,13 +52,10 @@ public class armControls extends LinearOpMode {
         }
 
         // Servos have a range of 300 degrees
-        double armServoPosition = 0.95 + (armRotateMotor.getTargetPosition()*rotationFactor);
+        double armServoPosition = 0.95 - (armRotateMotor.getTargetPosition()*rotationFactor);
         // Calculate what position to rotate arm to
-        // 0.75 is the base
+        // 0.95 is the base
         // Then add the current arm position, times the rotation factor
-        // rotation factor = 0.063*0.0033333...
-        // 0.063 is about how much a single degree is in relation to the encoder output
-        // 0.003333... is about how much a single degree is in relation to the servo's range
         if (gamepad2.right_bumper){
             armTopServo.setPosition(armServoPosition);
         } else if (gamepad2.left_bumper) {
