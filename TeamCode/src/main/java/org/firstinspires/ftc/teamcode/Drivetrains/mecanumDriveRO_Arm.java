@@ -63,7 +63,7 @@ public class mecanumDriveRO_Arm extends armControls{
         brMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         blMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        droneServo.setPosition(0);
+        droneServo.setPosition(1);
 
 //        boolean intakeButtonPressed = false;
         double strafe_speed=-0.5;
