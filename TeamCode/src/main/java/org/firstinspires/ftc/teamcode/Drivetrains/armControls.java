@@ -12,20 +12,20 @@ public class armControls extends LinearOpMode {
     private boolean droneLaunched = false;
     private boolean intakeButtonPressed = false;
 
+    // initialize variables
+    double gravityOffset=0.001;
+
+    // encoder resolution * 1/300
+    // encoder resolution formula from https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-50-9-1-ratio-24mm-length-8mm-rex-shaft-117-rpm-3-3-5v-encoder/
+    double rotationFactor=(Math.pow(1+(46/17),3) * 28)/300;
+    // rotation factor = encoder resolution*5*0.0033333...
+    // = ((((((1+(46/17))) * (1+(46/17))) * (1+(46/17)) * 28)/360)*5)/300;
+    // encoder resolution is about how much a single degree is in relation to the encoder output
+    // 5 is the gear ratio of the arm, with 1 motor rotation equal to about 1/5 of an arm rotation
+    // 0.003333... is about how much a single degree is in relation to the servo's range
+
     public void armControls(DcMotor slideMotor, Servo armTopServo, DcMotor armRotateMotor, DcMotor intakeMotor, Servo droneServo) {
-        // initialize variables
 
-
-        double gravityOffset=0.001;
-
-        // encoder resolution * 1/300
-        // encoder resolution formula from https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-50-9-1-ratio-24mm-length-8mm-rex-shaft-117-rpm-3-3-5v-encoder/
-        double rotationFactor=Math.pow(1+(46/17),3) * (28/21600);
-        // rotation factor = encoder resolution*5*0.0033333...
-        // = ((((((1+(46/17))) * (1+(46/17))) * (1+(46/17)) * 28)/360)*5)/300;
-        // encoder resolution is about how much a single degree is in relation to the encoder output
-        // 5 is the gear ratio of the arm, with 1 motor rotation equal to about 1/5 of an arm rotation
-        // 0.003333... is about how much a single degree is in relation to the servo's range
 
         //triggers for arm extending
         double rTrigger = gamepad2.right_trigger;
