@@ -22,9 +22,9 @@ public class bothClose extends autoExample {
 
         // fix drivetrain motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD); // IDK MAN, WE NEED TO TEST
-        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Reset the encoder
