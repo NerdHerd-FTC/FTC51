@@ -29,15 +29,15 @@ public class mecanumDriveRO_Arm extends armControls{
         Servo droneServo = hardwareMap.servo.get("droneServo");
 
         // fix drivetrain motor directions
-        frMotor.setDirection(DcMotorSimple.Direction.FORWARD); // IDK MAN, WE NEED TO TEST
-        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armTopServo.setDirection(Servo.Direction.FORWARD);
         armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // tell motors to brake when not active
         armRotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -46,6 +46,10 @@ public class mecanumDriveRO_Arm extends armControls{
         // reset encoder
         armRotateMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        flMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        blMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // configure motors to correct positions
         armRotateMotor.setPower(1);
@@ -54,11 +58,15 @@ public class mecanumDriveRO_Arm extends armControls{
 
         armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION); // encoders
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        flMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        brMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        blMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         droneServo.setPosition(0);
 
 //        boolean intakeButtonPressed = false;
-        double strafe_speed=0.75;
+        double strafe_speed=-0.5;
 //        boolean droneLaunched = false;
 
         // Display controls
