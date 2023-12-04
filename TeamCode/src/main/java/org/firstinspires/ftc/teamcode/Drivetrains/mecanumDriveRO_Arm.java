@@ -67,6 +67,7 @@ public class mecanumDriveRO_Arm extends armControls{
 
 //        boolean intakeButtonPressed = false;
         double strafe_speed=0.1;
+        double turn_speed=0.5;
 //        boolean droneLaunched = false;
 
         // Display controls
@@ -98,7 +99,7 @@ public class mecanumDriveRO_Arm extends armControls{
             //gamepad variables
             double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
             double stickX = gamepad1.left_stick_x;
-            double rStickX = gamepad1.right_stick_x;
+            double rStickX = gamepad1.right_stick_x*turn_speed;
 
 
             // Calculate denominator
