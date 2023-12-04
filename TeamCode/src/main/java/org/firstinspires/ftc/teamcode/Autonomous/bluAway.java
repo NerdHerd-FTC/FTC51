@@ -22,9 +22,9 @@ public class bluAway extends autoExample {
 
         // fix drivetrain motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD); // IDK MAN, WE NEED TO TEST
-        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Reset the encoder
@@ -61,8 +61,14 @@ public class bluAway extends autoExample {
 
         waitForStart();
 
+        telemetry.addLine("Running");
+        telemetry.update();
         //left is -1, right is 1
         strafe(200,1,frMotor,brMotor,flMotor,blMotor);
+        telemetry.addLine("Strafe Finished");
+        telemetry.update();
         driveFunc(450,frMotor,brMotor,flMotor,blMotor);
+        telemetry.addLine("OpMode Finished");
+        telemetry.update();
     }
 }

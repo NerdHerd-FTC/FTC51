@@ -35,8 +35,8 @@ public class autoExample extends LinearOpMode {
         // Set motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         telemetries=print("directions set",telemetries);
 
@@ -82,10 +82,9 @@ public class autoExample extends LinearOpMode {
         //strafe(100,1);
     }
 
-    //537.7 Pulses per Rotation
-    //PROBABLY 2148 counts per rotation
-    //Wheels are 96mm diameter
-    final double countsPerMM = 1000 / (96 * Math.PI);
+    //First part is "Encoder Resolution Formula" from goBilda
+    //    //https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
+    final double countsPerMM = ((((1+(46/17))) * (1+(46/11))) * 28) / (96 * Math.PI);
     // Used to calculate the amount to move each motor
 
     public void driveFunc(double distance, DcMotor frMotor, DcMotor brMotor, DcMotor flMotor, DcMotor blMotor) throws InterruptedException {
@@ -104,8 +103,8 @@ public class autoExample extends LinearOpMode {
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
         brMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) ((distance * countsPerMM) * direction));
-        frMotor.setTargetPosition(flMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
-        blMotor.setTargetPosition(brMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
+        frMotor.setTargetPosition(frMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
+        blMotor.setTargetPosition(blMotor.getCurrentPosition() - (int) ((distance * countsPerMM) * direction));
 
         while (flMotor.isBusy() || brMotor.isBusy() || frMotor.isBusy() || blMotor.isBusy()){Thread.sleep(1000);}//wait
     }
@@ -116,8 +115,8 @@ public class autoExample extends LinearOpMode {
 
         flMotor.setTargetPosition(flMotor.getCurrentPosition() + (int) (distance * countsPerMM)); // Tell motors to move
         brMotor.setTargetPosition(brMotor.getCurrentPosition() - (int) (distance * countsPerMM));
-        frMotor.setTargetPosition(flMotor.getCurrentPosition() - (int) (distance * countsPerMM));
-        blMotor.setTargetPosition(brMotor.getCurrentPosition() + (int) (distance * countsPerMM));
+        frMotor.setTargetPosition(frMotor.getCurrentPosition() - (int) (distance * countsPerMM));
+        blMotor.setTargetPosition(blMotor.getCurrentPosition() + (int) (distance * countsPerMM));
 
         while (flMotor.isBusy() || brMotor.isBusy() || frMotor.isBusy() || blMotor.isBusy()){Thread.sleep(1000);}//wait
     }
