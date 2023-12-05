@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
@@ -90,11 +91,13 @@ public class mecanumDriveRO_Arm extends armControls{
         telemetry.addLine("D-Pad Down - Rotate Arm Body Down");
         telemetry.addLine();
         telemetry.addLine("✅ Ready to start ✅");
+        telemetry.addLine("redy to star, more like... you wount");
         telemetry.update();
 
         //waits for start of game
         waitForStart();
 
+        ElapsedTime timer = new ElapsedTime();
         while (opModeIsActive()) {
             //gamepad variables
             double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
@@ -123,6 +126,7 @@ public class mecanumDriveRO_Arm extends armControls{
 
             armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
 
+            telemetry.addData("Timer","%.2f", timer.time());
             telemetry.addData("Gamepad 1 Status:",gamepad1.toString());
             telemetry.addData("Gamepad 2 Status:",gamepad2.toString());
             telemetry.update();
