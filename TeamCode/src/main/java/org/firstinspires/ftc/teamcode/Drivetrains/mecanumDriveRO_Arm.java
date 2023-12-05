@@ -106,7 +106,7 @@ public class mecanumDriveRO_Arm extends armControls{
 
 
             // Calculate denominator
-            double denominator = Math.max(Math.abs(stickX*strafe_speed) + Math.abs(stickY) + Math.abs(rStickX), 1);
+            double denominator = Math.max(Math.max(Math.abs(stickX*strafe_speed),Math.abs(stickY)),Math.max(Math.abs(rStickX), 1));
             // If any of the values are greater then one, then this value will divide them
             // Insures that every value will have the correct ratio
             // If stickX is one and rStick X is one, then without denominator flmotor will be set to 2
