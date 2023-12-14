@@ -56,7 +56,7 @@ public class armControls extends LinearOpMode {
         }
 
         // Servos have a range of 300 degrees
-        double armServoPosition = 0.95 + (armRotateMotor.getTargetPosition()*rotationFactor);
+        double armServoPosition = 1.05 + (armRotateMotor.getTargetPosition()*rotationFactor);
         // Calculate what position to rotate arm to
         // 0.95 is the base
         // Then add the current arm position, times the rotation factor
@@ -66,6 +66,7 @@ public class armControls extends LinearOpMode {
             armTopServo.setPosition(0.365);
         }
 
+        telemetry.addData("servoPosition",armTopServo.getPosition());
         telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());
         telemetry.addData("armTargetPosition", armRotateMotor.getTargetPosition());
 

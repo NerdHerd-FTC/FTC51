@@ -67,8 +67,8 @@ public class mecanumDriveRO_Arm extends armControls{
         droneServo.setPosition(1);
 
 //        boolean intakeButtonPressed = false;
-        double strafe_speed=0.1;
-        double turn_speed=0.5;
+        double strafe_speed=0.8;
+        double turn_speed=0.75;
 //        boolean droneLaunched = false;
 
         // Display controls
@@ -116,10 +116,10 @@ public class mecanumDriveRO_Arm extends armControls{
             // (If less then one, there isn't any issue, so divide by one)
 
             // Move motors
-            flMotor.setPower((stickY - (stickX*strafe_speed) + rStickX) / denominator);
-            frMotor.setPower((stickY + (stickX*strafe_speed) - rStickX) / denominator);
-            blMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
-            brMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
+            flMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
+            frMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
+            blMotor.setPower((stickY - (stickX*strafe_speed) + rStickX) / denominator);
+            brMotor.setPower((stickY + (stickX*strafe_speed) - rStickX) / denominator);
             // stickY moves forward, so positive effect on every motor
             // stickX is strafe, so positive for fl and br, and negative for fr and bl
             // rStickX is rotate, so positive for fl and bl, and negative for fr and br
