@@ -56,7 +56,7 @@ public class armControls extends LinearOpMode {
         }
 
         // Servos have a range of 300 degrees
-        double armServoPosition = 0.95 + (armRotateMotor.getTargetPosition()*rotationFactor);
+        double armServoPosition = 1 + (armRotateMotor.getTargetPosition()*rotationFactor);
         // Calculate what position to rotate arm to
         // 0.95 is the base
         // Then add the current arm position, times the rotation factor
@@ -64,7 +64,7 @@ public class armControls extends LinearOpMode {
             armTopServo.setPosition(armServoPosition);
         } else if (gamepad2.left_bumper) {
             armTopServo.setPosition(0.35);
-            armRotateMotor.setTargetPosition(-300);
+            armRotateMotor.setTargetPosition(-400);
         }
 
         telemetry.addData("servoPosition",armTopServo.getPosition());
