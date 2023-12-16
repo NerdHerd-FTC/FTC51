@@ -56,14 +56,15 @@ public class armControls extends LinearOpMode {
         }
 
         // Servos have a range of 300 degrees
-        double armServoPosition = 1.05 + (armRotateMotor.getTargetPosition()*rotationFactor);
+        double armServoPosition = 0.95 + (armRotateMotor.getTargetPosition()*rotationFactor);
         // Calculate what position to rotate arm to
         // 0.95 is the base
         // Then add the current arm position, times the rotation factor
         if (gamepad2.right_bumper){
             armTopServo.setPosition(armServoPosition);
         } else if (gamepad2.left_bumper) {
-            armTopServo.setPosition(0.365);
+            armTopServo.setPosition(0.35);
+            armRotateMotor.setTargetPosition(-300);
         }
 
         telemetry.addData("servoPosition",armTopServo.getPosition());
@@ -80,8 +81,10 @@ public class armControls extends LinearOpMode {
 
         if (slideMotor.getCurrentPosition()+rTrigger-lTrigger<1400){ // detect if upwards movement will go over
             slideMotor.setPower(rTrigger-lTrigger+gravityOffset); // move slide motor
-        } else{
+        } else if (slideMotor.getCurrentPosition()-lTrigger>0){
             slideMotor.setPower(-lTrigger+gravityOffset); // move slide motor only down
+        } else{
+            slideMotor.setPower(gravityOffset);
         }
         telemetry.addData("Slide position",slideMotor.getCurrentPosition());
 
