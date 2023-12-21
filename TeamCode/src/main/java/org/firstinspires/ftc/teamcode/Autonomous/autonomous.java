@@ -10,10 +10,10 @@ import org.firstinspires.ftc.teamcode.Autonomous.autoExample;
 public class autonomous extends autoExample {
     @Override
     public void runOpMode() throws InterruptedException {
-        String[] telemetries = new String[10];
-        for(int i = 0; i < telemetries.length; i++){
-            telemetries[i] = "";
-        }
+//        String[] telemetries = new String[10];
+//        for(int i = 0; i < telemetries.length; i++){
+//            telemetries[i] = "";
+//        }
 
 
         DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
