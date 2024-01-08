@@ -74,7 +74,7 @@ public class armControls extends LinearOpMode {
 
         //moves the drone servo to the launch position
         if (gamepad1.back) {
-            droneServo.setPosition(0);
+            droneServo.setPosition(0.3);
             droneLaunched=true;
         }
         telemetry.addData("Drone Launched",droneLaunched);
