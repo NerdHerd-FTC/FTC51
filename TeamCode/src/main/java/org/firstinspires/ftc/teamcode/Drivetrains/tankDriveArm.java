@@ -86,7 +86,7 @@ public class tankDriveArm extends armControls {
             double lstickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
             double rStickY = gamepad1.right_stick_y;
 
-            armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
+//            armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
 
             flMotor.setPower(lstickY);
             blMotor.setPower(lstickY);

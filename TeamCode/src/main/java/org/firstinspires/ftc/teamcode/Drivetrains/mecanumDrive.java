@@ -135,7 +135,7 @@ public class mecanumDrive extends armControls {
             double blPower = (rotationY - rotationX + rStickX) / denominator;
             double brPower = (rotationY + rotationX - rStickX) / denominator;
 
-            armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
+//            armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
 
             flMotor.setPower(flPower); // move the motors based on calculations
             frMotor.setPower(frPower);
