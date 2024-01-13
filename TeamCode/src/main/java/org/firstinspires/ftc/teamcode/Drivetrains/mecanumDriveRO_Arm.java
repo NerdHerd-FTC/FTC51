@@ -128,7 +128,7 @@ public class mecanumDriveRO_Arm extends armControls{
             // stickX is strafe, so positive for fl and br, and negative for fr and bl
             // rStickX is rotate, so positive for fl and bl, and negative for fr and br
 
-//            armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,hangMotor);
+            armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,hangMotor);
 
             telemetry.addData("Timer","%.2f", timer.time());
             telemetry.addData("Gamepad 1 Status:",gamepad1.toString());
