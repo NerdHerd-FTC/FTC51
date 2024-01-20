@@ -117,6 +117,12 @@ public class mecanumDriveRO_Arm extends armControls{
             // denominator fixes this, by dividing everything by the sum.
             // (If less then one, there isn't any issue, so divide by one)
 
+            // Moves all the motors forwards slowly
+            // Helps with moving slowly to score
+            if (gamepad1.dpad_up) {
+                stickY += 0.1;
+            }
+
             // Move motors
             flMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
             frMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
