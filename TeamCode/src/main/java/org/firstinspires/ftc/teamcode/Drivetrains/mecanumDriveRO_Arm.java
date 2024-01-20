@@ -45,11 +45,9 @@ public class mecanumDriveRO_Arm extends armControls{
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //TODO: Figure out which slide motor to reverse
         slideMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotorL.setDirection(DcMotorSimple.Direction.FORWARD);
-        //TODO: Figour out which arm servo to reverse
-        armTopServoR.setDirection(Servo.Direction.FORWARD);
+        armTopServoR.setDirection(Servo.Direction.REVERSE);
         armTopServoL.setDirection(Servo.Direction.FORWARD);
         intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
