@@ -16,8 +16,8 @@ public class armControls extends LinearOpMode {
     double gravityOffset=0.001;
 
     //0-1 with 0 being 0 degrees and 1 being about 300 degrees
-    double servoReleasePosition=0.25;
-    double servoLoadPosition=.91;
+    double servoReleasePosition=.3;
+    double servoLoadPosition=0;
 
     public void armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, DcMotor hangMotor) {
 

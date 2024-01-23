@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.Misc;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name= "Hello World", group = "Examples")
+@Disabled
 public class HelloWorldZachary extends LinearOpMode {
     @Override
     public void runOpMode() {

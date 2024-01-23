@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Drivetrains;
 //ftc docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/index.html
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 // Mecanum drive allows omnidirectional movement
 
 @TeleOp(name = "Tank")
+@Disabled
 public class tankDriveArm extends armControls {
     @Override
     public void runOpMode() throws InterruptedException {

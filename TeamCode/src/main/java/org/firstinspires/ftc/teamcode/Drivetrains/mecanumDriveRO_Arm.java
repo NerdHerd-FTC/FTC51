@@ -84,13 +84,12 @@ public class mecanumDriveRO_Arm extends armControls{
         telemetry.addLine("Right Stick - Rotate");
         telemetry.addLine("A button - Toggle intake on/off");
         telemetry.addLine("Back - Drone Release");
+        telemetry.addLine("D-Pad Up - Slow Forward Move");
         telemetry.addLine("Gamepad 2");
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
         telemetry.addLine("RB - Rotate Arm Servo to Release Position");
         telemetry.addLine("LB - Rotate Arm Servo to Intake Position");
-        telemetry.addLine("D-Pad Up - Rotate Arm Body Up");
-        telemetry.addLine("D-Pad Down - Rotate Arm Body Down");
         telemetry.addLine();
         telemetry.addLine("✅ Ready to start ✅");
         telemetry.addLine("redy to star, more like... you wount");
@@ -120,7 +119,7 @@ public class mecanumDriveRO_Arm extends armControls{
             // Moves all the motors forwards slowly
             // Helps with moving slowly to score
             if (gamepad1.dpad_up) {
-                stickY += 0.1;
+                stickY += 0.2;
             }
 
             // Move motors
