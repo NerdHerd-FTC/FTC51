@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class armControls extends LinearOpMode {
     private boolean droneLaunched = false;
     private boolean intakeButtonPressed = false;
+    int direction = 1;
 
     // initialize variables
     double gravityOffset=0.001;
@@ -26,15 +27,20 @@ public class armControls extends LinearOpMode {
         double rTrigger = gamepad2.right_trigger;
         double lTrigger = gamepad2.left_trigger;
 
+        if (gamepad1.b) {
+            direction=0-direction;
+            intakeMotor.setPower(intakeMotor.getPower()*-1);
+        }
         if (gamepad1.a) { // Toggle intake motor on/off
             if (!intakeButtonPressed) {
-                intakeMotor.setPower(1 - intakeMotor.getPower());
+                intakeMotor.setPower((1 - Math.abs(intakeMotor.getPower()))*direction);
                 intakeButtonPressed = true;
             }
         } else {
             intakeButtonPressed = false;
         }
-        telemetry.addData("Intake power",intakeMotor.getPower());
+        telemetry.addData("Intake power", Math.abs(intakeMotor.getPower()));
+        telemetry.addData("Intake direction", (direction==1) ? "Forward" : "Backward");
 
         //Servos are 0-1 with a range of 300 degrees
         if (gamepad2.right_bumper){
