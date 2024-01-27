@@ -11,13 +11,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class armControls extends LinearOpMode {
     private boolean droneLaunched = false;
     private boolean intakeButtonPressed = false;
-    int direction = 1;
+    private boolean directionButtonPressed = false;
+    int direction = -1;
 
     // initialize variables
     double gravityOffset=0.001;
 
     //0-1 with 0 being 0 degrees and 1 being about 300 degrees
-    double servoReleasePosition=.3;
+    double servoReleasePosition=.23;
     double servoLoadPosition=0;
 
     public void armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, DcMotor hangMotor) {
@@ -27,9 +28,14 @@ public class armControls extends LinearOpMode {
         double rTrigger = gamepad2.right_trigger;
         double lTrigger = gamepad2.left_trigger;
 
-        if (gamepad1.b) {
-            direction=-direction;
-            intakeMotor.setPower(intakeMotor.getPower()*-1);
+        if (gamepad1.b) { // toggle intake direction
+            if (!directionButtonPressed) {
+                direction = -direction;
+                intakeMotor.setPower(intakeMotor.getPower() * -1);
+                directionButtonPressed=true;
+            }
+        } else {
+            directionButtonPressed=false;
         }
         if (gamepad1.a) { // Toggle intake motor on/off
             if (!intakeButtonPressed) {
@@ -40,7 +46,7 @@ public class armControls extends LinearOpMode {
             intakeButtonPressed = false;
         }
         telemetry.addData("Intake power", Math.abs(intakeMotor.getPower()));
-        telemetry.addData("Intake direction", (direction==1) ? "Forward" : "Backward");
+        telemetry.addData("Intake direction", (direction==-1) ? "Forward" : "Backward");
 
         //Servos are 0-1 with a range of 300 degrees
         if (gamepad2.right_bumper){
