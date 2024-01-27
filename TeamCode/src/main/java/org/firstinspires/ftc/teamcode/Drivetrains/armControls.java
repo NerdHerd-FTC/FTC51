@@ -28,7 +28,7 @@ public class armControls extends LinearOpMode {
         double lTrigger = gamepad2.left_trigger;
 
         if (gamepad1.b) {
-            direction=0-direction;
+            direction=-direction;
             intakeMotor.setPower(intakeMotor.getPower()*-1);
         }
         if (gamepad1.a) { // Toggle intake motor on/off
