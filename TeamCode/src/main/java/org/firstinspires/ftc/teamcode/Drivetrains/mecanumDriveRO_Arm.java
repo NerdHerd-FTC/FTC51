@@ -31,6 +31,7 @@ public class mecanumDriveRO_Arm extends armControls{
         DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
 
+
         DcMotor slideMotorR = hardwareMap.dcMotor.get("motorSlideR");
         DcMotor slideMotorL = hardwareMap.dcMotor.get("motorSlideL");
         Servo armTopServoR = hardwareMap.servo.get("armTopServoR");
@@ -66,10 +67,12 @@ public class mecanumDriveRO_Arm extends armControls{
 
         slideMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        frMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        flMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        brMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        blMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Turn off encoders for drivetrain
+        frMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         droneServo.setPosition(1);
 
@@ -83,6 +86,7 @@ public class mecanumDriveRO_Arm extends armControls{
         telemetry.addLine("Left Stick - Move (Forward, Backward, Strafe)");
         telemetry.addLine("Right Stick - Rotate");
         telemetry.addLine("A button - Toggle intake on/off");
+        telemetry.addLine("B button - Toggle intake direction");
         telemetry.addLine("Back - Drone Release");
         telemetry.addLine("D-Pad Up - Slow Forward Move");
         telemetry.addLine("Gamepad 2");
