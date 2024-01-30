@@ -74,7 +74,7 @@ public class mecanumDriveRO_Arm extends armControls{
         brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        droneServo.setPosition(1);
+        droneServo.setPosition(.6);
 
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
