@@ -38,7 +38,7 @@ public class mecanumDriveRO_Arm extends armControls{
         Servo armTopServoL = hardwareMap.servo.get("armTopServoL");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         Servo droneServo = hardwareMap.servo.get("droneServo");
-        DcMotor hangMotor = hardwareMap.dcMotor.get("hangMotor");
+        Servo intakeServo = hardwareMap.servo.get("intakeServo");
 
         // fix drivetrain motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -74,7 +74,7 @@ public class mecanumDriveRO_Arm extends armControls{
         brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        droneServo.setPosition(.6);
+        droneServo.setPosition(.68);
 
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
@@ -135,7 +135,7 @@ public class mecanumDriveRO_Arm extends armControls{
             // stickX is strafe, so positive for fl and br, and negative for fr and bl
             // rStickX is rotate, so positive for fl and bl, and negative for fr and br
 
-            armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,hangMotor);
+            armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,intakeServo);
 
             telemetry.addData("Timer","%.2f", timer.time());
             telemetry.addData("Gamepad 1 Status:",gamepad1.toString());

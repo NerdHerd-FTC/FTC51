@@ -21,7 +21,11 @@ public class armControls extends LinearOpMode {
     double servoReleasePosition=.23;
     double servoLoadPosition=0;
 
-    public void armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, DcMotor hangMotor) {
+    double intakeServoLeft = 0;
+    double intakeServoCenter = 0.5;
+    double intakeServoRight = 1;
+
+    public void armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServo) {
 
 
         //triggers for arm extending
@@ -58,6 +62,14 @@ public class armControls extends LinearOpMode {
         }
 
         telemetry.addData("servoPosition",armTopServoR.getPosition());
+
+        if (gamepad1.right_bumper && !gamepad1.left_bumper){
+            intakeServo.setPosition(intakeServoLeft);
+        } else if (gamepad1.left_bumper && !gamepad1.right_bumper){
+            intakeServo.setPosition(intakeServoRight);
+        } else {
+            intakeServo.setPosition(intakeServoCenter);
+        }
 
         //moves the drone servo to the launch position
         if (gamepad1.back) {
