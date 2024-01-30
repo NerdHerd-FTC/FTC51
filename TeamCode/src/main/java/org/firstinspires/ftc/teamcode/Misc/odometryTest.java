@@ -18,15 +18,15 @@ public class odometryTest extends LinearOpMode{
         DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
 
+        DcMotor leftEncoder = brMotor;
+        DcMotor rightEncoder = blMotor;
+        DcMotor frontEncoder = frMotor;
+
         // fix motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        DcMotor leftEncoder = brMotor;
-        DcMotor rightEncoder = blMotor;
-        DcMotor frontEncoder = frMotor;
 
         // Turn off encoders for drivetrain
         frMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
