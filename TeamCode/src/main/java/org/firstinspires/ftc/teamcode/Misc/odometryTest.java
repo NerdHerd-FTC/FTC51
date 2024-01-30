@@ -18,26 +18,47 @@ public class odometryTest extends LinearOpMode{
         DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
 
-        // Turn off encoders for drivetrain
-        frMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        flMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         // fix motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // Odometry pods will plug in to the motor encoder ports
+        DcMotor leftEncoder = brMotor;
+        DcMotor rightEncoder = blMotor;
+        DcMotor frontEncoder = frMotor;
 
-        // If there is a motor in the port where the pod is connected, it needs to be set to run
-        // without encoder mode
+        // Turn off encoders for drivetrain
+        frMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         telemetry.addLine("ready to start");
+        telemetry.addData("Starting position left odometry pod",leftEncoder.getCurrentPosition());
+        telemetry.addData("Starting position right odometry pod",rightEncoder.getCurrentPosition());
+        telemetry.addData("Starting position front odometry pod",frontEncoder.getCurrentPosition());
         telemetry.update();
 
         waitForStart();
+
+        while (opModeIsActive()) {
+            //gamepad variables
+            double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
+            double stickX = gamepad1.left_stick_x;
+            double rStickX = gamepad1.right_stick_x;
+
+            double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
+
+            flMotor.setPower((stickY + stickX + rStickX) / denominator);
+            frMotor.setPower((stickY - stickX - rStickX) / denominator);
+            blMotor.setPower((stickY - stickX + rStickX) / denominator);
+            brMotor.setPower((stickY + stickX - rStickX) / denominator);
+
+            telemetry.addData("Current position left odometry pod",leftEncoder.getCurrentPosition());
+            telemetry.addData("Current position right odometry pod",rightEncoder.getCurrentPosition());
+            telemetry.addData("Current position front odometry pod",frontEncoder.getCurrentPosition());
+            telemetry.update();
+        }
     }
 }
