@@ -13,10 +13,10 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 @TeleOp(name = "Mecanum - RO - NO ARM CONTROLS", group="Drive Tests")
 public class mecanumDriveRO extends LinearOpMode {
 
-    public void mecanumDrive(DcMotor flMotor, DcMotor frMotor, DcMotor blMotor, DcMotor brMotor, Gamepad gamepad){
-        double stickY = -gamepad.left_stick_y; //Y stick value is REVERSED
-        double stickX = gamepad.left_stick_x;
-        double rStickX = gamepad.right_stick_x;
+    public void mecanumDrive(DcMotor flMotor, DcMotor frMotor, DcMotor blMotor, DcMotor brMotor){
+        double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
+        double stickX = gamepad1.left_stick_x;
+        double rStickX = gamepad1.right_stick_x;
 
         double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
 
@@ -48,7 +48,7 @@ public class mecanumDriveRO extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            mecanumDrive(flMotor, frMotor, blMotor, blMotor, gamepad1);
+            mecanumDrive(flMotor, frMotor, blMotor, brMotor);
         }
     }
 }
