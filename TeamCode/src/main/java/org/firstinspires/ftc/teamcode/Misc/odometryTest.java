@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import org.firstinspires.ftc.teamcode.Drivetrains.mecanumDriveRO;
 
 @TeleOp(name= "odometry test", group = "Tests")
 public class odometryTest extends LinearOpMode{
@@ -34,6 +35,8 @@ public class odometryTest extends LinearOpMode{
         brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        mecanumDriveRO driveControls = new mecanumDriveRO();
+
         telemetry.addLine("ready to start");
         telemetry.addData("Starting position left odometry pod",leftEncoder.getCurrentPosition());
         telemetry.addData("Starting position right odometry pod",rightEncoder.getCurrentPosition());
@@ -43,17 +46,7 @@ public class odometryTest extends LinearOpMode{
         waitForStart();
 
         while (opModeIsActive()) {
-            //gamepad variables
-            double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
-            double stickX = gamepad1.left_stick_x;
-            double rStickX = gamepad1.right_stick_x;
-
-            double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
-
-            flMotor.setPower((stickY + stickX + rStickX) / denominator);
-            frMotor.setPower((stickY - stickX - rStickX) / denominator);
-            blMotor.setPower((stickY - stickX + rStickX) / denominator);
-            brMotor.setPower((stickY + stickX - rStickX) / denominator);
+            driveControls.mecanumDrive(flMotor,frMotor,blMotor,brMotor,1,gamepad1);
 
             telemetry.addData("Current position left odometry pod",leftEncoder.getCurrentPosition());
             telemetry.addData("Current position right odometry pod",rightEncoder.getCurrentPosition());
