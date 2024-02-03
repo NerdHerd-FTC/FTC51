@@ -15,7 +15,8 @@ public class armControls extends LinearOpMode {
     int direction = -1;
 
     // initialize variables
-    double gravityOffset=0.001;
+
+//    double gravityOffset=0.001;
 
     //0-1 with 0 being 0 degrees and 1 being about 300 degrees
     double servoReleasePosition=.23;
@@ -79,14 +80,14 @@ public class armControls extends LinearOpMode {
         telemetry.addData("Drone Launched",droneLaunched);
 
         if (rTrigger>0 && (slideMotorR.getCurrentPosition()+rTrigger-lTrigger<1300 || slideMotorL.getCurrentPosition()+rTrigger-lTrigger<1400)){ // detect if upwards movement will go over
-            slideMotorR.setPower(rTrigger-lTrigger+gravityOffset); // move slide motor
-            slideMotorL.setPower(rTrigger-lTrigger+gravityOffset);
+            slideMotorR.setPower(rTrigger-lTrigger); // move slide motor
+            slideMotorL.setPower(rTrigger-lTrigger);
         } else if (lTrigger>0 && (slideMotorR.getCurrentPosition()-lTrigger>0 || slideMotorL.getCurrentPosition()-lTrigger>0)){
-            slideMotorR.setPower(-lTrigger+gravityOffset); // move slide motor only down
-            slideMotorL.setPower(-lTrigger+gravityOffset);
+            slideMotorR.setPower(-lTrigger); // move slide motor only down
+            slideMotorL.setPower(-lTrigger);
         } else{
-            slideMotorR.setPower(gravityOffset);
-            slideMotorL.setPower(gravityOffset);
+            slideMotorR.setPower(0);
+            slideMotorL.setPower(0);
         }
         telemetry.addData("Slide R position",slideMotorR.getCurrentPosition());
         telemetry.addData("Slide L position",slideMotorL.getCurrentPosition());
