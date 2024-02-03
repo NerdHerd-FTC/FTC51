@@ -16,12 +16,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class mecanumDriveRO_Arm extends LinearOpMode{
 
     private armControls armControl = new armControls();
+    private mecanumDriveRO driveControl = new mecanumDriveRO();
     @Override
     public void runOpMode() throws InterruptedException {
 
         // Stick input is multiplied by these variables
         double strafe_speed=1;
-        double turn_speed=0.75;
 
 //      boolean intakeButtonPressed = false;
 //      boolean droneLaunched = false;
@@ -106,37 +106,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
 
         ElapsedTime timer = new ElapsedTime();
         while (opModeIsActive()) {
-            //gamepad variables
-            double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
-            double stickX = gamepad1.left_stick_x;
-            double rStickX = gamepad1.right_stick_x*turn_speed;
-
-
-            // Calculate denominator
-            double denominator = Math.max(Math.max(Math.abs(stickX*strafe_speed),Math.abs(stickY)),Math.max(Math.abs(rStickX), 1));
-            // If any of the values are greater then one, then this value will divide them
-            // Insures that every value will have the correct ratio
-            // If stickX is one and rStick X is one, then without denominator flmotor will be set to 2
-            // any value above one in the set power function works as same as just putting in one
-            // leading to incorrect movement
-            // denominator fixes this, by dividing everything by the sum.
-            // (If less then one, there isn't any issue, so divide by one)
-
-            // Moves all the motors forwards slowly
-            // Helps with moving slowly to score
-            if (gamepad1.dpad_up) {
-                stickY += 0.2;
-            }
-
-            // Move motors
-            flMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
-            frMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
-            blMotor.setPower((stickY - (stickX*strafe_speed) + rStickX) / denominator);
-            brMotor.setPower((stickY + (stickX*strafe_speed) - rStickX) / denominator);
-            // stickY moves forward, so positive effect on every motor
-            // stickX is strafe, so positive for fl and br, and negative for fr and bl
-            // rStickX is rotate, so positive for fl and bl, and negative for fr and br
-
+            driveControl.mecanumDrive(flMotor,frMotor,blMotor,brMotor,strafe_speed);
             armControl.armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,intakeServo);
 
             telemetry.addData("Timer","%.2f", timer.time());
