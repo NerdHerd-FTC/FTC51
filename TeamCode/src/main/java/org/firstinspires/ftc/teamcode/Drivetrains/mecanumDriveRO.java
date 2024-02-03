@@ -5,12 +5,27 @@ package org.firstinspires.ftc.teamcode.Drivetrains;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
 @TeleOp(name = "Mecanum - RO - NO ARM CONTROLS", group="Drive Tests")
 public class mecanumDriveRO extends LinearOpMode {
+
+    public void mecanumDrive(DcMotor flMotor, DcMotor frMotor, DcMotor blMotor, DcMotor brMotor, Gamepad gamepad){
+        double stickY = -gamepad.left_stick_y; //Y stick value is REVERSED
+        double stickX = gamepad.left_stick_x;
+        double rStickX = gamepad.right_stick_x;
+
+        double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
+
+        flMotor.setPower((stickY + stickX + rStickX) / denominator);
+        frMotor.setPower((stickY - stickX - rStickX) / denominator);
+        blMotor.setPower((stickY - stickX + rStickX) / denominator);
+        brMotor.setPower((stickY + stickX - rStickX) / denominator);
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         //create objects for motors
@@ -33,19 +48,7 @@ public class mecanumDriveRO extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            //gamepad variables
-            double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
-            double stickX = gamepad1.left_stick_x;
-            double rStickX = gamepad1.right_stick_x;
-
-            double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
-
-            flMotor.setPower((stickY + stickX + rStickX) / denominator);
-            frMotor.setPower((stickY - stickX - rStickX) / denominator);
-            blMotor.setPower((stickY - stickX + rStickX) / denominator);
-            brMotor.setPower((stickY + stickX - rStickX) / denominator);
-
-//            telemetry.update();
+            mecanumDrive(flMotor, frMotor, blMotor, blMotor, gamepad1);
         }
     }
 }
