@@ -11,82 +11,85 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class armControls extends LinearOpMode {
     private boolean droneLaunched = false;
     private boolean intakeButtonPressed = false;
+    private boolean directionButtonPressed = false;
+    int direction = -1;
 
     // initialize variables
     double gravityOffset=0.001;
 
-    // 0.063 * 1/300
-    double rotationFactor=0.063/300;
+    //0-1 with 0 being 0 degrees and 1 being about 300 degrees
+    double servoReleasePosition=.23;
+    double servoLoadPosition=0;
 
-    // encoder resolution * 1/300
-    // encoder resolution formula from https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-50-9-1-ratio-24mm-length-8mm-rex-shaft-117-rpm-3-3-5v-encoder/
-    //double rotationFactor=(Math.pow(1+(46/17),3) * 28)/300;
-    // rotation factor = encoder resolution*5*0.0033333...
-    // = ((((((1+(46/17))) * (1+(46/17))) * (1+(46/17)) * 28)/360)*5)/300;
-    // encoder resolution is about how much a single degree is in relation to the encoder output
-    // 5 is the gear ratio of the arm, with 1 motor rotation equal to about 1/5 of an arm rotation
-    // 0.003333... is about how much a single degree is in relation to the servo's range
+    double intakeServoLeft = 0;
+    double intakeServoCenter = 0.5;
+    double intakeServoRight = 1;
 
-    public void armControls(DcMotor slideMotor, Servo armTopServo, DcMotor armRotateMotor, DcMotor intakeMotor, Servo droneServo) {
+    public void armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServo) {
 
 
         //triggers for arm extending
         double rTrigger = gamepad2.right_trigger;
         double lTrigger = gamepad2.left_trigger;
 
+        if (gamepad1.b) { // toggle intake direction
+            if (!directionButtonPressed) {
+                direction = -direction;
+                intakeMotor.setPower(intakeMotor.getPower() * -1);
+                directionButtonPressed=true;
+            }
+        } else {
+            directionButtonPressed=false;
+        }
         if (gamepad1.a) { // Toggle intake motor on/off
             if (!intakeButtonPressed) {
-                intakeMotor.setPower(1 - intakeMotor.getPower());
+                intakeMotor.setPower((1 - Math.abs(intakeMotor.getPower()))*direction);
                 intakeButtonPressed = true;
             }
         } else {
             intakeButtonPressed = false;
         }
-        telemetry.addData("Intake power",intakeMotor.getPower());
+        telemetry.addData("Intake power", Math.abs(intakeMotor.getPower()));
+        telemetry.addData("Intake direction", (direction==-1) ? "Forward" : "Backward");
 
-        // controls to rotate the whole arm up and down (forwards and backwards)
-        // only changes position when the motor isn't busy, (hopefully) making controls more precise
-        // also prevents the motor from being set above 0, with some margin for error
-        // 5700.4 counts per revolution
-        // 6.3 degrees per button press
-        if (gamepad2.dpad_up && !armRotateMotor.isBusy() && armRotateMotor.getTargetPosition() < -50) {
-            armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + 100); //makes the arm motors rotate forwards slowly
-        } else if (gamepad2.dpad_down && !armRotateMotor.isBusy()) {
-            armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - 100); //makes the arm motors rotate backwards slowly
-        }
-
-        // Servos have a range of 300 degrees
-        double armServoPosition = 1 + (armRotateMotor.getTargetPosition()*rotationFactor);
-        // Calculate what position to rotate arm to
-        // 0.95 is the base
-        // Then add the current arm position, times the rotation factor
+        //Servos are 0-1 with a range of 300 degrees
         if (gamepad2.right_bumper){
-            armTopServo.setPosition(armServoPosition);
+            armTopServoR.setPosition(servoReleasePosition);
+            armTopServoL.setPosition(servoReleasePosition);
         } else if (gamepad2.left_bumper) {
-            armTopServo.setPosition(0.35);
-            armRotateMotor.setTargetPosition(-400);
+            armTopServoR.setPosition(servoLoadPosition);
+            armTopServoL.setPosition(servoLoadPosition);
         }
 
-        telemetry.addData("servoPosition",armTopServo.getPosition());
-        telemetry.addData("armPosition",armRotateMotor.getCurrentPosition());
-        telemetry.addData("armTargetPosition", armRotateMotor.getTargetPosition());
+        telemetry.addData("servoPosition",armTopServoR.getPosition());
 
+        if (gamepad1.right_bumper && !gamepad1.left_bumper){
+            intakeServo.setPosition(intakeServoLeft);
+        } else if (gamepad1.left_bumper && !gamepad1.right_bumper){
+            intakeServo.setPosition(intakeServoRight);
+        } else {
+            intakeServo.setPosition(intakeServoCenter);
+        }
 
         //moves the drone servo to the launch position
         if (gamepad1.back) {
-            droneServo.setPosition(0);
+            droneServo.setPosition(1);
             droneLaunched=true;
         }
         telemetry.addData("Drone Launched",droneLaunched);
 
-        if (slideMotor.getCurrentPosition()+rTrigger-lTrigger<1400){ // detect if upwards movement will go over
-            slideMotor.setPower(rTrigger-lTrigger+gravityOffset); // move slide motor
-        } else if (slideMotor.getCurrentPosition()-lTrigger>0){
-            slideMotor.setPower(-lTrigger+gravityOffset); // move slide motor only down
+        if (rTrigger>0 && (slideMotorR.getCurrentPosition()+rTrigger-lTrigger<1300 || slideMotorL.getCurrentPosition()+rTrigger-lTrigger<1400)){ // detect if upwards movement will go over
+            slideMotorR.setPower(rTrigger-lTrigger+gravityOffset); // move slide motor
+            slideMotorL.setPower(rTrigger-lTrigger+gravityOffset);
+        } else if (lTrigger>0 && (slideMotorR.getCurrentPosition()-lTrigger>0 || slideMotorL.getCurrentPosition()-lTrigger>0)){
+            slideMotorR.setPower(-lTrigger+gravityOffset); // move slide motor only down
+            slideMotorL.setPower(-lTrigger+gravityOffset);
         } else{
-            slideMotor.setPower(gravityOffset);
+            slideMotorR.setPower(gravityOffset);
+            slideMotorL.setPower(gravityOffset);
         }
-        telemetry.addData("Slide position",slideMotor.getCurrentPosition());
+        telemetry.addData("Slide R position",slideMotorR.getCurrentPosition());
+        telemetry.addData("Slide L position",slideMotorL.getCurrentPosition());
 
     }
 
