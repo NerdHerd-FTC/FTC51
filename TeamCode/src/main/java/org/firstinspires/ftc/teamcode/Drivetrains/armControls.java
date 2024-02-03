@@ -26,8 +26,8 @@ public class armControls extends LinearOpMode {
     double intakeServoCenter = 0.5;
     double intakeServoRight = 1;
 
-    public void armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServo, Gamepad gamepad1, Gamepad gamepad2) {
-
+    public String armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServo, Gamepad gamepad1, Gamepad gamepad2) {
+        String currentTelemetry = "";
 
         //triggers for arm extending
         double rTrigger = gamepad2.right_trigger;
@@ -50,8 +50,8 @@ public class armControls extends LinearOpMode {
         } else {
             intakeButtonPressed = false;
         }
-        telemetry.addData("Intake power", Math.abs(intakeMotor.getPower()));
-        telemetry.addData("Intake direction", (direction==-1) ? "Forward" : "Backward");
+        currentTelemetry+= "Intake power : "+ Math.abs(intakeMotor.getPower());
+        currentTelemetry+= "Intake direction : " + ((direction==-1) ? "Forward" : "Backward");
 
         //Servos are 0-1 with a range of 300 degrees
         if (gamepad2.right_bumper){
@@ -62,7 +62,7 @@ public class armControls extends LinearOpMode {
             armTopServoL.setPosition(servoLoadPosition);
         }
 
-        telemetry.addData("servoPosition",armTopServoR.getPosition());
+        currentTelemetry+= "servoPosition"+ armTopServoR.getPosition();
 
         if (gamepad1.right_bumper && !gamepad1.left_bumper){
             intakeServo.setPosition(intakeServoLeft);
@@ -77,7 +77,7 @@ public class armControls extends LinearOpMode {
             droneServo.setPosition(1);
             droneLaunched=true;
         }
-        telemetry.addData("Drone Launched",droneLaunched);
+        currentTelemetry+= "Drone Launched"+ droneLaunched;
 
         if (rTrigger>0 && (slideMotorR.getCurrentPosition()+rTrigger-lTrigger<1300 || slideMotorL.getCurrentPosition()+rTrigger-lTrigger<1400)){ // detect if upwards movement will go over
             slideMotorR.setPower(rTrigger-lTrigger+gravityOffset); // move slide motor
@@ -89,9 +89,10 @@ public class armControls extends LinearOpMode {
             slideMotorR.setPower(gravityOffset);
             slideMotorL.setPower(gravityOffset);
         }
-        telemetry.addData("Slide R position",slideMotorR.getCurrentPosition());
-        telemetry.addData("Slide L position",slideMotorL.getCurrentPosition());
+        currentTelemetry+= "Slide R position"+ slideMotorR.getCurrentPosition();
+        currentTelemetry+= "Slide L position"+ slideMotorL.getCurrentPosition();
 
+        return currentTelemetry;
     }
 
     @Override
