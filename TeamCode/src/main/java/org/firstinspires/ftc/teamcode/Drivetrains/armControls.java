@@ -62,15 +62,16 @@ public class armControls extends LinearOpMode {
             armTopServoL.setPosition(servoLoadPosition);
         }
 
-        currentTelemetry+= "\nservoPosition"+ armTopServoR.getPosition();
+        currentTelemetry+= "\nServo Position: "+ armTopServoR.getPosition();
 
-        if (gamepad1.right_bumper && !gamepad1.left_bumper){
-            intakeServo.setPosition(intakeServoLeft);
-        } else if (gamepad1.left_bumper && !gamepad1.right_bumper){
-            intakeServo.setPosition(intakeServoRight);
-        } else {
-            intakeServo.setPosition(intakeServoCenter);
-        }
+//        if (gamepad1.right_bumper && !gamepad1.left_bumper){
+//            intakeServo.setPosition(intakeServoLeft);
+//        } else if (gamepad1.left_bumper && !gamepad1.right_bumper){
+//            intakeServo.setPosition(intakeServoRight);
+//        } else {
+//            intakeServo.setPosition(intakeServoCenter);
+//        }
+//        currentTelemetry+= "\nIntake servo position: " + intakeServo.getPosition();
 
         //moves the drone servo to the launch position
         if (gamepad1.back) {
