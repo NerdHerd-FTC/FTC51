@@ -106,7 +106,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
 
         ElapsedTime timer = new ElapsedTime();
         while (opModeIsActive()) {
-            driveControl.mecanumDrive(flMotor,frMotor,blMotor,brMotor,strafe_speed,(gamepad1.dpad_up) ? .5 : 1,gamepad1);
+            driveControl.mecanumDrive(flMotor,frMotor,blMotor,brMotor,strafe_speed,(gamepad1.y) ? .5 : 1,gamepad1);
             String armTelemetry = armControl.armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,intakeServo,gamepad1,gamepad2);
 
             telemetry.addLine(armTelemetry);

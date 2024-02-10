@@ -32,19 +32,23 @@ public class mecanumDriveRO extends LinearOpMode {
 
     public void mecanumDrive(DcMotor flMotor, DcMotor frMotor, DcMotor blMotor, DcMotor brMotor, double strafe_speed, double forward_speed, Gamepad gamepad1){
         // get values from controller
-        double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
-        double stickX = gamepad1.left_stick_x;
-        double rStickX = gamepad1.right_stick_x;
+        double stickY = -gamepad1.left_stick_y*forward_speed; //Y stick value is REVERSED
+        double stickX = gamepad1.left_stick_x*forward_speed;
+        double rStickX = gamepad1.right_stick_x*forward_speed*strafe_speed;
+
+        if (gamepad1.dpad_up){
+            stickY = stickY + .25;
+        }
 
         // get denominator
         double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
         // denominator ensures ratios are maintained, because the motors only go from 0-1
 
         // set values based on mecanum drive
-        flMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
-        frMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
-        blMotor.setPower((stickY - (stickX*strafe_speed) + rStickX) / denominator);
-        brMotor.setPower((stickY + (stickX*strafe_speed) - rStickX) / denominator);
+        flMotor.setPower((stickY + stickX + rStickX) / denominator);
+        frMotor.setPower((stickY - stickX - rStickX) / denominator);
+        blMotor.setPower((stickY - stickX + rStickX) / denominator);
+        brMotor.setPower((stickY + stickX - rStickX) / denominator);
     }
 
 
