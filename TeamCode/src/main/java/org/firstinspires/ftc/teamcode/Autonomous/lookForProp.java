@@ -7,6 +7,9 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -130,6 +133,34 @@ public class lookForProp extends LinearOpMode {
             }
         }
         return false;
+    }
+
+    public void placePixel(org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive, Pose2d startPosition, DcMotor slideMotorL, DcMotor slideMotorR, Servo armTopServoL, Servo armTopServoR){
+        org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence pixelForward = drive.trajectorySequenceBuilder(startPosition)
+                .waitSeconds(1)
+                .forward(6.25)
+                .waitSeconds(2)
+                .back (4.25)
+                .build();
+
+        slideMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
+        slideMotorL.setDirection(DcMotorSimple.Direction.FORWARD);
+        armTopServoR.setDirection(Servo.Direction.REVERSE);
+        armTopServoL.setDirection(Servo.Direction.FORWARD);
+
+        slideMotorL.setPower(1);
+        slideMotorR.setPower(1);
+
+        slideMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slideMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        armTopServoL.setPosition(.23);
+        armTopServoR.setPosition(.23);
+
+        slideMotorL.setTargetPosition(200);
+        slideMotorR.setTargetPosition(200);
+
+        drive.followTrajectorySequence(pixelForward);
     }
 }
 

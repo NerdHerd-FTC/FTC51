@@ -4,6 +4,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
@@ -14,6 +16,11 @@ public class propRedBack extends lookForProp{
     @Override
     public void runOpMode() {
         org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive = new org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive(hardwareMap);
+
+        DcMotor slideMotorR = hardwareMap.dcMotor.get("motorSlideR");
+        DcMotor slideMotorL = hardwareMap.dcMotor.get("motorSlideL");
+        Servo armTopServoR = hardwareMap.servo.get("armTopServoR");
+        Servo armTopServoL = hardwareMap.servo.get("armTopServoL");
 
         initTfod();
 
@@ -42,7 +49,7 @@ public class propRedBack extends lookForProp{
                 .build();
 
         TrajectorySequence left = drive.trajectorySequenceBuilder(forward1.end())
-                .lineToConstantHeading(new Vector2d(11.23, -37.39))
+                .lineToConstantHeading(new Vector2d(11.23, -35.68))
                 .lineToConstantHeading(new Vector2d(-0.89, -35.68))
                 .build();
 
@@ -93,10 +100,15 @@ public class propRedBack extends lookForProp{
 
         if (Objects.equals(recognition, "left")){
             drive.followTrajectorySequence(leftBackdrop);
+            spikeEndLocation = leftBackdrop.end();
         } else if (Objects.equals(recognition, "center")){
             drive.followTrajectorySequence(centerBackdrop);
+            spikeEndLocation = centerBackdrop.end();
         } else {
             drive.followTrajectorySequence(rightBackdrop);
+            spikeEndLocation = rightBackdrop.end();
         }
+
+        placePixel(drive,spikeEndLocation,slideMotorL,slideMotorR,armTopServoL,armTopServoR);
     }
 }
