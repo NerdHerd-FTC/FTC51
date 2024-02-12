@@ -4,13 +4,13 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import java.util.Objects;
 
-@Autonomous(name="Blue Back")
-public class propBlueBack extends lookForProp{
+@Autonomous(name="Red Back")
+public class propRedBack extends lookForProp{
     @Override
     public void runOpMode() {
         org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive = new org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive(hardwareMap);
@@ -28,27 +28,27 @@ public class propBlueBack extends lookForProp{
         //the robot is 8.775 in to its center from the front.
         //7.65 in from the side
 
-        TrajectorySequence forward1 = drive.trajectorySequenceBuilder(new Pose2d(15.55, 63.225, Math.toRadians(270.00)))
-                .lineToConstantHeading(new Vector2d(13.5, 54.52))
+        TrajectorySequence forward1 = drive.trajectorySequenceBuilder(new Pose2d(15.55, -63.225, Math.toRadians(90.00)))
+                .lineToConstantHeading(new Vector2d(13.5, -54.52))
                 .build();
         drive.setPoseEstimate(forward1.start());
 
-        TrajectorySequence left = drive.trajectorySequenceBuilder(forward1.end())
-                .splineToConstantHeading(new Vector2d(22.35, 35.68), Math.toRadians(270.00))
+        TrajectorySequence right = drive.trajectorySequenceBuilder(forward1.end())
+                .splineToConstantHeading(new Vector2d(22.35, -35.68), Math.toRadians(90.00))
                 .build();
 
         TrajectorySequence center = drive.trajectorySequenceBuilder(forward1.end())
-                .lineToConstantHeading(new Vector2d(12,33.545))
+                .lineToConstantHeading(new Vector2d(12,-33.545))
                 .build();
 
-        TrajectorySequence right = drive.trajectorySequenceBuilder(forward1.end())
-                .lineToConstantHeading(new Vector2d(11.23, 37.39))
-                .lineToConstantHeading(new Vector2d(-0.89, 35.68))
+        TrajectorySequence left = drive.trajectorySequenceBuilder(forward1.end())
+                .lineToConstantHeading(new Vector2d(11.23, -37.39))
+                .lineToConstantHeading(new Vector2d(-0.89, -35.68))
                 .build();
 
         drive.followTrajectorySequence(forward1);
 
-        String recognition = findProp(drive,"blue");
+        String recognition = findProp(drive,"red");
 
         if (Objects.equals(recognition, "left")){
             drive.followTrajectorySequence(left);
@@ -70,20 +70,20 @@ public class propBlueBack extends lookForProp{
                 .build();
 
         TrajectorySequence returnToPosition = drive.trajectorySequenceBuilder(back.end())
-                .lineToConstantHeading(new Vector2d(12,38.68))
-                .lineToConstantHeading(new Vector2d(12,52.93))
-                .build();
-
-        TrajectorySequence leftBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
-                .splineTo(new Vector2d(45.19, 42.42), Math.toRadians(0.00))
-                .build();
-
-        TrajectorySequence centerBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
-                .splineTo(new Vector2d(45.19, 35.64), Math.toRadians(0.00))
+                .lineToConstantHeading(new Vector2d(12,-38.68))
+                .lineToConstantHeading(new Vector2d(12,-52.93))
                 .build();
 
         TrajectorySequence rightBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
-                .splineTo(new Vector2d(45.19, 29.05), Math.toRadians(0.00))
+                .splineTo(new Vector2d(45.19, -42.42), Math.toRadians(0.00))
+                .build();
+
+        TrajectorySequence centerBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
+                .splineTo(new Vector2d(45.19, -35.64), Math.toRadians(0.00))
+                .build();
+
+        TrajectorySequence leftBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
+                .splineTo(new Vector2d(45.19, -29.05), Math.toRadians(0.00))
                 .build();
 
 

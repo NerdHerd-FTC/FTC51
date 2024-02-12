@@ -50,18 +50,18 @@ public class lookForProp extends LinearOpMode {
         if (getRecognition(label)){
             return "center";
         }
-        drive.turn(Math.toRadians(30));
+        drive.turn(Math.toRadians(35));
         if (getRecognition(label)){
-            drive.turn(Math.toRadians(-30));
+            drive.turn(Math.toRadians(-35));
             return "left";
         }
         telemetry.update();
-        drive.turn(Math.toRadians(-60));
+        drive.turn(Math.toRadians(-70));
         if (getRecognition(label)){
-            drive.turn(Math.toRadians(30));
+            drive.turn(Math.toRadians(35));
             return "right";
         }
-        drive.turn(Math.toRadians(30));
+        drive.turn(Math.toRadians(35));
         return "center"; //no detection, probably center
     }
 
@@ -121,7 +121,7 @@ public class lookForProp extends LinearOpMode {
 
         double currTime = getRuntime();
         double waitTime = currTime + (double)(1.5); //number is in seconds
-        while (getRuntime() < waitTime){
+        while (getRuntime() < waitTime && opModeIsActive()){
             List<Recognition> currentRecognitions = tfod.getRecognitions();
             for (Recognition recognition : currentRecognitions) {
                 if (Objects.equals(recognition.getLabel(), label)){
