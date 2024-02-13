@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "Mecanum - RO")
 public class mecanumDriveRO_Arm extends LinearOpMode{
 
-    private armControls armControl = new armControls();
-    private mecanumDriveRO driveControl = new mecanumDriveRO();
+    final private armControls armControl = new armControls();
+    final private mecanumDriveRO driveControl = new mecanumDriveRO();
     @Override
     public void runOpMode() throws InterruptedException {
 

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
+// Base mecanum drive which provides mecanum drive to all opmodes
 @TeleOp(name = "Mecanum - RO - NO ARM CONTROLS", group="Drive Tests")
 public class mecanumDriveRO extends LinearOpMode {
 
@@ -67,6 +68,7 @@ public class mecanumDriveRO extends LinearOpMode {
         brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        telemetry.addLine("No arm controls");
         telemetry.addLine("Ready to start");
         telemetry.update();
 
