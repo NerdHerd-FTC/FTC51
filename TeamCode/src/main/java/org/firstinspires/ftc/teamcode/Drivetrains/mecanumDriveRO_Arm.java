@@ -78,6 +78,9 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
 
         droneServo.setPosition(.68);
 
+        boolean slowMode = false;
+        boolean slowModePressed = false;
+
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
         telemetry.addLine();
@@ -90,7 +93,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
         telemetry.addLine("A button - Toggle intake on/off");
         telemetry.addLine("B button - Toggle intake direction");
         telemetry.addLine("Back - Drone Release");
-        telemetry.addLine("D-Pad Up - Slow Forward Move");
+        telemetry.addLine("Y - Slow Forward Move");
         telemetry.addLine("Gamepad 2");
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
@@ -106,11 +109,19 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
 
         ElapsedTime timer = new ElapsedTime();
         while (opModeIsActive()) {
-            driveControl.mecanumDrive(flMotor,frMotor,blMotor,brMotor,strafe_speed,(gamepad1.y) ? .5 : 1,gamepad1);
+            // Toggle slow mode on and off
+            if (gamepad1.y){
+                if (!slowModePressed){
+                    slowModePressed=true;
+                    slowMode=!slowMode;
+                }
+            } else {slowModePressed=false;}
+
+            driveControl.mecanumDrive(flMotor,frMotor,blMotor,brMotor,strafe_speed,(slowMode) ? .5 : 1,gamepad1);
             String armTelemetry = armControl.armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,intakeServo,gamepad1,gamepad2);
 
             telemetry.addLine(armTelemetry);
-            telemetry.addData("Slowmode enabled",gamepad1.dpad_up);
+            telemetry.addData("Slowmode enabled",slowMode);
             telemetry.addData("Timer","%.2f", timer.time());
             telemetry.addData("Gamepad 1 Status:",gamepad1.toString());
             telemetry.addData("Gamepad 2 Status:",gamepad2.toString());
