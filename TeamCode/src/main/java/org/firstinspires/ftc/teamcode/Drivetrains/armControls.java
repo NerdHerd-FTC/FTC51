@@ -22,11 +22,16 @@ public class armControls extends LinearOpMode {
     double servoReleasePosition=.23;
     double servoLoadPosition=0;
 
-    double intakeServoLeft = 0;
-    double intakeServoCenter = 0.5;
-    double intakeServoRight = 1;
+    double intakeServoUp = 0;
+    double intakeServoDown = 0.5;
+    double intakeServoMUp = 0;
+    double intakeServoMDown = 0.5;
 
-    public String armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServo, Gamepad gamepad1, Gamepad gamepad2) {
+    boolean intakeLUp = false;
+    boolean intakeMUp = false;
+    boolean intakeRUp = false;
+
+    public String armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServoL, Servo intakeServoM, Servo intakeServoR, Gamepad gamepad1, Gamepad gamepad2) {
         String currentTelemetry = "";
 
         //triggers for arm extending
@@ -64,18 +69,36 @@ public class armControls extends LinearOpMode {
 
         currentTelemetry+= "\nServo Position: "+ armTopServoR.getPosition();
 
-//        if (gamepad1.right_bumper && !gamepad1.left_bumper){
-//            intakeServo.setPosition(intakeServoLeft);
-//        } else if (gamepad1.left_bumper && !gamepad1.right_bumper){
-//            intakeServo.setPosition(intakeServoRight);
-//        } else {
-//            intakeServo.setPosition(intakeServoCenter);
+        if (gamepad1.left_bumper){
+            intakeLUp = !intakeLUp;
+            if (intakeLUp) {
+                intakeServoL.setPosition(intakeServoUp);
+            } else {
+                intakeServoL.setPosition(intakeServoDown);
+            }
+        }
+
+//        if (gamepad1.x){
+//            intakeMUp = !intakeMUp;
+//            if (intakeMUp) {
+//                intakeServoM.setPosition(intakeServoMUp);
+//            } else {
+//                intakeServoM.setPosition(intakeServoMDown);
+//            }
 //        }
-//        currentTelemetry+= "\nIntake servo position: " + intakeServo.getPosition();
+
+        if (gamepad1.right_bumper){
+            intakeRUp = !intakeRUp;
+            if (intakeRUp) {
+                intakeServoR.setPosition(intakeServoUp);
+            } else {
+                intakeServoR.setPosition(intakeServoDown);
+            }
+        }
 
         //moves the drone servo to the launch position
         if (gamepad1.back) {
-            droneServo.setPosition(1);
+            droneServo.setPosition(.3);
             droneLaunched=true;
         }
         currentTelemetry+= "\nDrone Launched"+ droneLaunched;
