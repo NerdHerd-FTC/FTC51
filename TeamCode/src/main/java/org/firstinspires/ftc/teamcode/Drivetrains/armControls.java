@@ -72,7 +72,7 @@ public class armControls extends LinearOpMode {
 
         currentTelemetry += "\nServo Position: " + armTopServoR.getPosition();
 
-        if (gamepad1.left_bumper){
+        if (gamepad1.right_bumper){
             if (!intakeLButton){
                 intakeLUp = !intakeLUp;
                 if (intakeLUp) {
@@ -101,7 +101,7 @@ public class armControls extends LinearOpMode {
 //        }
 
 
-        if (gamepad1.right_bumper){
+        if (gamepad1.left_bumper){
             if (!intakeRButton){
                 intakeRUp = !intakeRUp;
                 if (intakeRUp) {
