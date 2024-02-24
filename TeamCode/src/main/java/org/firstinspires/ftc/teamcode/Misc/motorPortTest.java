@@ -18,24 +18,26 @@ public class motorPortTest extends LinearOpMode {
         DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
 
-        DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
-        Servo armTopServo = hardwareMap.servo.get("armTopServo");
-        DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
+        DcMotor slideMotorR = hardwareMap.dcMotor.get("motorSlideR");
+        DcMotor slideMotorL = hardwareMap.dcMotor.get("motorSlideL");
+        Servo armTopServoR = hardwareMap.servo.get("armTopServoR");
+        Servo armTopServoL = hardwareMap.servo.get("armTopServoL");
+        DcMotor hangMotor = hardwareMap.dcMotor.get("hangMotor");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         Servo droneServo = hardwareMap.servo.get("droneServo");
 
         //reverse right side motors. reverse left side if goes backwards
-        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+//        flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+//        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        armTopServo.setDirection(Servo.Direction.FORWARD);
-        armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
+        slideMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         telemetry.addLine("Hold down the button to run each motor");
         telemetry.update();
@@ -60,7 +62,7 @@ public class motorPortTest extends LinearOpMode {
             } else {
                 brMotor.setPower(0);
             }
-            telemetry.addLine("B - Back Right Wheel: Control Hub Port 1 with Encoder");
+            telemetry.addLine("B - Back Right Wheel: Control Hub Port 1");
 
 
             if (gamepad1.x){
@@ -78,25 +80,28 @@ public class motorPortTest extends LinearOpMode {
             } else {
                 flMotor.setPower(0);
             }
-            telemetry.addLine("Y - Back Left Wheel: Control Hub Port 3 with Encoder");
+            telemetry.addLine("Y - Back Left Wheel: Control Hub Port 3");
 
 
             if (gamepad1.dpad_up){
-                slideMotor.setPower(1);
-                active+="slideMotor\n";
+                slideMotorR.setPower(1);
+                slideMotorL.setPower(1);
+                active+="slideMotorR and slideMotorL\n";
             } else {
-                slideMotor.setPower(0);
+                slideMotorR.setPower(0);
+                slideMotorL.setPower(0);
+
             }
-            telemetry.addLine("D-Pad Up - Linear Slide: Expansion Hub Port 0 with Encoder");
+            telemetry.addLine("D-Pad Up - Linear Slide R and L: Expansion Hub Port 0 and 2 with Encoder");
 
 
             if (gamepad1.dpad_down){
-                armRotateMotor.setPower(1);
+                hangMotor.setPower(1);
                 active+="armRotateMotor\n";
             } else {
-                armRotateMotor.setPower(0);
+                hangMotor.setPower(0);
             }
-            telemetry.addLine("D-Pad Down - Arm Rotation Motor: Expansion Hub Port 1 with Encoder");
+            telemetry.addLine("D-Pad Down - Hang Motor: Expansion Hub Port 3 with Encoder?");
 
 
             if (gamepad1.dpad_left || gamepad1.dpad_right){
@@ -108,9 +113,11 @@ public class motorPortTest extends LinearOpMode {
             telemetry.addLine("D-Pad Left or Right - Intake Motor: Expansion Hub Port 2");
 
             if (gamepad1.left_bumper){
-                armTopServo.setPosition(1-armTopServo.getPosition());
+                armTopServoR.setPosition(1-armTopServoR.getPosition());
+                armTopServoL.setPosition(1-armTopServoL.getPosition());
+
             }
-            telemetry.addLine("Left Bumper - Arm Top Servo: Control Hub Port 0");
+            telemetry.addLine("Left Bumper - Arm Top Servo R and L: Control Hub Port 0 and 1");
 
 
             if (gamepad1.right_bumper){

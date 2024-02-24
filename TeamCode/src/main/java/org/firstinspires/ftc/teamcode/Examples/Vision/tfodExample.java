@@ -54,15 +54,17 @@ import java.util.List;
 //docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/vision/java_tfod_opmode_custom/java-tfod-opmode-custom.html
 
 @Autonomous(name = "tfod example (stolen from FIRST)", group = "Examples")
+@Disabled
 public class tfodExample extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
-    private static final String TFOD_MODEL_ASSET = "CenterStage.tflite";
+    private static final String TFOD_MODEL_ASSET = "teamProp.tflite";
 
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "Pixel",
+            "blue",
+            "red",
     };
 
 
@@ -174,7 +176,7 @@ public class tfodExample extends LinearOpMode {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void telemetryTfod() {
+    public void telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());

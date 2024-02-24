@@ -7,14 +7,26 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.Drivetrains.armControls;
 
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
 @TeleOp(name = "Mecanum - RO")
-public class mecanumDriveRO_Arm extends armControls{
+public class mecanumDriveRO_Arm extends LinearOpMode{
+
+    final private armControls armControl = new armControls();
+    final private mecanumDriveRO driveControl = new mecanumDriveRO();
     @Override
     public void runOpMode() throws InterruptedException {
+
+        // Stick input is multiplied by these variables
+        double strafe_speed=1;
+
+//      boolean intakeButtonPressed = false;
+//      boolean droneLaunched = false;
+
         //create objects for motors
         // f=front, b=back, l=left, r=right
         DcMotor flMotor = hardwareMap.dcMotor.get("motorFL");
@@ -22,11 +34,17 @@ public class mecanumDriveRO_Arm extends armControls{
         DcMotor blMotor = hardwareMap.dcMotor.get("motorBL");
         DcMotor brMotor = hardwareMap.dcMotor.get("motorBR");
 
-        DcMotor slideMotor = hardwareMap.dcMotor.get("motorSlide");
-        Servo armTopServo = hardwareMap.servo.get("armTopServo");
-        DcMotor armRotateMotor = hardwareMap.dcMotor.get("armRotateMotor");
+
+        DcMotor slideMotorR = hardwareMap.dcMotor.get("motorSlideR");
+        DcMotor slideMotorL = hardwareMap.dcMotor.get("motorSlideL");
+        Servo armTopServoR = hardwareMap.servo.get("armTopServoR");
+        Servo armTopServoL = hardwareMap.servo.get("armTopServoL");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         Servo droneServo = hardwareMap.servo.get("droneServo");
+        Servo intakeServoR = hardwareMap.servo.get("intakeServoR");
+        Servo intakeServoM = hardwareMap.servo.get("intakeServoM");
+        Servo intakeServoL = hardwareMap.servo.get("intakeServoL");
+
 
         // fix drivetrain motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -34,41 +52,37 @@ public class mecanumDriveRO_Arm extends armControls{
         brMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        armTopServo.setDirection(Servo.Direction.FORWARD);
-        armRotateMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        slideMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
+        slideMotorL.setDirection(DcMotorSimple.Direction.FORWARD);
+        armTopServoR.setDirection(Servo.Direction.REVERSE);
+        armTopServoL.setDirection(Servo.Direction.FORWARD);
+        intakeServoL.setDirection(Servo.Direction.REVERSE);
+        intakeServoR.setDirection(Servo.Direction.FORWARD);
+        intakeServoM.setDirection(Servo.Direction.FORWARD);
         intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // tell motors to brake when not active
-        armRotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         // reset encoder
-        armRotateMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        frMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        flMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        brMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        blMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        // configure motors to correct positions
-        armRotateMotor.setPower(1);
+        slideMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slideMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        armRotateMotor.setTargetPosition(0);
+        // Turn off encoders for drivetrain
+        frMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION); // encoders
-        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        frMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        flMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        brMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        blMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        droneServo.setPosition(1);
-
-//        boolean intakeButtonPressed = false;
-        double strafe_speed=0.1;
-        double turn_speed=0.5;
-//        boolean droneLaunched = false;
 
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
@@ -80,49 +94,37 @@ public class mecanumDriveRO_Arm extends armControls{
         telemetry.addLine("Left Stick - Move (Forward, Backward, Strafe)");
         telemetry.addLine("Right Stick - Rotate");
         telemetry.addLine("A button - Toggle intake on/off");
+        telemetry.addLine("B button - Toggle intake direction");
         telemetry.addLine("Back - Drone Release");
+        telemetry.addLine("D-Pad Up - Slow Forward Move");
         telemetry.addLine("Gamepad 2");
         telemetry.addLine("RT - Extend Arm");
         telemetry.addLine("LT - Retract Arm");
         telemetry.addLine("RB - Rotate Arm Servo to Release Position");
         telemetry.addLine("LB - Rotate Arm Servo to Intake Position");
-        telemetry.addLine("D-Pad Up - Rotate Arm Body Up");
-        telemetry.addLine("D-Pad Down - Rotate Arm Body Down");
         telemetry.addLine();
         telemetry.addLine("✅ Ready to start ✅");
+        telemetry.addLine("redy to star, more like... you wount");
         telemetry.update();
 
         //waits for start of game
         waitForStart();
 
+        droneServo.setPosition(.6);
+        armTopServoL.setPosition(org.firstinspires.ftc.teamcode.Drivetrains.armControls.servoLoadPosition);
+        armTopServoR.setPosition(org.firstinspires.ftc.teamcode.Drivetrains.armControls.servoLoadPosition);
+        intakeServoL.setPosition(0.5);
+        intakeServoR.setPosition(0.5);
+
+        ElapsedTime timer = new ElapsedTime();
         while (opModeIsActive()) {
-            //gamepad variables
-            double stickY = -gamepad1.left_stick_y; //Y stick value is REVERSED
-            double stickX = gamepad1.left_stick_x;
-            double rStickX = gamepad1.right_stick_x*turn_speed;
+            driveControl.mecanumDrive(flMotor,frMotor,blMotor,brMotor,strafe_speed,(gamepad1.y) ? .5 : 1,gamepad1);
+            String armTelemetry = armControl.armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,intakeServoL, intakeServoM, intakeServoR,gamepad1,gamepad2);
 
 
-            // Calculate denominator
-            double denominator = Math.max(Math.abs(stickX*strafe_speed) + Math.abs(stickY) + Math.abs(rStickX), 1);
-            // If any of the values are greater then one, then this value will divide them
-            // Insures that every value will have the correct ratio
-            // If stickX is one and rStick X is one, then without denominator flmotor will be set to 2
-            // any value above one in the set power function works as same as just putting in one
-            // leading to incorrect movement
-            // denominator fixes this, by dividing everything by the sum.
-            // (If less then one, there isn't any issue, so divide by one)
-
-            // Move motors
-            flMotor.setPower((stickY - (stickX*strafe_speed) + rStickX) / denominator);
-            frMotor.setPower((stickY + (stickX*strafe_speed) - rStickX) / denominator);
-            blMotor.setPower((stickY + (stickX*strafe_speed) + rStickX) / denominator);
-            brMotor.setPower((stickY - (stickX*strafe_speed) - rStickX) / denominator);
-            // stickY moves forward, so positive effect on every motor
-            // stickX is strafe, so positive for fl and br, and negative for fr and bl
-            // rStickX is rotate, so positive for fl and bl, and negative for fr and br
-
-            armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
-
+            telemetry.addLine(armTelemetry);
+            telemetry.addData("Slowmode enabled",gamepad1.dpad_up);
+            telemetry.addData("Timer","%.2f", timer.time());
             telemetry.addData("Gamepad 1 Status:",gamepad1.toString());
             telemetry.addData("Gamepad 2 Status:",gamepad2.toString());
             telemetry.update();

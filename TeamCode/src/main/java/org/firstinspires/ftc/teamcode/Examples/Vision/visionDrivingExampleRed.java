@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Examples.Vision;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
 @Autonomous(name="Vision Driving - RED")
+@Disabled
 public class visionDrivingExampleRed extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Drivetrains;
 
 //javadocs here: https://javadoc.io/doc/org.firstinspires.ftc
 //ftc docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/index.html
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -15,7 +16,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
 
+// UNUSED IN FAVOR OF MECANUM ROBOT ORIENTED
+
 @TeleOp(name = "Mecanum - DO")
+@Disabled
 public class mecanumDrive extends armControls {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -135,7 +139,7 @@ public class mecanumDrive extends armControls {
             double blPower = (rotationY - rotationX + rStickX) / denominator;
             double brPower = (rotationY + rotationX - rStickX) / denominator;
 
-            armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
+//            armControls(slideMotor,armTopServo,armRotateMotor,intakeMotor,droneServo);
 
             flMotor.setPower(flPower); // move the motors based on calculations
             frMotor.setPower(frPower);
