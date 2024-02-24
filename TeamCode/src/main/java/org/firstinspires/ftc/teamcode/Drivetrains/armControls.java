@@ -19,11 +19,11 @@ public class armControls extends LinearOpMode {
     double gravityOffset=0.0005;
 
     //0-1 with 0 being 0 degrees and 1 being about 300 degrees
-    double servoReleasePosition=.23;
-    double servoLoadPosition=0;
+    public static double servoReleasePosition=.23;
+    public static double servoLoadPosition=0;
 
-    double intakeServoUp = 0;
-    double intakeServoDown = 0.5;
+    double intakeServoUp = 0.5;
+    double intakeServoDown = 0;
     double intakeServoMUp = 0;
     double intakeServoMDown = 0.5;
 
@@ -70,7 +70,7 @@ public class armControls extends LinearOpMode {
             armTopServoL.setPosition(servoLoadPosition);
         }
 
-        currentTelemetry += "\nServo Position: " + armTopServoR.getPosition();
+        currentTelemetry += "\nArm Servo Position: " + armTopServoR.getPosition();
 
         if (gamepad1.right_bumper){
             if (!intakeLButton){
@@ -85,6 +85,9 @@ public class armControls extends LinearOpMode {
         } else {
             intakeLButton = false;
         }
+
+        currentTelemetry += "\nLeft Intake Servo Position: " + intakeServoL.getPosition();
+
 
 //        if (gamepad1.x){
 //            if (!intakeMButton){
@@ -115,9 +118,11 @@ public class armControls extends LinearOpMode {
             intakeRButton = false;
         }
 
+        currentTelemetry += "\nRightIntake Servo Position: " + intakeServoR.getPosition();
+
         //moves the drone servo to the launch position
         if (gamepad1.back) {
-            droneServo.setPosition(.3);
+            droneServo.setPosition(1);
             droneLaunched=true;
         }
         currentTelemetry+= "\nDrone Launched"+ droneLaunched;

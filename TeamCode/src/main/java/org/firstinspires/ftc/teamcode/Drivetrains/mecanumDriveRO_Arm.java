@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.Drivetrains.armControls;
 
 // Drive train controls for mecanum drive
 // Mecanum drive allows omnidirectional movement
@@ -82,7 +83,6 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
         brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        droneServo.setPosition(.7);
 
         // Display controls
         telemetry.addLine("Mecanum Drive - Robot Oriented");
@@ -109,6 +109,12 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
 
         //waits for start of game
         waitForStart();
+
+        droneServo.setPosition(.6);
+        armTopServoL.setPosition(org.firstinspires.ftc.teamcode.Drivetrains.armControls.servoLoadPosition);
+        armTopServoR.setPosition(org.firstinspires.ftc.teamcode.Drivetrains.armControls.servoLoadPosition);
+        intakeServoL.setPosition(0.5);
+        intakeServoR.setPosition(0.5);
 
         ElapsedTime timer = new ElapsedTime();
         while (opModeIsActive()) {
