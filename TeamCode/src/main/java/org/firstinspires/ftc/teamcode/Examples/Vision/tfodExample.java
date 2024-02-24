@@ -54,6 +54,7 @@ import java.util.List;
 //docs here: https://ftc-docs.firstinspires.org/en/latest/programming_resources/vision/java_tfod_opmode_custom/java-tfod-opmode-custom.html
 
 @Autonomous(name = "tfod example (stolen from FIRST)", group = "Examples")
+@Disabled
 public class tfodExample extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera

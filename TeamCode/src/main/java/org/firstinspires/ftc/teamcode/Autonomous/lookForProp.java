@@ -5,14 +5,20 @@ import android.util.Size;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
@@ -20,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Autonomous(name="LookForPropTest")
+@Disabled
 public class lookForProp extends LinearOpMode {
     private static final String[] LABELS = {
             "blue",
@@ -27,6 +34,9 @@ public class lookForProp extends LinearOpMode {
     };
     private TfodProcessor tfod;
     private VisionPortal visionPortal;
+
+    public TrajectoryVelocityConstraint slowedVelConst = org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocityConstraint(13, org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_VEL, org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH);
+    public TrajectoryAccelerationConstraint slowedAccConst = SampleMecanumDrive.getAccelerationConstraint(20);
     @Override
     public void runOpMode() {
         org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive = new org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive(hardwareMap);
@@ -53,19 +63,13 @@ public class lookForProp extends LinearOpMode {
         if (getRecognition(label)){
             return "center";
         }
-        drive.turn(Math.toRadians(35));
+        drive.turn(Math.toRadians(30));
         if (getRecognition(label)){
-            drive.turn(Math.toRadians(-35));
+            drive.turn(Math.toRadians(-30));
             return "left";
         }
-        telemetry.update();
-        drive.turn(Math.toRadians(-70));
-        if (getRecognition(label)){
-            drive.turn(Math.toRadians(35));
-            return "right";
-        }
-        drive.turn(Math.toRadians(35));
-        return "center"; //no detection, probably center
+        drive.turn(Math.toRadians(-30));
+        return "right"; //not center or left, probably right
     }
 
     public void initTfod() {
@@ -123,9 +127,11 @@ public class lookForProp extends LinearOpMode {
     public boolean getRecognition(String label){
 
         double currTime = getRuntime();
-        double waitTime = currTime + (double)(1.5); //number is in seconds
+        double waitTime = currTime + (double)(1); //number is in seconds
         while (getRuntime() < waitTime && opModeIsActive()){
             List<Recognition> currentRecognitions = tfod.getRecognitions();
+            telemetry.addData("Current Recognitions", currentRecognitions);
+            telemetry.update();
             for (Recognition recognition : currentRecognitions) {
                 if (Objects.equals(recognition.getLabel(), label)){
                     return true;
@@ -135,12 +141,14 @@ public class lookForProp extends LinearOpMode {
         return false;
     }
 
-    public void placePixel(org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive, Pose2d startPosition, DcMotor slideMotorL, DcMotor slideMotorR, Servo armTopServoL, Servo armTopServoR){
+    public void placePixel(org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive, Pose2d startPosition, DcMotor slideMotorL, DcMotor slideMotorR, Servo armTopServoL, Servo armTopServoR, String direction){
+        org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence strafeToSide;
         org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence pixelForward = drive.trajectorySequenceBuilder(startPosition)
-                .waitSeconds(1)
+                .waitSeconds(.5)
                 .forward(6.25)
-                .waitSeconds(2)
-                .back (4.25)
+                .waitSeconds(.5)
+                .back (5.25)
+                .waitSeconds(1)
                 .build();
 
         slideMotorR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -161,6 +169,24 @@ public class lookForProp extends LinearOpMode {
         slideMotorR.setTargetPosition(200);
 
         drive.followTrajectorySequence(pixelForward);
+
+        armTopServoL.setPosition(0);
+        armTopServoR.setPosition(0);
+
+        slideMotorL.setTargetPosition(0);
+        slideMotorR.setTargetPosition(0);
+
+        if (Objects.equals(direction, "blue")) {
+            strafeToSide = drive.trajectorySequenceBuilder(pixelForward.end())
+                    .lineToConstantHeading(new Vector2d(pixelForward.end().getX(),58.63))
+                    .build();
+        } else {
+            strafeToSide = drive.trajectorySequenceBuilder(pixelForward.end())
+                    .lineToConstantHeading(new Vector2d(pixelForward.end().getX(),-58.63))
+                    .build();
+        }
+
+        drive.followTrajectorySequence(strafeToSide);
     }
 }
 

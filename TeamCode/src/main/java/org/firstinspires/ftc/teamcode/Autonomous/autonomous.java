@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Autonomous.autoExample;
 
 @Autonomous(name="Auton", group = "Autonomous")
+@Disabled
 public class autonomous extends autoExample {
     @Override
     public void runOpMode() throws InterruptedException {

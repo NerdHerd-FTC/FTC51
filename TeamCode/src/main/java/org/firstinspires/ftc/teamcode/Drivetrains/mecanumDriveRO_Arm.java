@@ -40,7 +40,10 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
         Servo armTopServoL = hardwareMap.servo.get("armTopServoL");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         Servo droneServo = hardwareMap.servo.get("droneServo");
-        Servo intakeServo = hardwareMap.servo.get("intakeServo");
+        Servo intakeServoR = hardwareMap.servo.get("intakeServoR");
+        Servo intakeServoM = hardwareMap.servo.get("intakeServoM");
+        Servo intakeServoL = hardwareMap.servo.get("intakeServoL");
+
 
         // fix drivetrain motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -52,6 +55,9 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
         slideMotorL.setDirection(DcMotorSimple.Direction.FORWARD);
         armTopServoR.setDirection(Servo.Direction.REVERSE);
         armTopServoL.setDirection(Servo.Direction.FORWARD);
+        intakeServoL.setDirection(Servo.Direction.REVERSE);
+        intakeServoR.setDirection(Servo.Direction.FORWARD);
+        intakeServoM.setDirection(Servo.Direction.FORWARD);
         intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // tell motors to brake when not active
@@ -76,7 +82,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
         brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        droneServo.setPosition(.68);
+        droneServo.setPosition(.7);
 
         boolean slowMode = false;
         boolean slowModePressed = false;
@@ -118,7 +124,7 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
             } else {slowModePressed=false;}
 
             driveControl.mecanumDrive(flMotor,frMotor,blMotor,brMotor,strafe_speed,(slowMode) ? .5 : 1,gamepad1);
-            String armTelemetry = armControl.armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,intakeServo,gamepad1,gamepad2);
+            String armTelemetry = armControl.armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,intakeServoL, intakeServoM, intakeServoR,gamepad1,gamepad2);
 
             telemetry.addLine(armTelemetry);
             telemetry.addData("Slowmode enabled",slowMode);

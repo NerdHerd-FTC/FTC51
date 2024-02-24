@@ -42,7 +42,10 @@ public class mecanumDriveRO_Arm_1p extends LinearOpMode{
         Servo armTopServoL = hardwareMap.servo.get("armTopServoL");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         Servo droneServo = hardwareMap.servo.get("droneServo");
-        Servo intakeServo = hardwareMap.servo.get("intakeServo");
+        Servo intakeServoR = hardwareMap.servo.get("intakeServoR");
+        Servo intakeServoM = hardwareMap.servo.get("intakeServoM");
+        Servo intakeServoL = hardwareMap.servo.get("intakeServoL");
+
 
         // fix drivetrain motor directions
         frMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -54,7 +57,11 @@ public class mecanumDriveRO_Arm_1p extends LinearOpMode{
         slideMotorL.setDirection(DcMotorSimple.Direction.FORWARD);
         armTopServoR.setDirection(Servo.Direction.REVERSE);
         armTopServoL.setDirection(Servo.Direction.FORWARD);
+        intakeServoL.setDirection(Servo.Direction.REVERSE);
+        intakeServoR.setDirection(Servo.Direction.FORWARD);
+        intakeServoM.setDirection(Servo.Direction.FORWARD);
         intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
 
         // tell motors to brake when not active
         slideMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -109,7 +116,7 @@ public class mecanumDriveRO_Arm_1p extends LinearOpMode{
         ElapsedTime timer = new ElapsedTime();
         while (opModeIsActive()) {
             driveControl.mecanumDrive(flMotor,frMotor,blMotor,brMotor,strafe_speed,gamepad1);
-            armControl.armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,intakeServo,gamepad1,gamepad1);
+            armControl.armControls(slideMotorR,slideMotorL,armTopServoR,armTopServoL,intakeMotor,droneServo,intakeServoL, intakeServoM, intakeServoR,gamepad1,gamepad1);
 
             telemetry.addData("Timer","%.2f", timer.time());
             telemetry.addData("Gamepad 1 Status:",gamepad1.toString());

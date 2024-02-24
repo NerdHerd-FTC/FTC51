@@ -22,11 +22,19 @@ public class armControls extends LinearOpMode {
     double servoReleasePosition=.23;
     double servoLoadPosition=0;
 
-    double intakeServoLeft = 0;
-    double intakeServoCenter = 0.5;
-    double intakeServoRight = 1;
+    double intakeServoUp = 0;
+    double intakeServoDown = 0.5;
+    double intakeServoMUp = 0;
+    double intakeServoMDown = 0.5;
 
-    public String armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServo, Gamepad gamepad1, Gamepad gamepad2) {
+    boolean intakeLUp = false;
+    boolean intakeLButton = false;
+    boolean intakeMUp = false;
+    boolean intakeMButton = false;
+    boolean intakeRUp = false;
+    boolean intakeRButton = false;
+
+    public String armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServoL, Servo intakeServoM, Servo intakeServoR, Gamepad gamepad1, Gamepad gamepad2) {
         String currentTelemetry = "";
 
         //triggers for arm extending
@@ -37,24 +45,24 @@ public class armControls extends LinearOpMode {
             if (!directionButtonPressed) {
                 direction = -direction;
                 intakeMotor.setPower(intakeMotor.getPower() * -1);
-                directionButtonPressed=true;
+                directionButtonPressed = true;
             }
         } else {
-            directionButtonPressed=false;
+            directionButtonPressed = false;
         }
         if (gamepad1.a) { // Toggle intake motor on/off
             if (!intakeButtonPressed) {
-                intakeMotor.setPower((1 - Math.abs(intakeMotor.getPower()))*direction);
+                intakeMotor.setPower((1 - Math.abs(intakeMotor.getPower())) * direction);
                 intakeButtonPressed = true;
             }
         } else {
             intakeButtonPressed = false;
         }
-        currentTelemetry+= "Intake power : "+ Math.abs(intakeMotor.getPower());
-        currentTelemetry+= "\nIntake direction : " + ((direction==-1) ? "Forward" : "Backward");
+        currentTelemetry += "Intake power : " + Math.abs(intakeMotor.getPower());
+        currentTelemetry += "\nIntake direction : " + ((direction == -1) ? "Forward" : "Backward");
 
         //Servos are 0-1 with a range of 300 degrees
-        if (gamepad2.right_bumper){
+        if (gamepad2.right_bumper) {
             armTopServoR.setPosition(servoReleasePosition);
             armTopServoL.setPosition(servoReleasePosition);
         } else if (gamepad2.left_bumper) {
@@ -62,20 +70,54 @@ public class armControls extends LinearOpMode {
             armTopServoL.setPosition(servoLoadPosition);
         }
 
-        currentTelemetry+= "\nServo Position: "+ armTopServoR.getPosition();
+        currentTelemetry += "\nServo Position: " + armTopServoR.getPosition();
 
-//        if (gamepad1.right_bumper && !gamepad1.left_bumper){
-//            intakeServo.setPosition(intakeServoLeft);
-//        } else if (gamepad1.left_bumper && !gamepad1.right_bumper){
-//            intakeServo.setPosition(intakeServoRight);
+        if (gamepad1.right_bumper){
+            if (!intakeLButton){
+                intakeLUp = !intakeLUp;
+                if (intakeLUp) {
+                    intakeServoL.setPosition(intakeServoUp);
+                } else {
+                    intakeServoL.setPosition(intakeServoDown);
+                }
+            }
+            intakeLButton = true;
+        } else {
+            intakeLButton = false;
+        }
+
+//        if (gamepad1.x){
+//            if (!intakeMButton){
+//                intakeMUp = !intakeMUp;
+//                if (intakeMUp) {
+//                    intakeServoM.setPosition(intakeServoMUp);
+//                } else {
+//                    intakeServoM.setPosition(intakeServoMDown);
+//                }
+//            }
+//            intakeMButton = true;
 //        } else {
-//            intakeServo.setPosition(intakeServoCenter);
+//            intakeMButton = false;
 //        }
-//        currentTelemetry+= "\nIntake servo position: " + intakeServo.getPosition();
+
+
+        if (gamepad1.left_bumper){
+            if (!intakeRButton){
+                intakeRUp = !intakeRUp;
+                if (intakeRUp) {
+                    intakeServoR.setPosition(intakeServoUp);
+                } else {
+                    intakeServoR.setPosition(intakeServoDown);
+                }
+            }
+            intakeRButton = true;
+        } else {
+            intakeRButton = false;
+        }
 
         //moves the drone servo to the launch position
         if (gamepad1.back) {
-            droneServo.setPosition(1);
+            droneServo.setPosition(.3);
             droneLaunched=true;
         }
         currentTelemetry+= "\nDrone Launched"+ droneLaunched;
