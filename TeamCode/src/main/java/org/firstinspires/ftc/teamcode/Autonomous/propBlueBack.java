@@ -57,7 +57,7 @@ public class propBlueBack extends lookForProp{
 
         drive.followTrajectorySequence(forward1);
 
-        String recognition = findProp(drive,"red"); //TODO: Change this back later.
+        String recognition = findProp(drive,"blue");
 
         if (Objects.equals(recognition, "left")){
             drive.followTrajectorySequence(left);
@@ -75,16 +75,17 @@ public class propBlueBack extends lookForProp{
         telemetry.update();
 
         Trajectory back = drive.trajectoryBuilder(spikeEndLocation)
-                .back(4)
+                .back(5)
                 .build();
 
         TrajectorySequence returnToPosition = drive.trajectorySequenceBuilder(back.end())
                 .lineToLinearHeading(new Pose2d(12,38.68,Math.toRadians(-90)))
                 .lineToConstantHeading(new Vector2d(12,52.93))
+                .strafeLeft(24)
                 .build();
 
         TrajectorySequence leftBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
-                .splineTo(new Vector2d(45.19, 42.7), Math.toRadians(0.00))
+                .splineTo(new Vector2d(45.19, 41.7), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence centerBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
@@ -92,7 +93,7 @@ public class propBlueBack extends lookForProp{
                 .build();
 
         TrajectorySequence rightBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
-                .splineTo(new Vector2d(45.19, 34.05), Math.toRadians(0.00))
+                .splineTo(new Vector2d(45.19, 32.05), Math.toRadians(0.00))
                 .build();
 
 
@@ -111,6 +112,6 @@ public class propBlueBack extends lookForProp{
             spikeEndLocation = rightBackdrop.end();
         }
 
-        placePixel(drive,spikeEndLocation,slideMotorL,slideMotorR,armTopServoL,armTopServoR,"blue");
+        placePixel(drive,spikeEndLocation,slideMotorL,slideMotorR,armTopServoL,armTopServoR,"blueB");
     }
 }

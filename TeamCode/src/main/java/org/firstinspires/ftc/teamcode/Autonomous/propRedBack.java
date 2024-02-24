@@ -52,7 +52,7 @@ public class propRedBack extends lookForProp{
 
         TrajectorySequence left = drive.trajectorySequenceBuilder(forward1.end())
                 .lineToConstantHeading(new Vector2d(11.23, -36.68), slowedVelConst, slowedAccConst)
-                .lineToLinearHeading(new Pose2d(5.39, -36.68,Math.toRadians(110)))
+                .lineToLinearHeading(new Pose2d(6.39, -36.68,Math.toRadians(110)))
                 .build();
 
         drive.followTrajectorySequence(forward1);
@@ -72,19 +72,21 @@ public class propRedBack extends lookForProp{
 
         telemetry.addLine("Spike End Location X:"+spikeEndLocation.getX());
         telemetry.addLine("Spike End Location Y:"+spikeEndLocation.getY());
+        telemetry.addLine("yersy");
         telemetry.update();
 
         Trajectory back = drive.trajectoryBuilder(spikeEndLocation)
-                .back(4)
+                .back(5)
                 .build();
 
         TrajectorySequence returnToPosition = drive.trajectorySequenceBuilder(back.end())
                 .lineToLinearHeading(new Pose2d(12,-38.68,Math.toRadians(90)))
                 .lineToConstantHeading(new Vector2d(12,-52.93))
+                .strafeRight(24)
                 .build();
 
         TrajectorySequence rightBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
-                .splineTo(new Vector2d(45.19, -42.7), Math.toRadians(0.00))
+                .splineTo(new Vector2d(45.19, -41.95), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence centerBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
@@ -111,6 +113,6 @@ public class propRedBack extends lookForProp{
             spikeEndLocation = rightBackdrop.end();
         }
 
-        placePixel(drive,spikeEndLocation,slideMotorL,slideMotorR,armTopServoL,armTopServoR,"red");
+        placePixel(drive,spikeEndLocation,slideMotorL,slideMotorR,armTopServoL,armTopServoR,"redB");
     }
 }

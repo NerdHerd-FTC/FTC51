@@ -156,17 +156,20 @@ public class lookForProp extends LinearOpMode {
         armTopServoR.setDirection(Servo.Direction.REVERSE);
         armTopServoL.setDirection(Servo.Direction.FORWARD);
 
+        slideMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         slideMotorL.setPower(1);
         slideMotorR.setPower(1);
+
+        slideMotorL.setTargetPosition(150);
+        slideMotorR.setTargetPosition(150);
 
         slideMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slideMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         armTopServoL.setPosition(.23);
         armTopServoR.setPosition(.23);
-
-        slideMotorL.setTargetPosition(200);
-        slideMotorR.setTargetPosition(200);
 
         drive.followTrajectorySequence(pixelForward);
 
@@ -176,13 +179,21 @@ public class lookForProp extends LinearOpMode {
         slideMotorL.setTargetPosition(0);
         slideMotorR.setTargetPosition(0);
 
-        if (Objects.equals(direction, "blue")) {
+        if (Objects.equals(direction, "blueB")) {
             strafeToSide = drive.trajectorySequenceBuilder(pixelForward.end())
                     .lineToConstantHeading(new Vector2d(pixelForward.end().getX(),58.63))
                     .build();
-        } else {
+        } else if (Objects.equals(direction, "redB")){
             strafeToSide = drive.trajectorySequenceBuilder(pixelForward.end())
                     .lineToConstantHeading(new Vector2d(pixelForward.end().getX(),-58.63))
+                    .build();
+        } else if (Objects.equals (direction, "blueF")){
+            strafeToSide = drive.trajectorySequenceBuilder(pixelForward.end())
+                    .lineToConstantHeading(new Vector2d(pixelForward.end().getX(),12))
+                    .build();
+        } else{
+            strafeToSide = drive.trajectorySequenceBuilder(pixelForward.end())
+                    .lineToConstantHeading(new Vector2d(pixelForward.end().getX(),-12))
                     .build();
         }
 

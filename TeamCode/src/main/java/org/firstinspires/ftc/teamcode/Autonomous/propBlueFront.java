@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import java.util.Objects;
@@ -52,12 +53,12 @@ public class propBlueFront extends lookForProp{
 
         TrajectorySequence left = drive.trajectorySequenceBuilder(forward1.end())
                 .lineToConstantHeading(new Vector2d(-35.23, 36.68), slowedVelConst, slowedAccConst)
-                .lineToLinearHeading(new Pose2d(-33.8, 36.68,Math.toRadians(-55)))
+                .lineToLinearHeading(new Pose2d(-33.8, 36.68,Math.toRadians(-55)), slowedVelConst, slowedAccConst)
                 .build();
 
         drive.followTrajectorySequence(forward1);
 
-        String recognition = findProp(drive,"red"); //TODO: Change this back later.
+        String recognition = findProp(drive,"blue");
 
         if (Objects.equals(recognition, "left")){
             drive.followTrajectorySequence(left);
@@ -75,7 +76,7 @@ public class propBlueFront extends lookForProp{
         telemetry.update();
 
         Trajectory back = drive.trajectoryBuilder(spikeEndLocation)
-                .back(4)
+                .back(5)
                 .build();
 
         TrajectorySequence returnToPosition = drive.trajectorySequenceBuilder(back.end())
@@ -104,7 +105,7 @@ public class propBlueFront extends lookForProp{
 
 
         TrajectorySequence leftBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
-                .splineToConstantHeading(new Vector2d(45.19, 42.2), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(45.19, 40.2), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence centerBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
@@ -132,6 +133,6 @@ public class propBlueFront extends lookForProp{
             spikeEndLocation = rightBackdrop.end();
         }
 
-        placePixel(drive,spikeEndLocation,slideMotorL,slideMotorR,armTopServoL,armTopServoR,"blue");
+        placePixel(drive,spikeEndLocation,slideMotorL,slideMotorR,armTopServoL,armTopServoR,"blueF");
     }
 }

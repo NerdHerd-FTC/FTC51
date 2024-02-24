@@ -76,7 +76,7 @@ public class propRedFront extends lookForProp{
         telemetry.update();
 
         Trajectory back = drive.trajectoryBuilder(spikeEndLocation)
-                .back(4)
+                .back(5)
                 .build();
 
         TrajectorySequence returnToPosition = drive.trajectorySequenceBuilder(back.end())
@@ -105,7 +105,7 @@ public class propRedFront extends lookForProp{
 
 
         TrajectorySequence rightBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
-                .splineToConstantHeading(new Vector2d(45.19, -37.2), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(45.19, -36.35), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence centerBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
@@ -133,6 +133,6 @@ public class propRedFront extends lookForProp{
             spikeEndLocation = rightBackdrop.end();
         }
 
-        placePixel(drive,spikeEndLocation,slideMotorL,slideMotorR,armTopServoL,armTopServoR,"red");
+        placePixel(drive,spikeEndLocation,slideMotorL,slideMotorR,armTopServoL,armTopServoR,"redF");
     }
 }
