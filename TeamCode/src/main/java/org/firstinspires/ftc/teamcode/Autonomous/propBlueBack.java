@@ -16,6 +16,8 @@ import java.util.Objects;
 public class propBlueBack extends lookForProp{
     @Override
     public void runOpMode() {
+        int WAIT_TIME = 0; //time to wait after starting, in ms.
+
         org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive = new org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive(hardwareMap);
 
         DcMotor slideMotorR = hardwareMap.dcMotor.get("motorSlideR");
@@ -32,6 +34,8 @@ public class propBlueBack extends lookForProp{
         telemetry.update();
 
         waitForStart();
+
+        sleep(WAIT_TIME);
 
         //the robot is 8.775 in to its center from the front.
         //7.65 in from the side
