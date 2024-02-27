@@ -27,13 +27,6 @@ public class armControls extends LinearOpMode {
     double intakeServoMUp = 0;
     double intakeServoMDown = 0.5;
 
-    boolean intakeLUp = false;
-    boolean intakeLButton = false;
-    boolean intakeMUp = false;
-    boolean intakeMButton = false;
-    boolean intakeRUp = false;
-    boolean intakeRButton = false;
-
     public String armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServoL, Servo intakeServoM, Servo intakeServoR, Gamepad gamepad1, Gamepad gamepad2) {
         String currentTelemetry = "";
 
@@ -73,49 +66,24 @@ public class armControls extends LinearOpMode {
         currentTelemetry += "\nArm Servo Position: " + armTopServoR.getPosition();
 
         if (gamepad1.right_bumper){
-            if (!intakeLButton){
-                intakeLUp = !intakeLUp;
-                if (intakeLUp) {
-                    intakeServoL.setPosition(intakeServoUp);
-                } else {
-                    intakeServoL.setPosition(intakeServoDown);
-                }
-            }
-            intakeLButton = true;
+            intakeServoL.setPosition(intakeServoDown);
         } else {
-            intakeLButton = false;
+            intakeServoL.setPosition(intakeServoUp);
         }
 
         currentTelemetry += "\nLeft Intake Servo Position: " + intakeServoL.getPosition();
 
-
 //        if (gamepad1.x){
-//            if (!intakeMButton){
-//                intakeMUp = !intakeMUp;
-//                if (intakeMUp) {
-//                    intakeServoM.setPosition(intakeServoMUp);
-//                } else {
-//                    intakeServoM.setPosition(intakeServoMDown);
-//                }
-//            }
-//            intakeMButton = true;
+//            intakeServoM.setPosition(intakeServoMDown);
 //        } else {
-//            intakeMButton = false;
+//            intakeServoM.setPosition(intakeServoMUp);
 //        }
 
 
         if (gamepad1.left_bumper){
-            if (!intakeRButton){
-                intakeRUp = !intakeRUp;
-                if (intakeRUp) {
-                    intakeServoR.setPosition(intakeServoUp);
-                } else {
-                    intakeServoR.setPosition(intakeServoDown);
-                }
-            }
-            intakeRButton = true;
+            intakeServoR.setPosition(intakeServoDown);
         } else {
-            intakeRButton = false;
+            intakeServoR.setPosition(intakeServoUp);
         }
 
         currentTelemetry += "\nRightIntake Servo Position: " + intakeServoR.getPosition();
