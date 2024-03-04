@@ -55,15 +55,18 @@ public class armControls extends LinearOpMode {
         currentTelemetry += "\nIntake direction : " + ((direction == -1) ? "Forward" : "Backward");
 
         //Servos are 0-1 with a range of 300 degrees
-        if (gamepad2.right_bumper) {
-            armTopServoR.setPosition(servoReleasePosition);
-            armTopServoL.setPosition(servoReleasePosition);
-        } else if (gamepad2.left_bumper) {
-            armTopServoR.setPosition(servoLoadPosition);
-            armTopServoL.setPosition(servoLoadPosition);
+        double currentBucketPosition = armTopServoR.getPosition();
+        //adds or subtracts 4.6% of the servo's range of motion
+        //4.6*5=23, which is the servo release position
+        if (gamepad2.right_bumper && currentBucketPosition < servoReleasePosition) {
+            armTopServoR.setPosition(currentBucketPosition + 0.046);
+            armTopServoL.setPosition(currentBucketPosition + 0.046);
+        } else if (gamepad2.left_bumper && currentBucketPosition > servoLoadPosition) {
+            armTopServoR.setPosition(currentBucketPosition - 0.046);
+            armTopServoL.setPosition(currentBucketPosition - 0.046);
         }
 
-        currentTelemetry += "\nArm Servo Position: " + armTopServoR.getPosition();
+        currentTelemetry += "\nArm Servo Position: " + currentBucketPosition;
 
         if (gamepad1.right_bumper){
             intakeServoL.setPosition(intakeServoDown);
