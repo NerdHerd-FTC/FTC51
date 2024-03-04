@@ -19,8 +19,11 @@ public class armControls extends LinearOpMode {
     double gravityOffset=0.0005;
 
     //0-1 with 0 being 0 degrees and 1 being about 300 degrees
+    public static double servoLimitPosition =.25;
     public static double servoReleasePosition=.23;
     public static double servoLoadPosition=0;
+    //the denominator determines how many presses are needed to reach the release position.
+    public static double servoStepAmount = servoReleasePosition / 3;
 
     double intakeServoUp = 0.5;
     double intakeServoDown = 0;
@@ -56,14 +59,13 @@ public class armControls extends LinearOpMode {
 
         //Servos are 0-1 with a range of 300 degrees
         double currentBucketPosition = armTopServoR.getPosition();
-        //adds or subtracts 4.6% of the servo's range of motion
-        //4.6*5=23, which is the servo release position
-        if (gamepad2.right_bumper && currentBucketPosition < servoReleasePosition) {
-            armTopServoR.setPosition(currentBucketPosition + 0.046);
-            armTopServoL.setPosition(currentBucketPosition + 0.046);
+
+        if (gamepad2.right_bumper && currentBucketPosition < servoLimitPosition) {
+            armTopServoR.setPosition(currentBucketPosition + (servoStepAmount));
+            armTopServoL.setPosition(currentBucketPosition + (servoStepAmount));
         } else if (gamepad2.left_bumper && currentBucketPosition > servoLoadPosition) {
-            armTopServoR.setPosition(currentBucketPosition - 0.046);
-            armTopServoL.setPosition(currentBucketPosition - 0.046);
+            armTopServoR.setPosition(currentBucketPosition - (servoStepAmount));
+            armTopServoL.setPosition(currentBucketPosition - (servoStepAmount));
         }
 
         currentTelemetry += "\nArm Servo Position: " + currentBucketPosition;
