@@ -95,7 +95,7 @@ public class armControls extends LinearOpMode {
         }
         currentTelemetry+= "\nDrone Launched"+ droneLaunched;
 
-        if (rTrigger>0 && (slideMotorR.getCurrentPosition()+rTrigger-lTrigger<1300 || slideMotorL.getCurrentPosition()+rTrigger-lTrigger<1400)){ // detect if upwards movement will go over
+        if (rTrigger>0 && (slideMotorR.getCurrentPosition()+rTrigger-lTrigger<2200 || slideMotorL.getCurrentPosition()+rTrigger-lTrigger<1400)){ // detect if upwards movement will go over
             slideMotorR.setPower(rTrigger-lTrigger+gravityOffset); // move slide motor
             slideMotorL.setPower(rTrigger-lTrigger+gravityOffset);
         } else if (lTrigger>0 && (slideMotorR.getCurrentPosition()-lTrigger>0 || slideMotorL.getCurrentPosition()-lTrigger>0)){
