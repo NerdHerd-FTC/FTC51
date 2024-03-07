@@ -21,11 +21,10 @@ public class armControls extends LinearOpMode {
     double gravityOffset=0.0005;
 
     //0-1 with 0 being 0 degrees and 1 being about 300 degrees
-    public static double servoLimitPosition =.25;
-    public static double servoReleasePosition=.23;
+    public static double servoLimitPosition = (double) 5 /7.5;
     public static double servoLoadPosition=0;
     //the denominator determines how many presses are needed to reach the release position.
-    public static double servoStepAmount = servoReleasePosition / 3;
+    public static double servoStepAmount = (double) 1 /7.5;
 
     double intakeServoUp = 0.5;
     double intakeServoDown = 0;
