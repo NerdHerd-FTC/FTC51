@@ -15,12 +15,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Const;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.WhiteBalanceControl;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,9 +36,12 @@ public class lookForProp extends LinearOpMode {
     };
     private TfodProcessor tfod;
     private VisionPortal visionPortal;
+    //TODO: Change this before comp.
+    // Fiddle with this until both props are recognized.
+    private static int whiteBalance = 5000;
 
-    public TrajectoryVelocityConstraint slowedVelConst = org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocityConstraint(13, org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_VEL, org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH);
-    public TrajectoryAccelerationConstraint slowedAccConst = SampleMecanumDrive.getAccelerationConstraint(20);
+    public TrajectoryVelocityConstraint slowedVelConst = org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocityConstraint(10, org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_VEL, org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH);
+    public TrajectoryAccelerationConstraint slowedAccConst = SampleMecanumDrive.getAccelerationConstraint(19);
     @Override
     public void runOpMode() {
         org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive = new org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive(hardwareMap);
@@ -73,6 +78,43 @@ public class lookForProp extends LinearOpMode {
     }
 
     public void initTfod() {
+        CameraName webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+        WhiteBalanceControl whiteBalanceControl = new WhiteBalanceControl() {
+            @Override
+            public Mode getMode() {
+                return null;
+            }
+
+            @Override
+            public boolean setMode(Mode mode) {
+                return false;
+            }
+
+            @Override
+            public int getMinWhiteBalanceTemperature() {
+                return 0;
+            }
+
+            @Override
+            public int getMaxWhiteBalanceTemperature() {
+                return 0;
+            }
+
+            @Override
+            public int getWhiteBalanceTemperature() {
+                return 0;
+            }
+
+            @Override
+            public boolean setWhiteBalanceTemperature(int temperature) {
+                return false;
+            }
+        };
+
+        whiteBalanceControl.setMode(WhiteBalanceControl.Mode.MANUAL);
+
+        whiteBalanceControl.setWhiteBalanceTemperature(whiteBalance);
 
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
@@ -94,7 +136,7 @@ public class lookForProp extends LinearOpMode {
         VisionPortal.Builder builder = new VisionPortal.Builder();
 
         // Set the camera (webcam vs. built-in RC phone camera).
-        builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        builder.setCamera(webcam);
 
         // Choose a camera resolution. Not all cameras support all resolutions.
         builder.setCameraResolution(new Size(640, 480));
@@ -162,14 +204,14 @@ public class lookForProp extends LinearOpMode {
         slideMotorL.setPower(1);
         slideMotorR.setPower(1);
 
-        slideMotorL.setTargetPosition(150);
-        slideMotorR.setTargetPosition(150);
+        slideMotorL.setTargetPosition(200);
+        slideMotorR.setTargetPosition(200);
 
         slideMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slideMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        armTopServoL.setPosition(.23);
-        armTopServoR.setPosition(.23);
+        armTopServoL.setPosition((double) 2 /7.5);
+        armTopServoR.setPosition((double) 2 /7.5);
 
         drive.followTrajectorySequence(pixelForward);
 
