@@ -16,6 +16,8 @@ import java.util.Objects;
 public class propRedBack extends lookForProp{
     @Override
     public void runOpMode() {
+        int WAIT_TIME = 0; //time to wait after starting, in ms.
+
         org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive = new org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive(hardwareMap);
 
         DcMotor slideMotorR = hardwareMap.dcMotor.get("motorSlideR");
@@ -32,6 +34,8 @@ public class propRedBack extends lookForProp{
         telemetry.update();
 
         waitForStart();
+
+        sleep(WAIT_TIME);
 
         //the robot is 8.775 in to its center from the front.
         //7.65 in from the side
@@ -80,21 +84,21 @@ public class propRedBack extends lookForProp{
                 .build();
 
         TrajectorySequence returnToPosition = drive.trajectorySequenceBuilder(back.end())
-                .lineToLinearHeading(new Pose2d(12,-38.68,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(12,-41.68,Math.toRadians(90)))
                 .lineToConstantHeading(new Vector2d(12,-52.93))
                 .strafeRight(24)
                 .build();
 
         TrajectorySequence rightBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
-                .splineTo(new Vector2d(45.19, -41.95), Math.toRadians(0.00))
+                .splineTo(new Vector2d(43.7, -41.95), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence centerBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
-                .splineTo(new Vector2d(45.19, -39.04), Math.toRadians(0.00))
+                .splineTo(new Vector2d(43.7, -39.04), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence leftBackdrop = drive.trajectorySequenceBuilder(returnToPosition.end())
-                .splineTo(new Vector2d(45.19, -33.05), Math.toRadians(0.00))
+                .splineTo(new Vector2d(43.7, -33.05), Math.toRadians(0.00))
                 .build();
 
 

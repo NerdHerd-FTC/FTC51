@@ -38,12 +38,6 @@ public class mecanumDriveRO extends LinearOpMode {
         double stickX = gamepad1.left_stick_x*forward_speed*strafe_speed;
         double rStickX = gamepad1.right_stick_x*forward_speed;
 
-        // this is kinda stupid and i think the button should just slow the controls
-        // i dont think it should move the robot
-        if (gamepad1.dpad_up){
-            stickY = stickY + .25;
-        }
-
         // get denominator
         double denominator = Math.max(Math.abs(stickX) + Math.abs(stickY) + Math.abs(rStickX), 1);
         // denominator ensures ratios are maintained, because the motors only go from 0-1

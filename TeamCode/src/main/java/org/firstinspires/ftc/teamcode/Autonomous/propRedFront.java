@@ -16,6 +16,8 @@ import java.util.Objects;
 public class propRedFront extends lookForProp{
     @Override
     public void runOpMode() {
+        int WAIT_TIME = 0; //time to wait after starting, in ms.
+
         org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive drive = new org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive(hardwareMap);
 
         DcMotor slideMotorR = hardwareMap.dcMotor.get("motorSlideR");
@@ -33,6 +35,8 @@ public class propRedFront extends lookForProp{
         telemetry.update();
 
         waitForStart();
+
+        sleep(WAIT_TIME);
 
         //the robot is 8.775 in to its center from the front.
         //7.65 in from the side
@@ -73,6 +77,7 @@ public class propRedFront extends lookForProp{
 
         telemetry.addLine("Spike End Location X:"+spikeEndLocation.getX());
         telemetry.addLine("Spike End Location Y:"+spikeEndLocation.getY());
+        telemetry.addLine("due4nes whers my $dollare");
         telemetry.update();
 
         Trajectory back = drive.trajectoryBuilder(spikeEndLocation)
@@ -80,7 +85,7 @@ public class propRedFront extends lookForProp{
                 .build();
 
         TrajectorySequence returnToPosition = drive.trajectorySequenceBuilder(back.end())
-                .lineToLinearHeading(new Pose2d(-36,-38.68,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-36,-41.68,Math.toRadians(90)))
                 .build();
 
         throughDoor = drive.trajectorySequenceBuilder(returnToPosition.end())
@@ -105,15 +110,15 @@ public class propRedFront extends lookForProp{
 
 
         TrajectorySequence rightBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
-                .splineToConstantHeading(new Vector2d(45.19, -36.35), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(43.7, -41.95), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence centerBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
-                .splineToConstantHeading(new Vector2d(45.19, -37.04), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(43.7, -39.04), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence leftBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
-                .splineToConstantHeading(new Vector2d(45.19, -28.05), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(43.7, -33.05), Math.toRadians(0.00))
                 .build();
 
 

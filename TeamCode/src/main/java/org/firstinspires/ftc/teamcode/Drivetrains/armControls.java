@@ -13,26 +13,23 @@ public class armControls extends LinearOpMode {
     private boolean droneLaunched = false;
     private boolean intakeButtonPressed = false;
     private boolean directionButtonPressed = false;
+    private boolean bucketDownButtonPressed = false;
+    private boolean bucketUpButtonPressed = false;
     int direction = -1;
 
     // initialize variables
     double gravityOffset=0.0005;
 
     //0-1 with 0 being 0 degrees and 1 being about 300 degrees
-    public static double servoReleasePosition=.23;
+    public static double servoLimitPosition = (double) 5 /7.5;
     public static double servoLoadPosition=0;
+    //the denominator determines how many presses are needed to reach the release position.
+    public static double servoStepAmount = (double) 1 /7.5;
 
     double intakeServoUp = 0.5;
     double intakeServoDown = 0;
     double intakeServoMUp = 0;
     double intakeServoMDown = 0.5;
-
-    boolean intakeLUp = false;
-    boolean intakeLButton = false;
-    boolean intakeMUp = false;
-    boolean intakeMButton = false;
-    boolean intakeRUp = false;
-    boolean intakeRButton = false;
 
     public String armControls(DcMotor slideMotorR, DcMotor slideMotorL, Servo armTopServoR, Servo armTopServoL, DcMotor intakeMotor, Servo droneServo, Servo intakeServoL, Servo intakeServoM, Servo intakeServoR, Gamepad gamepad1, Gamepad gamepad2) {
         String currentTelemetry = "";
@@ -62,72 +59,61 @@ public class armControls extends LinearOpMode {
         currentTelemetry += "\nIntake direction : " + ((direction == -1) ? "Forward" : "Backward");
 
         //Servos are 0-1 with a range of 300 degrees
+        double currentBucketPosition = armTopServoR.getPosition();
+
         if (gamepad2.right_bumper) {
-            armTopServoR.setPosition(servoReleasePosition);
-            armTopServoL.setPosition(servoReleasePosition);
-        } else if (gamepad2.left_bumper) {
-            armTopServoR.setPosition(servoLoadPosition);
-            armTopServoL.setPosition(servoLoadPosition);
+            if (currentBucketPosition < servoLimitPosition && !bucketUpButtonPressed) {
+                armTopServoR.setPosition(currentBucketPosition + (servoStepAmount));
+                armTopServoL.setPosition(currentBucketPosition + (servoStepAmount));
+            }
+            bucketUpButtonPressed = true;
+        } else {
+            bucketUpButtonPressed = false;
         }
 
-        currentTelemetry += "\nArm Servo Position: " + armTopServoR.getPosition();
+        if (gamepad2.left_bumper) {
+            if (currentBucketPosition > servoLoadPosition && !bucketDownButtonPressed) {
+                armTopServoR.setPosition(currentBucketPosition - (servoStepAmount));
+                armTopServoL.setPosition(currentBucketPosition - (servoStepAmount));
+            }
+            bucketDownButtonPressed = true;
+        } else {
+            bucketDownButtonPressed = false;
+        }
+
+        currentTelemetry += "\nArm Servo Position: " + currentBucketPosition;
 
         if (gamepad1.right_bumper){
-            if (!intakeLButton){
-                intakeLUp = !intakeLUp;
-                if (intakeLUp) {
-                    intakeServoL.setPosition(intakeServoUp);
-                } else {
-                    intakeServoL.setPosition(intakeServoDown);
-                }
-            }
-            intakeLButton = true;
+            intakeServoL.setPosition(intakeServoDown);
         } else {
-            intakeLButton = false;
+            intakeServoL.setPosition(intakeServoUp);
         }
 
         currentTelemetry += "\nLeft Intake Servo Position: " + intakeServoL.getPosition();
 
-
 //        if (gamepad1.x){
-//            if (!intakeMButton){
-//                intakeMUp = !intakeMUp;
-//                if (intakeMUp) {
-//                    intakeServoM.setPosition(intakeServoMUp);
-//                } else {
-//                    intakeServoM.setPosition(intakeServoMDown);
-//                }
-//            }
-//            intakeMButton = true;
+//            intakeServoM.setPosition(intakeServoMDown);
 //        } else {
-//            intakeMButton = false;
+//            intakeServoM.setPosition(intakeServoMUp);
 //        }
 
 
         if (gamepad1.left_bumper){
-            if (!intakeRButton){
-                intakeRUp = !intakeRUp;
-                if (intakeRUp) {
-                    intakeServoR.setPosition(intakeServoUp);
-                } else {
-                    intakeServoR.setPosition(intakeServoDown);
-                }
-            }
-            intakeRButton = true;
+            intakeServoR.setPosition(intakeServoDown);
         } else {
-            intakeRButton = false;
+            intakeServoR.setPosition(intakeServoUp);
         }
 
         currentTelemetry += "\nRightIntake Servo Position: " + intakeServoR.getPosition();
 
         //moves the drone servo to the launch position
         if (gamepad1.back) {
-            droneServo.setPosition(1);
+            droneServo.setPosition(.6);
             droneLaunched=true;
         }
         currentTelemetry+= "\nDrone Launched"+ droneLaunched;
 
-        if (rTrigger>0 && (slideMotorR.getCurrentPosition()+rTrigger-lTrigger<1300 || slideMotorL.getCurrentPosition()+rTrigger-lTrigger<1400)){ // detect if upwards movement will go over
+        if (rTrigger>0 && (slideMotorR.getCurrentPosition()+rTrigger-lTrigger<2200 || slideMotorL.getCurrentPosition()+rTrigger-lTrigger<1400)){ // detect if upwards movement will go over
             slideMotorR.setPower(rTrigger-lTrigger+gravityOffset); // move slide motor
             slideMotorL.setPower(rTrigger-lTrigger+gravityOffset);
         } else if (lTrigger>0 && (slideMotorR.getCurrentPosition()-lTrigger>0 || slideMotorL.getCurrentPosition()-lTrigger>0)){
