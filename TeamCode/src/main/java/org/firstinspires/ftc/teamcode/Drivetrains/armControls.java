@@ -13,14 +13,18 @@ public class armControls extends LinearOpMode {
     private boolean droneLaunched = false;
     private boolean intakeButtonPressed = false;
     private boolean directionButtonPressed = false;
+    private boolean bucketDownButtonPressed = false;
+    private boolean bucketUpButtonPressed = false;
     int direction = -1;
 
     // initialize variables
     double gravityOffset=0.0005;
 
     //0-1 with 0 being 0 degrees and 1 being about 300 degrees
-    public static double servoReleasePosition=.23;
+    public static double servoLimitPosition = (double) 5 /7.5;
     public static double servoLoadPosition=0;
+    //the denominator determines how many presses are needed to reach the release position.
+    public static double servoStepAmount = (double) 1 /7.5;
 
     double intakeServoUp = 0.5;
     double intakeServoDown = 0;
@@ -55,15 +59,29 @@ public class armControls extends LinearOpMode {
         currentTelemetry += "\nIntake direction : " + ((direction == -1) ? "Forward" : "Backward");
 
         //Servos are 0-1 with a range of 300 degrees
+        double currentBucketPosition = armTopServoR.getPosition();
+
         if (gamepad2.right_bumper) {
-            armTopServoR.setPosition(servoReleasePosition);
-            armTopServoL.setPosition(servoReleasePosition);
-        } else if (gamepad2.left_bumper) {
-            armTopServoR.setPosition(servoLoadPosition);
-            armTopServoL.setPosition(servoLoadPosition);
+            if (currentBucketPosition < servoLimitPosition && !bucketUpButtonPressed) {
+                armTopServoR.setPosition(currentBucketPosition + (servoStepAmount));
+                armTopServoL.setPosition(currentBucketPosition + (servoStepAmount));
+            }
+            bucketUpButtonPressed = true;
+        } else {
+            bucketUpButtonPressed = false;
         }
 
-        currentTelemetry += "\nArm Servo Position: " + armTopServoR.getPosition();
+        if (gamepad2.left_bumper) {
+            if (currentBucketPosition > servoLoadPosition && !bucketDownButtonPressed) {
+                armTopServoR.setPosition(currentBucketPosition - (servoStepAmount));
+                armTopServoL.setPosition(currentBucketPosition - (servoStepAmount));
+            }
+            bucketDownButtonPressed = true;
+        } else {
+            bucketDownButtonPressed = false;
+        }
+
+        currentTelemetry += "\nArm Servo Position: " + currentBucketPosition;
 
         if (gamepad1.right_bumper){
             intakeServoL.setPosition(intakeServoDown);
@@ -90,7 +108,7 @@ public class armControls extends LinearOpMode {
 
         //moves the drone servo to the launch position
         if (gamepad1.back) {
-            droneServo.setPosition(1);
+            droneServo.setPosition(.6);
             droneLaunched=true;
         }
         currentTelemetry+= "\nDrone Launched"+ droneLaunched;

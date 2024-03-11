@@ -84,7 +84,7 @@ public class propBlueFront extends lookForProp{
                 .build();
 
         TrajectorySequence returnToPosition = drive.trajectorySequenceBuilder(back.end())
-                .lineToLinearHeading(new Pose2d(-36,38.68,Math.toRadians(270)))
+                .lineToLinearHeading(new Pose2d(-36,41.68,Math.toRadians(270)))
                 .build();
 
         throughDoor = drive.trajectorySequenceBuilder(returnToPosition.end())
@@ -109,15 +109,15 @@ public class propBlueFront extends lookForProp{
 
 
         TrajectorySequence leftBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
-                .splineToConstantHeading(new Vector2d(45.19, 40.2), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(43.7, 41.7), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence centerBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
-                .splineToConstantHeading(new Vector2d(45.19, 38.14), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(43.7, 37.64), Math.toRadians(0.00))
                 .build();
 
         TrajectorySequence rightBackdrop = drive.trajectorySequenceBuilder(throughDoor.end())
-                .splineToConstantHeading(new Vector2d(45.19, 31.3), Math.toRadians(0.00))
+                .splineToConstantHeading(new Vector2d(43.7, 32.05), Math.toRadians(0.00))
                 .build();
 
 

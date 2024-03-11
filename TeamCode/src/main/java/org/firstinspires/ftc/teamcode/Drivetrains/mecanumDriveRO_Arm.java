@@ -108,12 +108,13 @@ public class mecanumDriveRO_Arm extends LinearOpMode{
         telemetry.addLine();
         telemetry.addLine("✅ Ready to start ✅");
         telemetry.addLine("redy to star, more like... you wount");
+        telemetry.addLine("duenes yuo owe me a $dollar");
         telemetry.update();
 
         //waits for start of game
         waitForStart();
 
-        droneServo.setPosition(.6);
+        droneServo.setPosition(1);
         armTopServoL.setPosition(org.firstinspires.ftc.teamcode.Drivetrains.armControls.servoLoadPosition);
         armTopServoR.setPosition(org.firstinspires.ftc.teamcode.Drivetrains.armControls.servoLoadPosition);
         intakeServoL.setPosition(0.5);
